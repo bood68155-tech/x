@@ -1,4 +1,10 @@
+import { useLanguage } from '../i18n/LanguageContext'
+
 export default function Footer() {
+  const { language, t } = useLanguage()
+  const ar = language === 'ar'
+  const fontClass = ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''
+
   return (
     <footer className="relative border-t border-white/[0.06] py-16 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
@@ -8,20 +14,20 @@ export default function Footer() {
             <a href="#" className="text-3xl font-black tracking-tighter text-white hover:opacity-80 transition-opacity">
               X
             </a>
-            <p className="mt-4 text-sm text-gray-500 font-light leading-relaxed max-w-xs">
-              Premium e-commerce agency crafting luxury digital experiences for forward-thinking brands.
+            <p className={`mt-4 text-sm text-gray-500 font-light leading-relaxed max-w-xs ${fontClass}`}>
+              {t('footerDesc')}
             </p>
           </div>
 
           {/* Services */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4">
-              Services
+            <h4 className={`text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+              {t('footerServices')}
             </h4>
             <ul className="space-y-2.5">
-              {['Store Setup', 'Custom Themes', 'UI/UX Design', 'Accounting'].map((item) => (
+              {[t('footerSvc1'), t('footerSvc2'), t('footerSvc3'), t('footerSvc4')].map((item) => (
                 <li key={item}>
-                  <a href="#services" className="text-sm text-gray-500 hover:text-white transition-colors font-light">
+                  <a href="#services" className={`text-sm text-gray-500 hover:text-white transition-colors font-light ${fontClass}`}>
                     {item}
                   </a>
                 </li>
@@ -31,16 +37,13 @@ export default function Footer() {
 
           {/* Company */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4">
-              Company
+            <h4 className={`text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+              {t('footerCompany')}
             </h4>
             <ul className="space-y-2.5">
-              {['About Us', 'Portfolio', 'Pricing', 'Contact'].map((item) => (
+              {[t('footerCo1'), t('footerCo2'), t('footerCo3'), t('footerCo4')].map((item) => (
                 <li key={item}>
-                  <a
-                    href={`#${item.toLowerCase().replace(' ', '')}`}
-                    className="text-sm text-gray-500 hover:text-white transition-colors font-light"
-                  >
+                  <a href="#" className={`text-sm text-gray-500 hover:text-white transition-colors font-light ${fontClass}`}>
                     {item}
                   </a>
                 </li>
@@ -50,25 +53,25 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h4 className="text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4">
-              Contact
+            <h4 className={`text-xs font-semibold uppercase tracking-[0.2em] text-gray-400 mb-4 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+              {t('footerContact')}
             </h4>
             <ul className="space-y-2.5">
-              <li className="text-sm text-gray-500 font-light">hello@agencyx.com</li>
-              <li className="text-sm text-gray-500 font-light">+1 (555) 123-4567</li>
-              <li className="text-sm text-gray-500 font-light">New York, NY</li>
+              <li className={`text-sm text-gray-500 font-light ${fontClass}`}>{t('footerEmail')}</li>
+              <li className={`text-sm text-gray-500 font-light ${fontClass}`}>{t('footerPhone')}</li>
+              <li className={`text-sm text-gray-500 font-light ${fontClass}`}>{t('footerLocation')}</li>
             </ul>
           </div>
         </div>
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-gray-600 font-light">
-            © 2026 X Agency. All rights reserved.
+          <p className={`text-xs text-gray-600 font-light ${fontClass}`}>
+            {t('footerCopy')}
           </p>
           <div className="flex items-center gap-6">
-            {['Privacy', 'Terms', 'Cookies'].map((item) => (
-              <a key={item} href="#" className="text-xs text-gray-600 hover:text-white transition-colors font-light">
+            {[t('footerPrivacy'), t('footerTerms'), t('footerCookies')].map((item) => (
+              <a key={item} href="#" className={`text-xs text-gray-600 hover:text-white transition-colors font-light ${fontClass}`}>
                 {item}
               </a>
             ))}

@@ -10,7 +10,7 @@
   --color-gray-600: #3a3a3a;
   --color-gray-400: #888888;
   --color-gray-300: #bbbbbb;
-  --font-display: 'Inter', system-ui, sans-serif;
+  --font-display: 'Inter', 'Noto Kufi Arabic', system-ui, sans-serif;
 }
 
 html {
@@ -20,8 +20,25 @@ html {
 body {
   background-color: #000000;
   color: #ffffff;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Inter', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
 }
+
+/* RTL Layout Support */
+[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+}
+
+[dir="rtl"] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+[dir="rtl"] .ml-4 { margin-left: 0; margin-right: 1rem; }
+
+[dir="rtl"] .mr-2 { margin-right: 0; margin-left: 0.5rem; }
 
 ::selection {
   background-color: rgba(255, 255, 255, 0.2);

@@ -1,4 +1,8 @@
+import { useLanguage } from '../i18n/LanguageContext'
+
 export default function Hero() {
+  const { language, t } = useLanguage()
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background Grid Pattern */}
@@ -25,38 +29,49 @@ export default function Hero() {
         </div>
 
         {/* Headline */}
-        <h1 className="animate-fade-in-up opacity-0 delay-200 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight tracking-tight mb-6">
-          E-Commerce Store Design{' '}
+        <h1
+          className={`animate-fade-in-up opacity-0 delay-200 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light text-white leading-tight tracking-tight mb-6 ${
+            language === 'ar' ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''
+          }`}
+        >
+          {t('heroHeadline1')}
           <br className="hidden sm:block" />
-          <span className="font-bold">& Theme Customization</span>
+          <span className="font-bold">{t('heroHeadline2')}</span>
         </h1>
 
         {/* Subheading */}
-        <p className="animate-fade-in-up opacity-0 delay-300 text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light">
-          We craft premium, high-converting online stores. From bespoke themes to
-          seamless UX — we transform your vision into a luxury digital experience.
+        <p
+          className={`animate-fade-in-up opacity-0 delay-300 text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed font-light ${
+            language === 'ar' ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''
+          }`}
+        >
+          {t('heroSub')}
         </p>
 
         {/* CTA Buttons */}
         <div className="animate-fade-in-up opacity-0 delay-400 flex flex-col sm:flex-row items-center justify-center gap-4">
           <a
             href="#contact"
-            className="px-8 py-4 bg-white text-black font-semibold text-sm rounded-full hover:bg-gray-200 transition-all duration-300 hover:scale-105 animate-pulse-glow uppercase tracking-widest"
+            className={`px-8 py-4 bg-white text-black font-semibold text-sm rounded-full hover:bg-gray-200 transition-all duration-300 hover:scale-105 animate-pulse-glow uppercase tracking-widest ${
+              language === 'ar' ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] tracking-normal text-base' : ''
+            }`}
           >
-            Get Started
+            {t('heroCta')}
           </a>
           <a
             href="#portfolio"
-            className="px-8 py-4 border border-white/20 text-white font-medium text-sm rounded-full hover:bg-white/5 hover:border-white/40 transition-all duration-300 uppercase tracking-widest"
+            className={`px-8 py-4 border border-white/20 text-white font-medium text-sm rounded-full hover:bg-white/5 hover:border-white/40 transition-all duration-300 uppercase tracking-widest ${
+              language === 'ar' ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] tracking-normal text-base' : ''
+            }`}
           >
-            View Our Work
+            {t('heroSecondary')}
           </a>
         </div>
 
         {/* Scroll Indicator */}
         <div className="animate-fade-in opacity-0 delay-600 mt-16 sm:mt-20">
           <div className="flex flex-col items-center gap-2 text-gray-600">
-            <span className="text-[10px] uppercase tracking-[0.3em] font-medium">Scroll</span>
+            <span className="text-[10px] uppercase tracking-[0.3em] font-medium">{t('heroScroll')}</span>
             <div className="w-[1px] h-8 bg-gradient-to-b from-gray-600 to-transparent" />
           </div>
         </div>
