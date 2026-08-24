@@ -65,7 +65,7 @@ export default function AdminDashboard() {
   // === EDITOR VIEW ===
   if (editing !== null) {
     return (
-      <div className="min-h-screen bg-black">
+      <div className="min-h-screen bg-black pt-20">
         {/* Top Bar */}
         <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
 
   // === LIST VIEW ===
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen bg-black pt-20">
       {/* Top Bar */}
       <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">

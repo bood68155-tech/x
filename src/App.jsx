@@ -9,13 +9,11 @@ import Portfolio from './components/Portfolio'
 import Pricing from './components/Pricing'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
-import AdminLogin from './admin/AdminLogin'
 import AdminDashboard from './admin/AdminDashboard'
 
 function HomeSite() {
   return (
     <>
-      <Navbar />
       <main>
         <Hero />
         <Services />
@@ -34,12 +32,12 @@ export default function App() {
       <AuthProvider>
         <LanguageProvider>
           <div className="min-h-screen bg-black text-white antialiased">
+            <Navbar />
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<HomeSite />} />
 
               {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
               <Route
                 path="/admin"
                 element={
