@@ -7,6 +7,10 @@
     {
       "source": "/admin/:match*",
       "destination": "/index.html"
+    },
+    {
+      "source": "/store",
+      "destination": "/index.html"
     }
   ]
 }

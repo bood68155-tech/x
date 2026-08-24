@@ -7,12 +7,12 @@ const CATEGORIES = [
 ]
 
 const INITIAL_PROJECTS = [
-  { id: 1, title: 'Luxe Fashion', category: 'Store', description: 'Premium fashion e-commerce with immersive product experience and seamless checkout.', tag: 'Shopify', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 2, title: 'TechGear Pro', category: 'Website', description: 'High-performance electronics store with advanced filtering and comparison features.', tag: 'WooCommerce', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 3, title: 'Organic Haven', category: 'Theme', description: 'Organic skincare brand with subscription model and personalized recommendations.', tag: 'Shopify', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 4, title: 'Artisan Coffee', category: 'Store', description: 'Specialty coffee roaster with subscription management and origin storytelling.', tag: 'Custom', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 5, title: 'Home & Canvas', category: 'Website', description: 'Modern home furnishings store with AR preview and room visualization tools.', tag: 'Shopify', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 6, title: 'FitCore Gear', category: 'Theme', description: 'Fitness equipment brand with workout integration and performance tracking.', tag: 'WooCommerce', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
+  { id: 1, title: 'Luxe Fashion', category: 'Store', description: 'Premium fashion e-commerce with immersive product experience and seamless checkout.', tag: 'Shopify', price: '$1,299', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
+  { id: 2, title: 'TechGear Pro', category: 'Website', description: 'High-performance electronics store with advanced filtering and comparison features.', tag: 'WooCommerce', price: '$999', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
+  { id: 3, title: 'Organic Haven', category: 'Theme', description: 'Organic skincare brand with subscription model and personalized recommendations.', tag: 'Shopify', price: '$799', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
+  { id: 4, title: 'Artisan Coffee', category: 'Store', description: 'Specialty coffee roaster with subscription management and origin storytelling.', tag: 'Custom', price: '$1,499', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
+  { id: 5, title: 'Home & Canvas', category: 'Website', description: 'Modern home furnishings store with AR preview and room visualization tools.', tag: 'Shopify', price: '$899', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
+  { id: 6, title: 'FitCore Gear', category: 'Theme', description: 'Fitness equipment brand with workout integration and performance tracking.', tag: 'WooCommerce', price: '$699', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
 ]
 
 const ProjectsContext = createContext(null)

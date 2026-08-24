@@ -10,6 +10,7 @@ import Portfolio from './components/Portfolio'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
 import AdminDashboard from './admin/AdminDashboard'
+import Store from './pages/Store'
 
 function HomeSite() {
   return (
@@ -35,9 +36,10 @@ export default function App() {
               <Navbar />
               <Routes>
                 {/* Public Routes */}
-                <Route path="/" element={<HomeSite />} />
+              <Route path="/" element={<HomeSite />} />
+              <Route path="/store" element={<Store />} />
 
-                {/* Admin Routes */}
+              {/* Admin Routes */}
                 <Route
                   path="/admin"
                   element={

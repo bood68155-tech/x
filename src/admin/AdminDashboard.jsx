@@ -11,7 +11,7 @@ function fileToDataURL(file) {
   })
 }
 
-const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', videoFile: '', videoUrl: '', images: [], demoUrl: '' }
+const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', price: '', videoFile: '', videoUrl: '', images: [], demoUrl: '' }
 
 export default function AdminDashboard() {
   const { logout } = useAuth()
@@ -149,6 +149,9 @@ export default function AdminDashboard() {
 
             {/* Tag */}
             <Field label="Tag" value={formData.tag} onChange={(v) => setFormData({ ...formData, tag: v })} placeholder="Shopify" />
+
+            {/* Price */}
+            <Field label="Price (السعر)" value={formData.price} onChange={(v) => setFormData({ ...formData, price: v })} placeholder="$999" />
 
             {/* Description */}
             <div>
@@ -305,6 +308,7 @@ export default function AdminDashboard() {
           <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-white/[0.03] border-b border-white/[0.06] text-xs font-semibold uppercase tracking-wider text-gray-500">
             <div className="col-span-3">Project</div>
             <div className="col-span-2">Category</div>
+            <div className="col-span-1">Price</div>
             <div className="col-span-2">Tag</div>
             <div className="col-span-2">Media</div>
             <div className="col-span-3 text-right">Actions</div>
@@ -320,6 +324,12 @@ export default function AdminDashboard() {
               <div className="col-span-2">
                 <span className="text-xs font-medium px-2 py-1 rounded-md bg-white/[0.06] text-gray-400 border border-white/[0.08]">
                   {getCategoryLabel(project.category)}
+                </span>
+              </div>
+
+              <div className="col-span-1">
+                <span className="text-xs font-medium text-gray-400">
+                  {project.price || '—'}
                 </span>
               </div>
 
