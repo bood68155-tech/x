@@ -21,6 +21,7 @@ export default function AdminDashboard() {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null)
   const [saved, setSaved] = useState(false)
   const [videoPreview, setVideoPreview] = useState(null)
+  const [filterCategory, setFilterCategory] = useState('All')
 
   const handleEdit = (project) => {
     setFormData({ ...project })
@@ -81,6 +82,10 @@ export default function AdminDashboard() {
     const cat = CATEGORIES.find(c => c.value === value)
     return cat ? `${cat.label} (${cat.ar})` : value
   }
+
+  const filteredProjects = filterCategory === 'All'
+    ? projects
+    : projects.filter(p => p.category === filterCategory)
 
   // === EDITOR VIEW ===
   if (editing !== null) {
@@ -279,6 +284,23 @@ export default function AdminDashboard() {
           </button>
         </div>
 
+        {/* Category Filter Tabs */}
+        <div className="flex items-center gap-2 mb-6">
+          {[{ value: 'All', label: 'All', ar: 'الكل' }, ...CATEGORIES].map((cat) => (
+            <button
+              key={cat.value}
+              onClick={() => setFilterCategory(cat.value)}
+              className={`px-4 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 ${
+                filterCategory === cat.value
+                  ? 'bg-white text-black border-white'
+                  : 'bg-transparent text-gray-500 border-white/10 hover:text-white hover:border-white/30'
+              }`}
+            >
+              {cat.value === 'All' ? `All (${cat.ar})` : `${cat.label} (${cat.ar})`}
+            </button>
+          ))}
+        </div>
+
         <div className="border border-white/10 rounded-2xl overflow-hidden">
           <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-white/[0.03] border-b border-white/[0.06] text-xs font-semibold uppercase tracking-wider text-gray-500">
             <div className="col-span-3">Project</div>
@@ -288,7 +310,7 @@ export default function AdminDashboard() {
             <div className="col-span-3 text-right">Actions</div>
           </div>
 
-          {projects.map((project) => (
+          {filteredProjects.map((project) => (
             <div key={project.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] last:border-b-0 hover:bg-white/[0.02] transition-colors items-center">
               <div className="col-span-3">
                 <p className="text-sm font-medium text-white truncate">{project.title}</p>
@@ -368,9 +390,9 @@ export default function AdminDashboard() {
             </div>
           ))}
 
-          {projects.length === 0 && (
+          {filteredProjects.length === 0 && (
             <div className="px-6 py-16 text-center">
-              <p className="text-gray-600 text-sm">No projects yet. Create your first one!</p>
+              <p className="text-gray-600 text-sm">{filterCategory === 'All' ? 'No projects yet. Create your first one!' : `No ${filterCategory} projects found.`}</p>
             </div>
           )}
         </div>
