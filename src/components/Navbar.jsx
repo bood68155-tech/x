@@ -55,9 +55,7 @@ export default function Navbar() {
   }
 
   const navLinks = [
-    { label: t('navServices'), href: '#services' },
-    { label: t('navPortfolio'), href: '#portfolio' },
-    { label: t('navPricing'), href: '#pricing' },
+    { label: t('navServices'), href: '#portfolio' },
     { label: t('navContact'), href: '#contact' },
   ]
 
