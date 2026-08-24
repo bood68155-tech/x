@@ -1,76 +1,95 @@
 import { useState } from 'react'
 import { useAuth } from './AuthContext'
+import { useProjects, CATEGORIES } from './ProjectsContext'
 
-const INITIAL_PROJECTS = [
-  { id: 1, title: 'Luxe Fashion', category: 'Fashion & Apparel', description: 'Premium fashion e-commerce with immersive product experience and seamless checkout.', tag: 'Shopify', videoUrl: '', images: [], demoUrl: '' },
-  { id: 2, title: 'TechGear Pro', category: 'Electronics', description: 'High-performance electronics store with advanced filtering and comparison features.', tag: 'WooCommerce', videoUrl: '', images: [], demoUrl: '' },
-  { id: 3, title: 'Organic Haven', category: 'Health & Beauty', description: 'Organic skincare brand with subscription model and personalized recommendations.', tag: 'Shopify', videoUrl: '', images: [], demoUrl: '' },
-  { id: 4, title: 'Artisan Coffee', category: 'Food & Beverage', description: 'Specialty coffee roaster with subscription management and origin storytelling.', tag: 'Custom', videoUrl: '', images: [], demoUrl: '' },
-  { id: 5, title: 'Home & Canvas', category: 'Home Decor', description: 'Modern home furnishings store with AR preview and room visualization tools.', tag: 'Shopify', videoUrl: '', images: [], demoUrl: '' },
-  { id: 6, title: 'FitCore Gear', category: 'Sports & Fitness', description: 'Fitness equipment brand with workout integration and performance tracking.', tag: 'WooCommerce', videoUrl: '', images: [], demoUrl: '' },
-]
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
 
-const EMPTY_PROJECT = { title: '', category: '', description: '', tag: '', videoUrl: '', images: [], demoUrl: '' }
+const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', videoFile: '', videoUrl: '', images: [], demoUrl: '' }
 
 export default function AdminDashboard() {
   const { logout } = useAuth()
-  const [projects, setProjects] = useState(INITIAL_PROJECTS)
-  const [editing, setEditing] = useState(null) // null = list view, 'new' = create, number = edit id
+  const { projects, addProject, updateProject, deleteProject } = useProjects()
+  const [editing, setEditing] = useState(null)
   const [formData, setFormData] = useState({ ...EMPTY_PROJECT })
-  const [newImageUrl, setNewImageUrl] = useState('')
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null)
   const [saved, setSaved] = useState(false)
+  const [videoPreview, setVideoPreview] = useState(null)
 
   const handleEdit = (project) => {
     setFormData({ ...project })
+    setVideoPreview(project.videoFile || project.videoUrl || null)
     setEditing(project.id)
   }
 
   const handleNew = () => {
     setFormData({ ...EMPTY_PROJECT })
+    setVideoPreview(null)
     setEditing('new')
   }
 
   const handleSave = () => {
     if (editing === 'new') {
-      const newId = Math.max(...projects.map(p => p.id), 0) + 1
-      setProjects([...projects, { ...formData, id: newId }])
+      addProject(formData)
     } else {
-      setProjects(projects.map(p => p.id === editing ? { ...formData } : p))
+      updateProject(editing, formData)
     }
     setEditing(null)
     setFormData({ ...EMPTY_PROJECT })
+    setVideoPreview(null)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
   const handleDelete = (id) => {
-    setProjects(projects.filter(p => p.id !== id))
+    deleteProject(id)
     setShowDeleteConfirm(null)
     setSaved(true)
     setTimeout(() => setSaved(false), 2000)
   }
 
-  const addImage = () => {
-    if (newImageUrl.trim()) {
-      setFormData({ ...formData, images: [...formData.images, newImageUrl.trim()] })
-      setNewImageUrl('')
+  const handleVideoUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const dataUrl = await fileToDataURL(file)
+    setFormData({ ...formData, videoFile: dataUrl })
+    setVideoPreview(dataUrl)
+  }
+
+  const handleImageUpload = async (e) => {
+    const files = e.target.files
+    if (!files || files.length === 0) return
+    const newImages = []
+    for (const file of files) {
+      const dataUrl = await fileToDataURL(file)
+      newImages.push(dataUrl)
     }
+    setFormData({ ...formData, images: [...formData.images, ...newImages] })
   }
 
   const removeImage = (idx) => {
     setFormData({ ...formData, images: formData.images.filter((_, i) => i !== idx) })
   }
 
+  const getCategoryLabel = (value) => {
+    const cat = CATEGORIES.find(c => c.value === value)
+    return cat ? `${cat.label} (${cat.ar})` : value
+  }
+
   // === EDITOR VIEW ===
   if (editing !== null) {
     return (
       <div className="min-h-screen bg-black pt-20">
-        {/* Top Bar */}
         <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <button
-              onClick={() => { setEditing(null); setFormData({ ...EMPTY_PROJECT }) }}
+              onClick={() => { setEditing(null); setFormData({ ...EMPTY_PROJECT }); setVideoPreview(null) }}
               className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -93,7 +112,6 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        {/* Editor Content */}
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
           <h2 className="text-xl font-bold text-white mb-8">
             {editing === 'new' ? 'New Project' : 'Edit Project'}
@@ -103,8 +121,26 @@ export default function AdminDashboard() {
             {/* Title */}
             <Field label="Project Title" value={formData.title} onChange={(v) => setFormData({ ...formData, title: v })} placeholder="Luxe Fashion" />
 
-            {/* Category */}
-            <Field label="Category" value={formData.category} onChange={(v) => setFormData({ ...formData, category: v })} placeholder="Fashion & Apparel" />
+            {/* Category Select */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Category</label>
+              <div className="relative">
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  className="w-full appearance-none px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-white/30 transition-all cursor-pointer"
+                >
+                  {CATEGORIES.map((cat) => (
+                    <option key={cat.value} value={cat.value} className="bg-black text-white">
+                      {cat.label} ({cat.ar})
+                    </option>
+                  ))}
+                </select>
+                <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
 
             {/* Tag */}
             <Field label="Tag" value={formData.tag} onChange={(v) => setFormData({ ...formData, tag: v })} placeholder="Shopify" />
@@ -121,8 +157,42 @@ export default function AdminDashboard() {
               />
             </div>
 
-            {/* Video URL */}
-            <Field label="Video URL" value={formData.videoUrl} onChange={(v) => setFormData({ ...formData, videoUrl: v })} placeholder="https://youtube.com/watch?v=..." />
+            {/* Video Upload */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Project Video</label>
+              <div className="space-y-3">
+                {videoPreview && (
+                  <div className="relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                    {videoPreview.startsWith('data:video') ? (
+                      <video src={videoPreview} controls className="w-full h-48 object-cover" />
+                    ) : (
+                      <div className="flex items-center gap-3 px-4 py-3">
+                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <span className="text-sm text-gray-300 truncate">{videoPreview}</span>
+                      </div>
+                    )}
+                    <button
+                      onClick={() => { setFormData({ ...formData, videoFile: '', videoUrl: '' }); setVideoPreview(null) }}
+                      className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors"
+                    >
+                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-white/20 hover:bg-white/[0.02] transition-all group">
+                  <svg className="w-5 h-5 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+                  </svg>
+                  <span className="text-sm text-gray-500 group-hover:text-gray-400">
+                    {videoPreview ? 'Replace video' : 'Upload video file'}
+                  </span>
+                  <input type="file" accept="video/*" onChange={handleVideoUpload} className="hidden" />
+                </label>
+              </div>
+            </div>
 
             {/* Live Demo URL */}
             <Field label="Live Demo URL" value={formData.demoUrl} onChange={(v) => setFormData({ ...formData, demoUrl: v })} placeholder="https://example.com" />
@@ -131,43 +201,33 @@ export default function AdminDashboard() {
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-2">Image Gallery</label>
               <div className="space-y-3">
-                {formData.images.map((img, idx) => (
-                  <div key={idx} className="flex items-center gap-3">
-                    <div className="flex-1 flex items-center gap-3 px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl">
-                      <svg className="w-4 h-4 text-gray-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <rect x="3" y="3" width="18" height="18" rx="2" />
-                        <circle cx="8.5" cy="8.5" r="1.5" />
-                        <path d="M21 15l-5-5L5 21" />
-                      </svg>
-                      <span className="text-sm text-gray-300 truncate">{img}</span>
-                    </div>
-                    <button
-                      onClick={() => removeImage(idx)}
-                      className="p-2 text-gray-500 hover:text-red-400 transition-colors"
-                    >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                      </svg>
-                    </button>
+                {formData.images.length > 0 && (
+                  <div className="grid grid-cols-3 gap-3">
+                    {formData.images.map((img, idx) => (
+                      <div key={idx} className="relative group rounded-xl overflow-hidden border border-white/10 aspect-square">
+                        <img src={img} alt="" className="w-full h-full object-cover" />
+                        <button
+                          onClick={() => removeImage(idx)}
+                          className="absolute top-2 right-2 p-1 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                        >
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    ))}
                   </div>
-                ))}
-                <div className="flex gap-3">
-                  <input
-                    type="url"
-                    value={newImageUrl}
-                    onChange={(e) => setNewImageUrl(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), addImage())}
-                    placeholder="Paste image URL..."
-                    className="flex-1 px-4 py-2.5 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
-                  />
-                  <button
-                    onClick={addImage}
-                    disabled={!newImageUrl.trim()}
-                    className="px-4 py-2.5 bg-white/10 border border-white/10 text-gray-300 text-sm font-medium rounded-xl hover:bg-white/15 transition-all disabled:opacity-30"
-                  >
-                    Add
-                  </button>
-                </div>
+                )}
+
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-white/20 hover:bg-white/[0.02] transition-all group">
+                  <svg className="w-5 h-5 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-sm text-gray-500 group-hover:text-gray-400">
+                    Upload images (multiple OK)
+                  </span>
+                  <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+                </label>
               </div>
             </div>
           </div>
@@ -179,7 +239,6 @@ export default function AdminDashboard() {
   // === LIST VIEW ===
   return (
     <div className="min-h-screen bg-black pt-20">
-      {/* Top Bar */}
       <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -203,9 +262,7 @@ export default function AdminDashboard() {
         </div>
       </header>
 
-      {/* Content */}
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-        {/* Header Row */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-bold text-white">Projects</h2>
@@ -222,9 +279,7 @@ export default function AdminDashboard() {
           </button>
         </div>
 
-        {/* Projects Table */}
         <div className="border border-white/10 rounded-2xl overflow-hidden">
-          {/* Table Header */}
           <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-white/[0.03] border-b border-white/[0.06] text-xs font-semibold uppercase tracking-wider text-gray-500">
             <div className="col-span-3">Project</div>
             <div className="col-span-2">Category</div>
@@ -233,30 +288,27 @@ export default function AdminDashboard() {
             <div className="col-span-3 text-right">Actions</div>
           </div>
 
-          {/* Rows */}
           {projects.map((project) => (
             <div key={project.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] last:border-b-0 hover:bg-white/[0.02] transition-colors items-center">
-              {/* Project Name */}
               <div className="col-span-3">
                 <p className="text-sm font-medium text-white truncate">{project.title}</p>
                 <p className="text-xs text-gray-500 truncate mt-0.5">{project.description}</p>
               </div>
 
-              {/* Category */}
               <div className="col-span-2">
-                <span className="text-sm text-gray-400">{project.category}</span>
+                <span className="text-xs font-medium px-2 py-1 rounded-md bg-white/[0.06] text-gray-400 border border-white/[0.08]">
+                  {getCategoryLabel(project.category)}
+                </span>
               </div>
 
-              {/* Tag */}
               <div className="col-span-2">
                 <span className="text-xs font-medium px-2 py-1 rounded-md bg-white/[0.06] text-gray-400 border border-white/[0.08]">
                   {project.tag}
                 </span>
               </div>
 
-              {/* Media */}
               <div className="col-span-2 flex items-center gap-2">
-                {project.videoUrl && (
+                {(project.videoFile || project.videoUrl) && (
                   <span className="inline-flex items-center gap-1 text-xs text-gray-500">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     Video
@@ -274,12 +326,11 @@ export default function AdminDashboard() {
                     Demo
                   </span>
                 )}
-                {!project.videoUrl && project.images.length === 0 && !project.demoUrl && (
+                {!project.videoFile && !project.videoUrl && project.images.length === 0 && !project.demoUrl && (
                   <span className="text-xs text-gray-600">—</span>
                 )}
               </div>
 
-              {/* Actions */}
               <div className="col-span-3 flex items-center justify-end gap-2">
                 {showDeleteConfirm === project.id ? (
                   <>

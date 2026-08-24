@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { LanguageProvider } from './i18n/LanguageContext'
 import { AuthProvider } from './admin/AuthContext'
+import { ProjectsProvider } from './admin/ProjectsContext'
 import ProtectedRoute from './admin/ProtectedRoute'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
@@ -30,25 +31,27 @@ export default function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
-        <LanguageProvider>
-          <div className="min-h-screen bg-black text-white antialiased">
-            <Navbar />
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<HomeSite />} />
+        <ProjectsProvider>
+          <LanguageProvider>
+            <div className="min-h-screen bg-black text-white antialiased">
+              <Navbar />
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<HomeSite />} />
 
-              {/* Admin Routes */}
-              <Route
-                path="/admin"
-                element={
-                  <ProtectedRoute>
-                    <AdminDashboard />
-                  </ProtectedRoute>
-                }
-              />
-            </Routes>
-          </div>
-        </LanguageProvider>
+                {/* Admin Routes */}
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <AdminDashboard />
+                    </ProtectedRoute>
+                  }
+                />
+              </Routes>
+            </div>
+          </LanguageProvider>
+        </ProjectsProvider>
       </AuthProvider>
     </BrowserRouter>
   )
