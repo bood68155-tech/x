@@ -131,7 +131,7 @@ export default function Store() {
                     )}
                   </div>
                   <span className={`px-5 py-2 bg-white text-black text-xs font-semibold rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-wider ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
-                    View Project
+                    Buy Now
                   </span>
                 </div>
               </div>
