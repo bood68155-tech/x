@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { supabase } from '../lib/supabaseClient'
 
 const CATEGORIES = [
   { value: 'Website', label: 'Website', ar: 'موقع' },
@@ -6,35 +7,121 @@ const CATEGORIES = [
   { value: 'Theme', label: 'Theme', ar: 'ثيم' },
 ]
 
-const INITIAL_PROJECTS = [
-  { id: 1, title: 'Luxe Fashion', category: 'Store', description: 'Premium fashion e-commerce with immersive product experience and seamless checkout.', tag: 'Shopify', price: '$1,299', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 2, title: 'TechGear Pro', category: 'Website', description: 'High-performance electronics store with advanced filtering and comparison features.', tag: 'WooCommerce', price: '$999', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 3, title: 'Organic Haven', category: 'Theme', description: 'Organic skincare brand with subscription model and personalized recommendations.', tag: 'Shopify', price: '$799', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 4, title: 'Artisan Coffee', category: 'Store', description: 'Specialty coffee roaster with subscription management and origin storytelling.', tag: 'Custom', price: '$1,499', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 5, title: 'Home & Canvas', category: 'Website', description: 'Modern home furnishings store with AR preview and room visualization tools.', tag: 'Shopify', price: '$899', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-  { id: 6, title: 'FitCore Gear', category: 'Theme', description: 'Fitness equipment brand with workout integration and performance tracking.', tag: 'WooCommerce', price: '$699', videoFile: '', videoUrl: '', images: [], demoUrl: '' },
-]
-
 const ProjectsContext = createContext(null)
 
+/** Map a Supabase row (snake_case) to the app's camelCase shape */
+function rowToProject(row) {
+  return {
+    id: row.id,
+    title: row.title,
+    category: row.category,
+    description: row.description,
+    tag: row.tag,
+    price: row.price,
+    videoFile: '',
+    videoUrl: row.video_url || '',
+    images: Array.isArray(row.images) ? row.images : [],
+    demoUrl: row.demo_url || '',
+  }
+}
+
+/** Map the app's project object to a Supabase-ready row (snake_case) */
+function projectToRow(project) {
+  return {
+    title: project.title || '',
+    category: project.category || 'Website',
+    description: project.description || '',
+    tag: project.tag || '',
+    price: project.price || '',
+    video_url: project.videoUrl || '',
+    demo_url: project.demoUrl || '',
+    images: project.images || [],
+  }
+}
+
 export function ProjectsProvider({ children }) {
-  const [projects, setProjects] = useState(INITIAL_PROJECTS)
+  const [projects, setProjects] = useState([])
+  const [loading, setLoading] = useState(true)
 
-  const addProject = (project) => {
-    const newId = Math.max(...projects.map(p => p.id), 0) + 1
-    setProjects([...projects, { ...project, id: newId }])
+  // Fetch all projects from Supabase on mount
+  const fetchProjects = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .order('created_at', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching projects:', error.message)
+        return
+      }
+
+      setProjects(data.map(rowToProject))
+    } catch (err) {
+      console.error('Unexpected error fetching projects:', err)
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchProjects()
+  }, [fetchProjects])
+
+  const addProject = async (project) => {
+    const row = projectToRow(project)
+    const { data, error } = await supabase
+      .from('projects')
+      .insert(row)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error adding project:', error.message)
+      return null
+    }
+
+    const newProject = rowToProject(data)
+    setProjects(prev => [...prev, newProject])
+    return newProject
   }
 
-  const updateProject = (id, updates) => {
-    setProjects(projects.map(p => p.id === id ? { ...p, ...updates } : p))
+  const updateProject = async (id, updates) => {
+    const row = projectToRow(updates)
+    const { data, error } = await supabase
+      .from('projects')
+      .update(row)
+      .eq('id', id)
+      .select()
+      .single()
+
+    if (error) {
+      console.error('Error updating project:', error.message)
+      return null
+    }
+
+    const updated = rowToProject(data)
+    setProjects(prev => prev.map(p => p.id === id ? updated : p))
+    return updated
   }
 
-  const deleteProject = (id) => {
-    setProjects(projects.filter(p => p.id !== id))
+  const deleteProject = async (id) => {
+    const { error } = await supabase
+      .from('projects')
+      .delete()
+      .eq('id', id)
+
+    if (error) {
+      console.error('Error deleting project:', error.message)
+      return false
+    }
+
+    setProjects(prev => prev.filter(p => p.id !== id))
+    return true
   }
 
   return (
-    <ProjectsContext.Provider value={{ projects, addProject, updateProject, deleteProject }}>
+    <ProjectsContext.Provider value={{ projects, loading, addProject, updateProject, deleteProject }}>
       {children}
     </ProjectsContext.Provider>
   )

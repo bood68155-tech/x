@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuth } from './AuthContext'
 import { useProjects, CATEGORIES } from './ProjectsContext'
 
+
 function fileToDataURL(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -20,6 +21,7 @@ export default function AdminDashboard() {
   const [formData, setFormData] = useState({ ...EMPTY_PROJECT })
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null)
   const [saved, setSaved] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [videoPreview, setVideoPreview] = useState(null)
   const [filterCategory, setFilterCategory] = useState('All')
 
@@ -35,24 +37,38 @@ export default function AdminDashboard() {
     setEditing('new')
   }
 
-  const handleSave = () => {
-    if (editing === 'new') {
-      addProject(formData)
-    } else {
-      updateProject(editing, formData)
+  const handleSave = async () => {
+    setSaving(true)
+    try {
+      if (editing === 'new') {
+        await addProject(formData)
+      } else {
+        await updateProject(editing, formData)
+      }
+      setEditing(null)
+      setFormData({ ...EMPTY_PROJECT })
+      setVideoPreview(null)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
+    } catch (err) {
+      console.error('Save failed:', err)
+    } finally {
+      setSaving(false)
     }
-    setEditing(null)
-    setFormData({ ...EMPTY_PROJECT })
-    setVideoPreview(null)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
   }
 
-  const handleDelete = (id) => {
-    deleteProject(id)
-    setShowDeleteConfirm(null)
-    setSaved(true)
-    setTimeout(() => setSaved(false), 2000)
+  const handleDelete = async (id) => {
+    setSaving(true)
+    try {
+      await deleteProject(id)
+      setShowDeleteConfirm(null)
+      setSaved(true)
+      setTimeout(() => setSaved(false), 2000)
+    } catch (err) {
+      console.error('Delete failed:', err)
+    } finally {
+      setSaving(false)
+    }
   }
 
   const handleVideoUpload = async (e) => {
@@ -108,10 +124,10 @@ export default function AdminDashboard() {
               )}
               <button
                 onClick={handleSave}
-                disabled={!formData.title.trim()}
+                disabled={!formData.title.trim() || saving}
                 className="px-5 py-2 bg-white text-black text-sm font-semibold rounded-lg hover:bg-gray-200 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
-                {editing === 'new' ? 'Create Project' : 'Save Changes'}
+                {saving ? 'Saving...' : editing === 'new' ? 'Create Project' : 'Save Changes'}
               </button>
             </div>
           </div>
@@ -369,9 +385,10 @@ export default function AdminDashboard() {
                     <span className="text-xs text-red-400 mr-2">Delete?</span>
                     <button
                       onClick={() => handleDelete(project.id)}
-                      className="px-3 py-1.5 text-xs font-medium text-white bg-red-500/20 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-all"
+                      disabled={saving}
+                      className="px-3 py-1.5 text-xs font-medium text-white bg-red-500/20 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-all disabled:opacity-50"
                     >
-                      Yes
+                      {saving ? '...' : 'Yes'}
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(null)}
