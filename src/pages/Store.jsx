@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useProjects, CATEGORIES } from '../admin/ProjectsContext'
 import { useLanguage } from '../i18n/LanguageContext'
 
@@ -20,16 +21,6 @@ export default function Store() {
   const filteredProjects = activeCategory === 'All'
     ? projects
     : projects.filter(p => p.category === activeCategory)
-
-  const handleOrder = (project) => {
-    // Scroll to contact section and pre-fill via URL params
-    const params = new URLSearchParams({
-      product: project.title,
-      price: project.price || '',
-      category: project.category,
-    })
-    window.location.href = `/contact?${params.toString()}#contact`
-  }
 
   return (
     <section className="relative pt-28 pb-24 sm:pt-32 sm:pb-32 px-4 sm:px-6 lg:px-8 min-h-screen">
@@ -69,7 +60,8 @@ export default function Store() {
         {/* Product Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {filteredProjects.map((project, i) => (
-            <div
+            <Link
+              to={`/project/${project.id}`}
               key={project.id}
               className="group relative border border-white/[0.08] rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500 flex flex-col"
             >
@@ -138,15 +130,12 @@ export default function Store() {
                       <span className="text-sm text-gray-600">Contact for price</span>
                     )}
                   </div>
-                  <button
-                    onClick={() => handleOrder(project)}
-                    className={`px-5 py-2 bg-white text-black text-xs font-semibold rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-wider ${ar ? 'tracking-normal normal-case text-sm' : ''}`}
-                  >
-                    {t('storeOrder')}
-                  </button>
+                  <span className={`px-5 py-2 bg-white text-black text-xs font-semibold rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-wider ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+                    View Project
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 

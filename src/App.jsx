@@ -11,6 +11,7 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import AdminDashboard from './admin/AdminDashboard'
 import Store from './pages/Store'
+import ProjectDetails from './pages/ProjectDetails'
 
 function HomeSite() {
   return (
@@ -38,6 +39,7 @@ export default function App() {
                 {/* Public Routes */}
               <Route path="/" element={<HomeSite />} />
               <Route path="/store" element={<Store />} />
+              <Route path="/project/:id" element={<ProjectDetails />} />
 
               {/* Admin Routes */}
                 <Route
