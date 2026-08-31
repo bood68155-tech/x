@@ -25,6 +25,7 @@ function rowToProject(row) {
     price: row.price,
     videoFile: '',
     videoUrl: row.video_url || '',
+    imageUrl: row.image_url || '',
     images: Array.isArray(row.images) ? row.images : [],
     demoUrl: row.demo_url || '',
   }
@@ -147,7 +148,9 @@ export default function ProjectDetails() {
           <div>
             {/* Main Image */}
             <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
-              {allImages.length > 0 ? (
+              {project.imageUrl ? (
+                <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover transition-opacity duration-300" onError={(e) => { e.target.style.display = 'none' }} />
+              ) : allImages.length > 0 ? (
                 <img src={allImages[activeImage]} alt={`${project.title} - ${activeImage + 1}`} className="w-full h-full object-cover transition-opacity duration-300" onError={(e) => { e.target.style.display = 'none' }} />
               ) : hasVideo ? (
                 <div className="w-full h-full flex items-center justify-center">

@@ -20,6 +20,7 @@ function rowToProject(row) {
     price: row.price,
     videoFile: '',
     videoUrl: row.video_url || '',
+    imageUrl: row.image_url || '',
     images: Array.isArray(row.images) ? row.images : [],
     demoUrl: row.demo_url || '',
   }
@@ -34,6 +35,7 @@ function projectToRow(project) {
     tag: project.tag || '',
     price: project.price || '',
     video_url: project.videoUrl || '',
+    image_url: project.imageUrl || '',
     demo_url: project.demoUrl || '',
     images: project.images || [],
   }

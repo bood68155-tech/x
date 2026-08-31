@@ -113,7 +113,9 @@ export default function Store() {
                   <div className="flex-1 h-3 rounded-sm bg-white/5 ml-2" />
                 </div>
 
-                {project.images.length > 0 ? (
+                {project.imageUrl ? (
+                  <img src={project.imageUrl} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
+                ) : project.images.length > 0 ? (
                   <img src={project.images[0]} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
                 ) : project.videoFile ? (
                   <div className="absolute inset-0 pt-12 flex items-center justify-center">
@@ -188,7 +190,9 @@ export default function Store() {
             <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-10 p-2 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-white/5">
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
-            {selectedProduct.images.length > 0 ? (
+            {selectedProduct.imageUrl ? (
+              <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" onError={(e) => { e.target.style.display = 'none' }} />
+            ) : selectedProduct.images.length > 0 ? (
               <img src={selectedProduct.images[0]} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" onError={(e) => { e.target.style.display = 'none' }} />
             ) : selectedProduct.videoFile ? (
               <div className="relative w-full h-64 sm:h-80 rounded-t-2xl overflow-hidden bg-black flex items-center justify-center">

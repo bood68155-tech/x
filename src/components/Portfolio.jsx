@@ -84,8 +84,15 @@ export default function Portfolio() {
                   <div className="flex-1 h-3 rounded-sm bg-white/5 ml-2" />
                 </div>
 
-                {/* Uploaded image or fallback background */}
-                {project.images.length > 0 ? (
+                {/* Cover image → gallery → video → fallback */}
+                {project.imageUrl ? (
+                  <img
+                    src={project.imageUrl}
+                    alt={project.title}
+                    className="absolute inset-0 pt-12 w-full h-full object-cover"
+                    onError={(e) => { e.target.style.display = 'none' }}
+                  />
+                ) : project.images.length > 0 ? (
                   <img
                     src={project.images[0]}
                     alt={project.title}
