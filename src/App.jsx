@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useState, createContext, useContext } from 'react'
 import { LanguageProvider } from './i18n/LanguageContext'
 import { AuthProvider } from './admin/AuthContext'
 import { ProjectsProvider } from './admin/ProjectsContext'
@@ -12,18 +13,48 @@ import Footer from './components/Footer'
 import AdminDashboard from './admin/AdminDashboard'
 import Store from './pages/Store'
 import ProjectDetails from './pages/ProjectDetails'
+import OrderFormModal from './components/OrderFormModal'
+
+const OrderModalContext = createContext(null)
+
+export function useOrderModal() {
+  return useContext(OrderModalContext)
+}
 
 function HomeSite() {
+  const { openOrderModal } = useOrderModal()
   return (
     <>
       <main>
-        <Hero />
+        <Hero onGetStarted={() => openOrderModal(null)} />
         <Services />
         <Portfolio />
         <Contact />
       </main>
       <Footer />
     </>
+  )
+}
+
+function OrderModalProvider({ children }) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [product, setProduct] = useState(null)
+
+  const openOrderModal = (productData) => {
+    setProduct(productData)
+    setIsOpen(true)
+  }
+
+  const closeOrderModal = () => {
+    setIsOpen(false)
+    setProduct(null)
+  }
+
+  return (
+    <OrderModalContext.Provider value={{ openOrderModal }}>
+      {children}
+      <OrderFormModal isOpen={isOpen} onClose={closeOrderModal} preselectedProduct={product} />
+    </OrderModalContext.Provider>
   )
 }
 
@@ -34,6 +65,7 @@ export default function App() {
         <ProjectsProvider>
           <LanguageProvider>
             <div className="min-h-screen bg-black text-white antialiased">
+              <OrderModalProvider>
               <Navbar />
               <Routes>
                 {/* Public Routes */}
@@ -51,6 +83,7 @@ export default function App() {
                   }
                 />
               </Routes>
+              </OrderModalProvider>
             </div>
           </LanguageProvider>
         </ProjectsProvider>

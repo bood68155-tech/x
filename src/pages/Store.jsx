@@ -1,7 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useProjects, CATEGORIES } from '../admin/ProjectsContext'
 import { useLanguage } from '../i18n/LanguageContext'
+import OrderFormModal from '../components/OrderFormModal'
 
 const GRADIENTS = [
   'from-gray-800 to-gray-900',
@@ -16,11 +17,37 @@ export default function Store() {
   const { projects } = useProjects()
   const { language, t } = useLanguage()
   const ar = language === 'ar'
+  const fontClass = ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''
   const [activeCategory, setActiveCategory] = useState('All')
+  const [selectedProduct, setSelectedProduct] = useState(null)
+  const [orderModalOpen, setOrderModalOpen] = useState(false)
+  const [orderProduct, setOrderProduct] = useState(null)
 
   const filteredProjects = activeCategory === 'All'
     ? projects
     : projects.filter(p => p.category === activeCategory)
+
+  useEffect(() => {
+    const handleEsc = (e) => {
+      if (e.key === 'Escape') {
+        setSelectedProduct(null)
+        setOrderModalOpen(false)
+      }
+    }
+    window.addEventListener('keydown', handleEsc)
+    return () => window.removeEventListener('keydown', handleEsc)
+  }, [])
+
+  const handleOrder = (project) => {
+    setOrderProduct(project)
+    setOrderModalOpen(true)
+  }
+
+  const getCategoryLabel = (value) => {
+    const cat = CATEGORIES.find(c => c.value === value)
+    if (!cat) return value
+    return `${cat.label} (${cat.ar})`
+  }
 
   return (
     <section className="relative pt-28 pb-24 sm:pt-32 sm:pb-32 px-4 sm:px-6 lg:px-8 min-h-screen">
@@ -52,7 +79,7 @@ export default function Store() {
                   : 'bg-transparent text-gray-500 border-white/10 hover:text-white hover:border-white/30'
               }`}
             >
-              {cat === 'All' ? (ar ? 'الكل' : 'All') : `${cat} (${CATEGORIES.find(c => c.value === cat)?.ar || ''})`}
+              {cat === 'All' ? (ar ? 'الكل' : 'All') : getCategoryLabel(cat)}
             </button>
           ))}
         </div>
@@ -130,9 +157,12 @@ export default function Store() {
                       <span className="text-sm text-gray-600">Contact for price</span>
                     )}
                   </div>
-                  <span className={`px-5 py-2 bg-white text-black text-xs font-semibold rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-wider ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
-                    Buy Now
-                  </span>
+                  <button
+                    onClick={(e) => { e.stopPropagation(); handleOrder(project) }}
+                    className={`px-5 py-2 bg-white text-black text-xs font-semibold rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-wider ${ar ? 'tracking-normal normal-case text-sm' : ''}`}
+                  >
+                    {t('storeOrder')}
+                  </button>
                 </div>
               </div>
             </Link>
@@ -145,6 +175,58 @@ export default function Store() {
           </div>
         )}
       </div>
+
+      {/* ===== PRODUCT DETAIL MODAL ===== */}
+      {selectedProduct && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center px-4">
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in" onClick={() => setSelectedProduct(null)} />
+          <div className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl shadow-black/60 animate-fade-in-up">
+            <button onClick={() => setSelectedProduct(null)} className="absolute top-4 right-4 z-10 p-2 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-white/5">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+            </button>
+            {selectedProduct.images.length > 0 ? (
+              <img src={selectedProduct.images[0]} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" />
+            ) : selectedProduct.videoFile ? (
+              <div className="relative w-full h-64 sm:h-80 rounded-t-2xl overflow-hidden bg-black flex items-center justify-center">
+                <video src={selectedProduct.videoFile} controls className="w-full h-full object-cover" />
+              </div>
+            ) : (
+              <div className={`relative w-full h-64 sm:h-80 rounded-t-2xl bg-gradient-to-br ${GRADIENTS[0]} flex items-center justify-center`}>
+                <p className="text-sm text-white/20">{selectedProduct.title}</p>
+              </div>
+            )}
+            <div className="p-6 sm:p-8">
+              <div className="flex items-start justify-between mb-4 gap-3">
+                <div>
+                  <h2 className={`text-2xl sm:text-3xl font-bold text-white tracking-tight ${fontClass}`}>{selectedProduct.title}</h2>
+                  <p className={`text-sm text-gray-500 mt-1 ${fontClass}`}>{selectedProduct.category}</p>
+                </div>
+                <span className={`text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/[0.06] text-gray-400 border border-white/[0.08] shrink-0 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>{selectedProduct.tag}</span>
+              </div>
+              <p className={`text-gray-400 text-sm sm:text-base leading-relaxed mb-6 ${fontClass}`}>{selectedProduct.description}</p>
+              <div className="flex items-center gap-4 mb-6 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <div className="flex-1">
+                  <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Price</p>
+                  {selectedProduct.price ? (
+                    <span className={`text-2xl font-bold text-white ${fontClass}`}>{selectedProduct.price}</span>
+                  ) : (
+                    <span className="text-sm text-gray-500">Contact for pricing</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <button onClick={() => { setSelectedProduct(null); handleOrder(selectedProduct) }} className={`flex-1 py-3.5 bg-white text-black font-semibold text-sm rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-widest ${fontClass} ${ar ? 'tracking-normal normal-case text-base' : ''}`}>{t('productOrderThis')}</button>
+                {selectedProduct.demoUrl && (
+                  <a href={selectedProduct.demoUrl} target="_blank" rel="noopener noreferrer" onClick={(e) => e.stopPropagation()} className={`flex-1 py-3.5 border border-white/20 text-white font-medium text-sm rounded-full hover:bg-white/5 hover:border-white/40 transition-all duration-300 text-center uppercase tracking-widest ${fontClass} ${ar ? 'tracking-normal normal-case text-base' : ''}`}>{t('productDemo')} ↗</a>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== ORDER FORM MODAL ===== */}
+      <OrderFormModal isOpen={orderModalOpen} onClose={() => { setOrderModalOpen(false); setOrderProduct(null) }} preselectedProduct={orderProduct} />
     </section>
   )
 }

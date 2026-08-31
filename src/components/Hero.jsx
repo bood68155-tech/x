@@ -1,6 +1,6 @@
 import { useLanguage } from '../i18n/LanguageContext'
 
-export default function Hero() {
+export default function Hero({ onGetStarted }) {
   const { language, t } = useLanguage()
 
   return (
@@ -50,14 +50,14 @@ export default function Hero() {
 
         {/* CTA Buttons */}
         <div className="animate-fade-in-up opacity-0 delay-400 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <a
-            href="#contact"
+          <button
+            onClick={onGetStarted}
             className={`px-8 py-4 bg-white text-black font-semibold text-sm rounded-full hover:bg-gray-200 transition-all duration-300 hover:scale-105 animate-pulse-glow uppercase tracking-widest ${
               language === 'ar' ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] tracking-normal text-base' : ''
             }`}
           >
             {t('heroCta')}
-          </a>
+          </button>
           <a
             href="#portfolio"
             className={`px-8 py-4 border border-white/20 text-white font-medium text-sm rounded-full hover:bg-white/5 hover:border-white/40 transition-all duration-300 uppercase tracking-widest ${
