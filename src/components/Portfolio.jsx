@@ -12,6 +12,17 @@ const GRADIENTS = [
   'from-gray-800 to-gray-900',
 ]
 
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1563986768609-322da13575f2?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80&auto=format&fit=crop',
+]
+
 export default function Portfolio() {
   const { language, t } = useLanguage()
   const { projects } = useProjects()
@@ -73,12 +84,13 @@ export default function Portfolio() {
                   <div className="flex-1 h-3 rounded-sm bg-white/5 ml-2" />
                 </div>
 
-                {/* Uploaded image or gradient placeholder */}
+                {/* Uploaded image or fallback background */}
                 {project.images.length > 0 ? (
                   <img
                     src={project.images[0]}
                     alt={project.title}
                     className="absolute inset-0 pt-12 w-full h-full object-cover"
+                    onError={(e) => { e.target.style.display = 'none' }}
                   />
                 ) : project.videoFile ? (
                   <div className="absolute inset-0 pt-12 flex items-center justify-center">
@@ -87,16 +99,12 @@ export default function Portfolio() {
                     </svg>
                   </div>
                 ) : (
-                  <div className="absolute inset-0 pt-12 px-4">
-                    <div className="w-16 h-3 bg-white/10 rounded-sm mb-3" />
-                    <div className="w-24 h-2 bg-white/5 rounded-sm mb-6" />
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="h-16 bg-white/[0.03] rounded-lg border border-white/[0.05]" />
-                      <div className="h-16 bg-white/[0.03] rounded-lg border border-white/[0.05]" />
-                      <div className="h-16 bg-white/[0.03] rounded-lg border border-white/[0.05]" />
-                      <div className="h-16 bg-white/[0.03] rounded-lg border border-white/[0.05]" />
-                    </div>
-                  </div>
+                  <img
+                    src={FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]}
+                    alt=""
+                    className="absolute inset-0 pt-12 w-full h-full object-cover opacity-40"
+                    loading="lazy"
+                  />
                 )}
 
                 {/* Hover overlay with VIEW PROJECT button */}

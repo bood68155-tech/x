@@ -13,6 +13,17 @@ const GRADIENTS = [
   'from-gray-800 to-gray-900',
 ]
 
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1563986768609-322da13575f2?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=800&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1547658719-da2b51169166?w=800&q=80&auto=format&fit=crop',
+]
+
 export default function Store() {
   const { projects } = useProjects()
   const { language, t } = useLanguage()
@@ -103,20 +114,13 @@ export default function Store() {
                 </div>
 
                 {project.images.length > 0 ? (
-                  <img src={project.images[0]} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" />
+                  <img src={project.images[0]} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
                 ) : project.videoFile ? (
                   <div className="absolute inset-0 pt-12 flex items-center justify-center">
                     <svg className="w-12 h-12 text-white/30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   </div>
                 ) : (
-                  <div className="absolute inset-0 pt-12 px-4">
-                    <div className="w-16 h-3 bg-white/10 rounded-sm mb-3" />
-                    <div className="w-24 h-2 bg-white/5 rounded-sm mb-6" />
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="h-14 bg-white/[0.03] rounded-lg border border-white/[0.05]" />
-                      <div className="h-14 bg-white/[0.03] rounded-lg border border-white/[0.05]" />
-                    </div>
-                  </div>
+                  <img src={FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} alt="" className="absolute inset-0 pt-12 w-full h-full object-cover opacity-40" loading="lazy" />
                 )}
 
                 {/* Category Badge */}
@@ -185,14 +189,14 @@ export default function Store() {
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
             </button>
             {selectedProduct.images.length > 0 ? (
-              <img src={selectedProduct.images[0]} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" />
+              <img src={selectedProduct.images[0]} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" onError={(e) => { e.target.style.display = 'none' }} />
             ) : selectedProduct.videoFile ? (
               <div className="relative w-full h-64 sm:h-80 rounded-t-2xl overflow-hidden bg-black flex items-center justify-center">
                 <video src={selectedProduct.videoFile} controls className="w-full h-full object-cover" />
               </div>
             ) : (
-              <div className={`relative w-full h-64 sm:h-80 rounded-t-2xl bg-gradient-to-br ${GRADIENTS[0]} flex items-center justify-center`}>
-                <p className="text-sm text-white/20">{selectedProduct.title}</p>
+              <div className="relative w-full h-64 sm:h-80 rounded-t-2xl overflow-hidden">
+                <img src={FALLBACK_IMAGES[0]} alt="" className="w-full h-full object-cover opacity-40" loading="lazy" />
               </div>
             )}
             <div className="p-6 sm:p-8">

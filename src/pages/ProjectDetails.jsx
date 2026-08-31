@@ -4,6 +4,17 @@ import { useProjects } from '../admin/ProjectsContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { supabase } from '../lib/supabaseClient'
 
+const FALLBACK_IMAGES = [
+  'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1555421689-d68471e189f2?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1563986768609-322da13575f2?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1200&q=80&auto=format&fit=crop',
+  'https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&q=80&auto=format&fit=crop',
+]
+
 function rowToProject(row) {
   return {
     id: row.id,
@@ -137,7 +148,7 @@ export default function ProjectDetails() {
             {/* Main Image */}
             <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
               {allImages.length > 0 ? (
-                <img src={allImages[activeImage]} alt={`${project.title} - ${activeImage + 1}`} className="w-full h-full object-cover transition-opacity duration-300" />
+                <img src={allImages[activeImage]} alt={`${project.title} - ${activeImage + 1}`} className="w-full h-full object-cover transition-opacity duration-300" onError={(e) => { e.target.style.display = 'none' }} />
               ) : hasVideo ? (
                 <div className="w-full h-full flex items-center justify-center">
                   <div className="text-center">
@@ -146,17 +157,7 @@ export default function ProjectDetails() {
                   </div>
                 </div>
               ) : (
-                <div className="w-full h-full flex items-center justify-center px-8">
-                  <div className="w-full max-w-sm">
-                    <div className="w-20 h-4 bg-white/10 rounded-sm mb-4" />
-                    <div className="w-32 h-3 bg-white/5 rounded-sm mb-8" />
-                    <div className="grid grid-cols-2 gap-3">
-                      <div className="h-20 bg-white/[0.03] rounded-xl border border-white/[0.05]" />
-                      <div className="h-20 bg-white/[0.03] rounded-xl border border-white/[0.05]" />
-                      <div className="h-20 bg-white/[0.03] rounded-xl border border-white/[0.05] col-span-2" />
-                    </div>
-                  </div>
-                </div>
+                <img src={FALLBACK_IMAGES[0]} alt="" className="w-full h-full object-cover opacity-40" loading="lazy" />
               )}
 
               {/* Category Badge */}
