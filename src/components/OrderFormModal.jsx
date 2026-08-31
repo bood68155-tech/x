@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
+import { supabase } from '../lib/supabaseClient'
 
 export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) {
   const { language, t } = useLanguage()
@@ -8,6 +9,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
 
   const [submitted, setSubmitted] = useState(false)
   const [errors, setErrors] = useState({})
+  const [saving, setSaving] = useState(false)
   const [formData, setFormData] = useState(() => ({
     name: '',
     email: '',
@@ -33,6 +35,16 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  useEffect(() => {
+    if (isOpen && preselectedProduct) {
+      setFormData(prev => ({
+        ...prev,
+        service: preselectedProduct.title || '',
+        details: prev.details || `I'm interested in: ${preselectedProduct.title} (${preselectedProduct.category}) - ${preselectedProduct.price || 'Contact for pricing'}`,
+      }))
+    }
+  }, [isOpen, preselectedProduct])
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
     if (errors[e.target.name]) {
@@ -51,10 +63,32 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
     return Object.keys(newErrors).length === 0
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (!validate()) return
 
+    setSaving(true)
+
+    // Save order to Supabase 'orders' table
+    try {
+      const { error } = await supabase.from('orders').insert({
+        customer_name: formData.name,
+        customer_email: formData.email,
+        customer_phone: formData.phone,
+        service_product: formData.service,
+        project_details: formData.details,
+        project_id: preselectedProduct?.id || null,
+        project_title: preselectedProduct?.title || null,
+        project_price: preselectedProduct?.price || null,
+      })
+      if (error) {
+        console.warn('Supabase order save failed (table may not exist):', error.message)
+      }
+    } catch (err) {
+      console.warn('Supabase order save error:', err)
+    }
+
+    // Also open mailto as a backup notification
     const subject = encodeURIComponent(`Order Request — ${formData.service}`)
     const body = encodeURIComponent(
       `📦 New Order Request\n` +
@@ -70,6 +104,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
 
     window.open(`mailto:bood68155@gmail.com?subject=${subject}&body=${body}`, '_blank')
 
+    setSaving(false)
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
@@ -159,9 +194,17 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                 {errors.details && <p className="text-xs text-red-400 mt-1">{t('orderRequired')}</p>}
               </div>
 
-              <button type="submit"
-                className={`w-full py-4 bg-white text-black font-semibold text-sm rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-widest ${fontClass} ${ar ? 'tracking-normal normal-case text-base' : ''}`}>
-                {t('orderSubmit')}
+              <button type="submit" disabled={saving}
+                className={`w-full py-4 bg-white text-black font-semibold text-sm rounded-full hover:bg-gray-200 transition-all duration-300 uppercase tracking-widest ${fontClass} ${ar ? 'tracking-normal normal-case text-base' : ''} disabled:opacity-50`}>
+                {saving ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                    </svg>
+                    Submitting...
+                  </span>
+                ) : t('orderSubmit')}
               </button>
             </>
           )}

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useAuth } from '../admin/AuthContext'
 
@@ -13,6 +14,8 @@ export default function Navbar() {
   const [adminMenuOpen, setAdminMenuOpen] = useState(false)
   const { language, toggleLanguage, t } = useLanguage()
   const { isAuthenticated, login, logout } = useAuth()
+  const location = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -54,11 +57,27 @@ export default function Navbar() {
     setAdminMenuOpen(false)
   }
 
+  /** Navigate to a hash section, handling same-page vs cross-page scrolls */
+  const handleNavClick = (e, href) => {
+    if (href.startsWith('#')) {
+      const targetId = href.slice(1)
+      if (location.pathname !== '/') {
+        navigate('/')
+        setTimeout(() => {
+          document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      } else {
+        document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth' })
+      }
+      setMobileOpen(false)
+    }
+  }
+
   const navLinks = [
-    { label: t('navHome'), href: '/' },
-    { label: t('navServices'), href: '#services' },
-    { label: t('navStore'), href: '/store' },
-    { label: t('navContact'), href: '#contact' },
+    { label: t('navHome'), href: '/', isRoute: true },
+    { label: t('navServices'), href: '#services', isRoute: false },
+    { label: t('navStore'), href: '/store', isRoute: true },
+    { label: t('navContact'), href: '#contact', isRoute: false },
   ]
 
   return (
@@ -71,20 +90,35 @@ export default function Navbar() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <a href="/" className="text-3xl font-black tracking-tighter text-white hover:opacity-80 transition-opacity">
+          <Link to="/" className="text-3xl font-black tracking-tighter text-white hover:opacity-80 transition-opacity">
             X
-          </a>
+          </Link>
 
           {/* Desktop Links */}
           <div className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 tracking-wide uppercase"
-              >
-                {link.label}
-              </a>
+              link.isRoute ? (
+                <Link
+                  key={link.href}
+                  to={link.href}
+                  className={`text-sm font-medium transition-colors duration-300 tracking-wide uppercase ${
+                    location.pathname === link.href
+                      ? 'text-white'
+                      : 'text-gray-400 hover:text-white'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ) : (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 tracking-wide uppercase"
+                >
+                  {link.label}
+                </a>
+              )
             ))}
 
             {/* Language Toggle */}
@@ -142,8 +176,8 @@ export default function Navbar() {
                   {/* Dropdown */}
                   {adminMenuOpen && (
                     <div className="absolute right-0 top-full mt-2 w-48 py-2 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
-                      <a
-                        href="/admin"
+                      <Link
+                        to="/admin"
                         onClick={() => setAdminMenuOpen(false)}
                         className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-all"
                       >
@@ -151,7 +185,7 @@ export default function Navbar() {
                           <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                         </svg>
                         Open Dashboard
-                      </a>
+                      </Link>
                       <div className="mx-3 my-1 border-t border-white/10" />
                       <button
                         onClick={handleLogout}
@@ -221,10 +255,10 @@ export default function Navbar() {
                 </button>
                 {adminMenuOpen && (
                   <div className="absolute right-0 top-full mt-2 w-44 py-2 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl z-50">
-                    <a href="/admin" onClick={() => setAdminMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5">
+                    <Link to="/admin" onClick={() => setAdminMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                       Dashboard
-                    </a>
+                    </Link>
                     <div className="mx-3 my-1 border-t border-white/10" />
                     <button onClick={handleLogout} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-500/5">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
@@ -265,22 +299,33 @@ export default function Navbar() {
           <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10 mt-3">
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
-                <a
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setMobileOpen(false)}
-                  className="block text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wide"
-                >
-                  {link.label}
-                </a>
+                link.isRoute ? (
+                  <Link
+                    key={link.href}
+                    to={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="block text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wide"
+                  >
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={(e) => handleNavClick(e, link.href)}
+                    className="block text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wide"
+                  >
+                    {link.label}
+                  </a>
+                )
               ))}
-              <a
-                href="#contact"
+              <Link
+                to="/store"
                 onClick={() => setMobileOpen(false)}
                 className="block w-full text-center px-6 py-3 bg-white text-black text-sm font-semibold rounded-full hover:bg-gray-200 transition-all"
               >
                 {t('navGetStarted')}
-              </a>
+              </Link>
             </div>
           </div>
         )}
