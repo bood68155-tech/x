@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useProjects, CATEGORIES } from '../admin/ProjectsContext'
 
@@ -57,9 +58,10 @@ export default function Portfolio() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredProjects.map((project, i) => (
-            <div
+            <Link
+              to={`/project/${project.id}`}
               key={project.id}
-              className="group relative border border-white/[0.08] rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500"
+              className="group relative border border-white/[0.08] rounded-2xl overflow-hidden hover:border-white/20 transition-all duration-500 cursor-pointer flex flex-col"
             >
               {/* Card Visual Area */}
               <div className={`relative h-56 sm:h-64 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} overflow-hidden`}>
@@ -97,27 +99,16 @@ export default function Portfolio() {
                   </div>
                 )}
 
-                {/* Hover overlay */}
+                {/* Hover overlay with VIEW PROJECT button */}
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
-                  {project.demoUrl ? (
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`px-5 py-2.5 border border-white/30 text-white text-xs font-medium rounded-full uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}
-                    >
-                      {t('portView')}
-                    </a>
-                  ) : (
-                    <span className={`px-5 py-2.5 border border-white/30 text-white text-xs font-medium rounded-full uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
-                      {t('portView')}
-                    </span>
-                  )}
+                  <span className={`px-5 py-2.5 border border-white/30 text-white text-xs font-medium rounded-full uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+                    {t('portView')}
+                  </span>
                 </div>
               </div>
 
               {/* Card Info */}
-              <div className="p-5 sm:p-6">
+              <div className="p-5 sm:p-6 flex flex-col flex-1">
                 <div className="flex items-center justify-between mb-2">
                   <h3 className={`text-base sm:text-lg font-bold text-white tracking-tight ${ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''}`}>
                     {project.title}
@@ -129,11 +120,11 @@ export default function Portfolio() {
                 <p className={`text-xs text-gray-500 uppercase tracking-wider mb-2 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
                   {project.category}
                 </p>
-                <p className={`text-sm text-gray-400 font-light leading-relaxed ${ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''}`}>
+                <p className={`text-sm text-gray-400 font-light leading-relaxed flex-1 ${ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''}`}>
                   {project.description}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
