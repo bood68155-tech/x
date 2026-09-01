@@ -85,13 +85,13 @@ export default function Navbar() {
       <nav
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? 'bg-black/90 backdrop-blur-xl border-b border-white/10 py-3'
+            ? 'bg-black/80 backdrop-blur-2xl border-b border-white/[0.06] py-3'
             : 'bg-transparent py-5'
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <Link to="/" className="text-3xl font-black tracking-tighter text-white hover:opacity-80 transition-opacity">
-            X
+          <Link to="/" className="flex items-center gap-1 text-2xl font-black tracking-[-0.03em] text-white hover:opacity-80 transition-opacity">
+            <span>Abood</span>
           </Link>
 
           {/* Desktop Links */}
@@ -124,7 +124,7 @@ export default function Navbar() {
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-0 border border-white/15 rounded-full overflow-hidden hover:border-white/30 transition-all duration-300"
+              className="flex items-center gap-0 border border-white/[0.12] rounded-full overflow-hidden hover:border-white/[0.25] transition-all duration-300"
             >
               <span
                 className={`px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
@@ -175,7 +175,7 @@ export default function Navbar() {
 
                   {/* Dropdown */}
                   {adminMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-48 py-2 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
+                    <div className="absolute right-0 top-full mt-2 w-48 py-2 bg-black/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
                       <Link
                         to="/admin"
                         onClick={() => setAdminMenuOpen(false)}
@@ -186,7 +186,7 @@ export default function Navbar() {
                         </svg>
                         Open Dashboard
                       </Link>
-                      <div className="mx-3 my-1 border-t border-white/10" />
+                      <div className="mx-3 my-1 border-t border-white/[0.08]" />
                       <button
                         onClick={handleLogout}
                         className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-500/5 transition-all"
@@ -203,7 +203,7 @@ export default function Navbar() {
             ) : (
               <button
                 onClick={() => setLoginOpen(true)}
-                className="flex items-center gap-2 ml-2 px-5 py-2.5 border border-white/15 text-gray-300 text-sm font-medium rounded-full hover:text-white hover:border-white/30 transition-all duration-300"
+                className="flex items-center gap-2 ml-2 px-5 py-2.5 border border-white/[0.12] text-gray-300 text-sm font-medium rounded-full hover:text-white hover:border-white/[0.25] transition-all duration-300"
               >
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -218,7 +218,7 @@ export default function Navbar() {
             {/* Mobile Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center border border-white/15 rounded-full overflow-hidden hover:border-white/30 transition-all duration-300"
+              className="flex items-center border border-white/[0.12] rounded-full overflow-hidden hover:border-white/[0.25] transition-all duration-300"
             >
               <span
                 className={`px-2 py-1 text-[10px] font-bold uppercase transition-all duration-300 ${
@@ -254,12 +254,12 @@ export default function Navbar() {
                   ADMIN
                 </button>
                 {adminMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-44 py-2 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl z-50">
+                  <div className="absolute right-0 top-full mt-2 w-44 py-2 bg-black/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl z-50">
                     <Link to="/admin" onClick={() => setAdminMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
                       Dashboard
                     </Link>
-                    <div className="mx-3 my-1 border-t border-white/10" />
+                    <div className="mx-3 my-1 border-t border-white/[0.08]" />
                     <button onClick={handleLogout} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-500/5">
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
                       Logout
@@ -296,7 +296,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-xl border-t border-white/10 mt-3">
+          <div className="md:hidden bg-black/95 backdrop-blur-2xl border-t border-white/[0.06] mt-3">
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 link.isRoute ? (
@@ -341,7 +341,7 @@ export default function Navbar() {
           />
 
           {/* Modal */}
-          <div className="relative w-full max-w-sm bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
+          <div className="relative w-full max-w-sm bg-[#0a0a0a] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             {/* Close */}
             <button
               onClick={() => { setLoginOpen(false); setLoginError(''); setEmail(''); setPassword('') }}
@@ -354,7 +354,7 @@ export default function Navbar() {
 
             {/* Header */}
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl border border-white/10 bg-white/5 mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl border border-white/[0.08] bg-white/5 mb-4">
                 <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -384,7 +384,7 @@ export default function Navbar() {
                   placeholder="Email"
                   required
                   autoFocus
-                  className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
+                  className="w-full px-4 py-2.5 bg-white/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
                 />
               </div>
 
@@ -395,7 +395,7 @@ export default function Navbar() {
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="Password"
                   required
-                  className="w-full px-4 py-2.5 bg-white/5 border border-white/10 rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
+                  className="w-full px-4 py-2.5 bg-white/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
                 />
               </div>
 
