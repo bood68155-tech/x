@@ -28,6 +28,7 @@ function rowToProject(row) {
     videoUrl: row.video_url || '',
     imageUrl: row.image_url || '',
     images: Array.isArray(row.images) ? row.images : [],
+    features: Array.isArray(row.features) ? row.features : [],
     demoUrl: row.demo_url || '',
   }
 }
@@ -248,6 +249,23 @@ export default function ProjectDetails() {
                 {project.description}
               </p>
             </div>
+
+            {/* Features */}
+            {project.features && project.features.length > 0 && (
+              <div className="mb-6">
+                <h2 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Features</h2>
+                <ul className="space-y-2">
+                  {project.features.map((feat, i) => (
+                    <li key={i} className="flex items-center gap-2.5 text-sm text-gray-300">
+                      <svg className="w-4 h-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                      {feat}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {/* Divider */}
             <div className="h-px bg-white/[0.06] mb-6" />

@@ -12,29 +12,50 @@ function fileToDataURL(file) {
   })
 }
 
-const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', price: '', videoFile: '', videoUrl: '', imageUrl: '', images: [], demoUrl: '' }
+const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', price: '', videoFile: '', videoUrl: '', imageUrl: '', images: [], features: [], demoUrl: '' }
+
+/** Tiny animated spinner SVG */
+function Spinner({ className = 'w-4 h-4' }) {
+  return (
+    <svg className={`animate-spin ${className}`} fill="none" viewBox="0 0 24 24">
+      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+    </svg>
+  )
+}
 
 export default function AdminDashboard() {
   const { logout } = useAuth()
-  const { projects, addProject, updateProject, deleteProject } = useProjects()
+  const { projects, addProject, updateProject, deleteProject, refetchProjects } = useProjects()
   const [editing, setEditing] = useState(null)
   const [formData, setFormData] = useState({ ...EMPTY_PROJECT })
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null)
-  const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
   const [videoPreview, setVideoPreview] = useState(null)
   const [filterCategory, setFilterCategory] = useState('All')
+
+  // Toast / feedback state
+  const [toast, setToast] = useState(null) // { type: 'success' | 'error', message: string }
+  const showToast = (type, message) => {
+    setToast({ type, message })
+    setTimeout(() => setToast(null), 4000)
+  }
+
+  // Feature input helper
+  const [featureInput, setFeatureInput] = useState('')
 
   const handleEdit = (project) => {
     setFormData({ ...project })
     setVideoPreview(project.videoFile || project.videoUrl || null)
     setEditing(project.id)
+    setFeatureInput('')
   }
 
   const handleNew = () => {
     setFormData({ ...EMPTY_PROJECT })
     setVideoPreview(null)
     setEditing('new')
+    setFeatureInput('')
   }
 
   const handleSave = async () => {
@@ -42,16 +63,18 @@ export default function AdminDashboard() {
     try {
       if (editing === 'new') {
         await addProject(formData)
+        showToast('success', 'Project created successfully!')
       } else {
         await updateProject(editing, formData)
+        showToast('success', 'Project updated successfully!')
       }
       setEditing(null)
       setFormData({ ...EMPTY_PROJECT })
       setVideoPreview(null)
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
+      setFeatureInput('')
     } catch (err) {
       console.error('Save failed:', err)
+      showToast('error', `Save failed: ${err.message || 'Unknown error. Check RLS policies or column schema.'}`)
     } finally {
       setSaving(false)
     }
@@ -62,10 +85,10 @@ export default function AdminDashboard() {
     try {
       await deleteProject(id)
       setShowDeleteConfirm(null)
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
+      showToast('success', 'Project deleted.')
     } catch (err) {
       console.error('Delete failed:', err)
+      showToast('error', `Delete failed: ${err.message || 'Unknown error.'}`)
     } finally {
       setSaving(false)
     }
@@ -101,6 +124,17 @@ export default function AdminDashboard() {
     setFormData({ ...formData, images: formData.images.filter((_, i) => i !== idx) })
   }
 
+  const addFeature = () => {
+    const val = featureInput.trim()
+    if (!val) return
+    setFormData({ ...formData, features: [...formData.features, val] })
+    setFeatureInput('')
+  }
+
+  const removeFeature = (idx) => {
+    setFormData({ ...formData, features: formData.features.filter((_, i) => i !== idx) })
+  }
+
   const getCategoryLabel = (value) => {
     const cat = CATEGORIES.find(c => c.value === value)
     return cat ? `${cat.label} (${cat.ar})` : value
@@ -117,7 +151,7 @@ export default function AdminDashboard() {
         <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <button
-              onClick={() => { setEditing(null); setFormData({ ...EMPTY_PROJECT }); setVideoPreview(null) }}
+              onClick={() => { setEditing(null); setFormData({ ...EMPTY_PROJECT }); setVideoPreview(null); setFeatureInput('') }}
               className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -126,19 +160,39 @@ export default function AdminDashboard() {
               Back to projects
             </button>
             <div className="flex items-center gap-3">
-              {saved && (
-                <span className="text-xs text-green-400 font-medium animate-fade-in">Saved!</span>
-              )}
               <button
                 onClick={handleSave}
                 disabled={!formData.title.trim() || saving}
-                className="px-5 py-2 bg-white text-black text-sm font-semibold rounded-lg hover:bg-gray-200 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-5 py-2 bg-white text-black text-sm font-semibold rounded-lg hover:bg-gray-200 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
+                {saving && <Spinner className="w-4 h-4" />}
                 {saving ? 'Saving...' : editing === 'new' ? 'Create Project' : 'Save Changes'}
               </button>
             </div>
           </div>
         </header>
+
+        {/* Toast notification */}
+        {toast && (
+          <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
+            toast.type === 'success'
+              ? 'bg-green-500/10 text-green-400 border-green-500/20'
+              : 'bg-red-500/10 text-red-400 border-red-500/20'
+          }`}>
+            <div className="flex items-center gap-2">
+              {toast.type === 'success' ? (
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              )}
+              {toast.message}
+            </div>
+          </div>
+        )}
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
           <h2 className="text-xl font-bold text-white mb-8">
@@ -186,6 +240,45 @@ export default function AdminDashboard() {
                 rows={3}
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 resize-none transition-all"
               />
+            </div>
+
+            {/* Features */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Features <span className="text-gray-600 font-normal">(المميزات)</span></label>
+              <div className="space-y-3">
+                {formData.features.length > 0 && (
+                  <div className="flex flex-wrap gap-2">
+                    {formData.features.map((feat, idx) => (
+                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white/[0.06] text-gray-300 border border-white/[0.08] rounded-full">
+                        {feat}
+                        <button onClick={() => removeFeature(idx)} className="text-gray-500 hover:text-red-400 transition-colors">
+                          <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={featureInput}
+                    onChange={(e) => setFeatureInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addFeature() } }}
+                    placeholder="Add a feature and press Enter"
+                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
+                  />
+                  <button
+                    type="button"
+                    onClick={addFeature}
+                    disabled={!featureInput.trim()}
+                    className="px-4 py-3 bg-white/10 text-white text-sm font-medium rounded-xl hover:bg-white/15 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
             </div>
 
             {/* Cover / Main Image */}
@@ -333,6 +426,28 @@ export default function AdminDashboard() {
         </div>
       </header>
 
+      {/* Toast notification */}
+      {toast && (
+        <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
+          toast.type === 'success'
+            ? 'bg-green-500/10 text-green-400 border-green-500/20'
+            : 'bg-red-500/10 text-red-400 border-red-500/20'
+        }`}>
+          <div className="flex items-center gap-2">
+            {toast.type === 'success' ? (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+              </svg>
+            ) : (
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            )}
+            {toast.message}
+          </div>
+        </div>
+      )}
+
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="flex items-center justify-between mb-8">
           <div>
@@ -415,13 +530,19 @@ export default function AdminDashboard() {
                     {project.images.length} imgs
                   </span>
                 )}
+                {project.features?.length > 0 && (
+                  <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                    <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+                    {project.features.length} feat
+                  </span>
+                )}
                 {project.demoUrl && (
                   <span className="inline-flex items-center gap-1 text-xs text-gray-500">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     Demo
                   </span>
                 )}
-                {!project.videoFile && !project.videoUrl && project.images.length === 0 && !project.demoUrl && (
+                {!project.videoFile && !project.videoUrl && project.images.length === 0 && (!project.features || project.features.length === 0) && !project.demoUrl && (
                   <span className="text-xs text-gray-600">—</span>
                 )}
               </div>

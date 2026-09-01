@@ -22,6 +22,7 @@ function rowToProject(row) {
     videoUrl: row.video_url || '',
     imageUrl: row.image_url || '',
     images: Array.isArray(row.images) ? row.images : [],
+    features: Array.isArray(row.features) ? row.features : [],
     demoUrl: row.demo_url || '',
   }
 }
@@ -37,6 +38,7 @@ function projectToRow(project) {
     video_url: project.videoUrl || '',
     image_url: project.imageUrl || '',
     demo_url: project.demoUrl || '',
+    features: project.features || [],
     images: project.images || [],
   }
 }
@@ -80,7 +82,7 @@ export function ProjectsProvider({ children }) {
 
     if (error) {
       console.error('Error adding project:', error.message)
-      return null
+      throw new Error(error.message || 'Failed to create project')
     }
 
     const newProject = rowToProject(data)
@@ -99,7 +101,7 @@ export function ProjectsProvider({ children }) {
 
     if (error) {
       console.error('Error updating project:', error.message)
-      return null
+      throw new Error(error.message || 'Failed to update project')
     }
 
     const updated = rowToProject(data)
@@ -115,7 +117,7 @@ export function ProjectsProvider({ children }) {
 
     if (error) {
       console.error('Error deleting project:', error.message)
-      return false
+      throw new Error(error.message || 'Failed to delete project')
     }
 
     setProjects(prev => prev.filter(p => p.id !== id))
@@ -123,7 +125,7 @@ export function ProjectsProvider({ children }) {
   }
 
   return (
-    <ProjectsContext.Provider value={{ projects, loading, addProject, updateProject, deleteProject }}>
+    <ProjectsContext.Provider value={{ projects, loading, addProject, updateProject, deleteProject, refetchProjects: fetchProjects }}>
       {children}
     </ProjectsContext.Provider>
   )
