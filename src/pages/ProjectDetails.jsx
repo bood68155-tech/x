@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { useProjects } from '../admin/ProjectsContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { supabase } from '../lib/supabaseClient'
+import CryptoPaymentCheckout from '../components/CryptoPaymentCheckout'
 
 const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1200&q=80&auto=format&fit=crop',
@@ -31,6 +32,12 @@ function rowToProject(row) {
   }
 }
 
+function parsePrice(priceStr) {
+  if (!priceStr) return 0
+  const num = parseFloat(String(priceStr).replace(/[^0-9.]/g, ''))
+  return isNaN(num) ? 0 : num
+}
+
 export default function ProjectDetails() {
   const { id } = useParams()
   const { projects } = useProjects()
@@ -42,6 +49,7 @@ export default function ProjectDetails() {
 
   // Checkout state
   const [showCheckout, setShowCheckout] = useState(false)
+  const [paymentMethod, setPaymentMethod] = useState(null) // null | 'contact' | 'crypto'
   const [orderForm, setOrderForm] = useState({ name: '', email: '', phone: '' })
   const [orderSubmitted, setOrderSubmitted] = useState(false)
   const [orderLoading, setOrderLoading] = useState(false)
@@ -123,9 +131,16 @@ export default function ProjectDetails() {
     setOrderSubmitted(true)
   }
 
+  const handleBackToProject = () => {
+    setShowCheckout(false)
+    setPaymentMethod(null)
+    setOrderSubmitted(false)
+  }
+
   const allImages = project.images.length > 0 ? project.images : []
   const hasVideo = !!(project.videoUrl)
   const hasDemo = !!(project.demoUrl)
+  const numericTotal = parsePrice(project.price)
 
   return (
     <section className="relative pt-28 pb-24 sm:pt-32 sm:pb-32 px-4 sm:px-6 lg:px-8 min-h-screen">
@@ -287,16 +302,108 @@ export default function ProjectDetails() {
                     Try the Live Demo
                   </a>
                 )}
-                <button onClick={() => setShowCheckout(false)} className="block mx-auto mt-4 text-xs text-gray-600 hover:text-gray-400 transition-colors">
+                <button onClick={handleBackToProject} className="block mx-auto mt-4 text-xs text-gray-600 hover:text-gray-400 transition-colors">
                   ← Back to project
                 </button>
               </div>
-            ) : (
-              /* Checkout Form */
+            ) : paymentMethod === 'crypto' ? (
+              /* ====== CRYPTO PAYMENT (inline) ====== */
               <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-lg font-bold text-white">Instant Checkout</h3>
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Pay with USDT</h3>
+                  </div>
+                  <button onClick={() => setPaymentMethod(null)} className="text-gray-500 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                <CryptoPaymentCheckout
+                  items={[{ id: project.id, title: project.title, price: project.price }]}
+                  total={numericTotal}
+                  onBack={handleBackToProject}
+                />
+              </div>
+            ) : !paymentMethod ? (
+              /* ====== PAYMENT METHOD SELECTOR ====== */
+              <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-white">Choose Payment Method</h3>
                   <button onClick={() => setShowCheckout(false)} className="text-gray-500 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Price Summary */}
+                {project.price && (
+                  <div className="flex items-center justify-between py-3 border-t border-b border-white/[0.06] mb-6">
+                    <span className="text-sm text-gray-400">Total</span>
+                    <span className="text-xl font-bold text-white">{project.price}</span>
+                  </div>
+                )}
+
+                <div className="space-y-3">
+                  {/* Contact / Card Option */}
+                  <button
+                    onClick={() => setPaymentMethod('contact')}
+                    className="w-full p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300 flex items-center gap-4 text-left group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-white/[0.06] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-white/20 transition-all">
+                      <svg className="w-5 h-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-white">Pay via Contact</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Name, email &amp; phone — we will reach out to confirm</p>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+
+                  {/* Crypto Option */}
+                  <button
+                    onClick={() => setPaymentMethod('crypto')}
+                    className="w-full p-4 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05] hover:border-white/20 transition-all duration-300 flex items-center gap-4 text-left group"
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-yellow-500/[0.06] border border-yellow-500/10 flex items-center justify-center shrink-0 group-hover:border-yellow-500/25 transition-all">
+                      <svg className="w-5 h-5 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-sm font-semibold text-white">Pay with USDT (TRC-20)</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Send crypto directly to our deposit wallet</p>
+                    </div>
+                    <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            ) : (
+              /* ====== CONTACT / CARD CHECKOUT (existing form) ====== */
+              <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-white/[0.06] border border-white/[0.08] flex items-center justify-center">
+                      <svg className="w-4 h-4 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">Contact Checkout</h3>
+                  </div>
+                  <button onClick={() => setPaymentMethod(null)} className="text-gray-500 hover:text-white transition-colors">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>

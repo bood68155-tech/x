@@ -12,6 +12,7 @@ import Contact from './components/Contact'
 import Footer from './components/Footer'
 import AdminDashboard from './admin/AdminDashboard'
 import Store from './pages/Store'
+import CryptoPaymentCheckout from './components/CryptoPaymentCheckout'
 import ProjectDetails from './pages/ProjectDetails'
 import OrderFormModal from './components/OrderFormModal'
 
@@ -71,6 +72,7 @@ export default function App() {
                 {/* Public Routes */}
               <Route path="/" element={<HomeSite />} />
               <Route path="/store" element={<Store />} />
+              <Route path="/checkout/crypto" element={<CryptoPaymentCheckout />} />
               <Route path="/project/:id" element={<ProjectDetails />} />
 
               {/* Admin Routes */}
