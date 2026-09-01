@@ -40,6 +40,7 @@ function projectToRow(project) {
     demo_url: project.demoUrl || '',
     features: project.features || [],
     images: project.images || [],
+    features: project.features || [],
   }
 }
 
