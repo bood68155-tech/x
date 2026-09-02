@@ -1,39 +1,90 @@
-import { createContext, useContext, useState, useEffect } from 'react'
-
-const ADMIN_EMAIL = 'bood68155@gmail.com'
-const ADMIN_PASSWORD = '123123'
-const AUTH_KEY = 'x_admin_auth'
+import { createContext, useContext, useState, useEffect, useCallback } from 'react'
+import { supabase } from '../lib/supabaseClient'
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
-  const [isAuthenticated, setIsAuthenticated] = useState(() => {
-    return sessionStorage.getItem(AUTH_KEY) === 'true'
-  })
+  const [user, setUser] = useState(null)
+  const [session, setSession] = useState(null)
+  const [loading, setLoading] = useState(true)
 
+  // Derive isAuthenticated from session
+  const isAuthenticated = !!session
+
+  // Listen for auth state changes — this handles persistence across reloads
   useEffect(() => {
-    if (isAuthenticated) {
-      sessionStorage.setItem(AUTH_KEY, 'true')
-    } else {
-      sessionStorage.removeItem(AUTH_KEY)
-    }
-  }, [isAuthenticated])
+    // Get initial session
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession)
+      setUser(currentSession?.user ?? null)
+      setLoading(false)
+    })
 
-  const login = (email, password) => {
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      setIsAuthenticated(true)
-      return { success: true }
-    }
-    return { success: false, error: 'Invalid email or password' }
-  }
+    // Subscribe to future changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event, currentSession) => {
+        setSession(currentSession)
+        setUser(currentSession?.user ?? null)
+        setLoading(false)
+      }
+    )
 
-  const logout = () => {
-    setIsAuthenticated(false)
-    sessionStorage.removeItem(AUTH_KEY)
-  }
+    return () => subscription.unsubscribe()
+  }, [])
+
+  // Email & Password Sign Up
+  const signUp = useCallback(async (email, password) => {
+    const { data, error } = await supabase.auth.signUp({ email, password })
+    if (error) throw error
+    return data
+  }, [])
+
+  // Email & Password Sign In
+  const signIn = useCallback(async (email, password) => {
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+    return data
+  }, [])
+
+  // Google OAuth Sign In
+  const signInWithGoogle = useCallback(async () => {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: { redirectTo: window.location.origin },
+    })
+    if (error) throw error
+    return data
+  }, [])
+
+  // Sign Out
+  const logout = useCallback(async () => {
+    const { error } = await supabase.auth.signOut()
+    if (error) throw error
+  }, [])
+
+  // Get display name or email
+  const displayName = user?.user_metadata?.full_name
+    || user?.user_metadata?.name
+    || user?.email
+    || 'User'
+
+  const avatarUrl = user?.user_metadata?.avatar_url || null
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        session,
+        isAuthenticated,
+        loading,
+        displayName,
+        avatarUrl,
+        signUp,
+        signIn,
+        signInWithGoogle,
+        logout,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )
