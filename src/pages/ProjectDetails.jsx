@@ -327,19 +327,24 @@ export default function ProjectDetails() {
                   </svg>
                   {project.price ? `Buy Now — ${project.price}` : 'Order Now'}
                 </button>
-                {hasDemo && (
-                  <button
-                    onClick={() => window.open(demoUrl, '_blank', 'noopener,noreferrer')}
-                    className="w-full px-6 py-4 bg-transparent text-white text-sm font-semibold rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/30 transition-all duration-300 uppercase tracking-wider text-center flex items-center justify-center gap-2"
-                  >
-                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                    Live Demo / Preview
-                  </button>
-                )}
+                <button
+                  onClick={() => {
+                    const url = project.demoUrl || project.demo_url
+                    if (url) {
+                      window.open(url, '_blank', 'noopener,noreferrer')
+                    } else {
+                      alert('No live demo URL has been saved for this project.')
+                    }
+                  }}
+                  className="w-full px-6 py-4 bg-transparent text-white text-sm font-semibold rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/30 transition-all duration-300 uppercase tracking-wider text-center flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                  Live Demo / Preview
+                </button>
               </div>
             ) : orderSubmitted ? (
               /* Order Confirmation */
@@ -352,16 +357,24 @@ export default function ProjectDetails() {
                 <h3 className="text-xl font-bold text-white mb-2">Order Confirmed!</h3>
                 <p className="text-gray-400 text-sm mb-1">Thank you, <span className="text-white font-medium">{orderForm.name}</span></p>
                 <p className="text-gray-500 text-xs">We'll contact you at <span className="text-gray-300">{orderForm.email}</span> shortly.</p>
-                {hasDemo && (
-                  <button onClick={() => window.open(demoUrl, '_blank', 'noopener,noreferrer')} className="inline-flex items-center gap-2 mt-6 text-sm text-gray-400 hover:text-white transition-colors underline underline-offset-4">
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                      <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                      <polyline points="15 3 21 3 21 9" />
-                      <line x1="10" y1="14" x2="21" y2="3" />
-                    </svg>
-                    Try the Live Demo
-                  </button>
-                )}
+                <button
+                  onClick={() => {
+                    const url = project.demoUrl || project.demo_url
+                    if (url) {
+                      window.open(url, '_blank', 'noopener,noreferrer')
+                    } else {
+                      alert('No live demo URL has been saved for this project.')
+                    }
+                  }}
+                  className="inline-flex items-center gap-2 mt-6 text-sm text-gray-400 hover:text-white transition-colors underline underline-offset-4"
+                >
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                  Try the Live Demo
+                </button>
                 <button onClick={handleBackToProject} className="block mx-auto mt-4 text-xs text-gray-600 hover:text-gray-400 transition-colors">
                   ← Back to project
                 </button>
