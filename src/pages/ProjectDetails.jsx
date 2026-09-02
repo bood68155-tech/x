@@ -345,6 +345,16 @@ export default function ProjectDetails() {
                   </svg>
                   Live Demo / Preview
                 </button>
+                {(project.demoUrl || project.demo_url) && (
+                  <a
+                    href={project.demoUrl || project.demo_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs text-blue-400/80 hover:text-blue-300 underline underline-offset-2 break-all transition-colors"
+                  >
+                    {project.demoUrl || project.demo_url}
+                  </a>
+                )}
               </div>
             ) : orderSubmitted ? (
               /* Order Confirmation */
@@ -375,6 +385,16 @@ export default function ProjectDetails() {
                   </svg>
                   Try the Live Demo
                 </button>
+                {(project.demoUrl || project.demo_url) && (
+                  <a
+                    href={project.demoUrl || project.demo_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-center text-xs text-blue-400/80 hover:text-blue-300 underline underline-offset-2 break-all transition-colors"
+                  >
+                    {project.demoUrl || project.demo_url}
+                  </a>
+                )}
                 <button onClick={handleBackToProject} className="block mx-auto mt-4 text-xs text-gray-600 hover:text-gray-400 transition-colors">
                   ← Back to project
                 </button>
