@@ -115,9 +115,9 @@ export default function Store() {
 
                 {project.imageUrl ? (
                   <img src={project.imageUrl} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
-                ) : project.images.length > 0 ? (
-                  <img src={project.images[0]} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
-                ) : project.videoFile ? (
+                ) : project.gallery.length > 0 ? (
+                  <img src={project.gallery[0]} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
+                ) : project.videoUrl ? (
                   <div className="absolute inset-0 pt-12 flex items-center justify-center">
                     <svg className="w-12 h-12 text-white/30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   </div>
@@ -192,11 +192,11 @@ export default function Store() {
             </button>
             {selectedProduct.imageUrl ? (
               <img src={selectedProduct.imageUrl} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" onError={(e) => { e.target.style.display = 'none' }} />
-            ) : selectedProduct.images.length > 0 ? (
-              <img src={selectedProduct.images[0]} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" onError={(e) => { e.target.style.display = 'none' }} />
-            ) : selectedProduct.videoFile ? (
+            ) : selectedProduct.gallery.length > 0 ? (
+              <img src={selectedProduct.gallery[0]} alt={selectedProduct.title} className="w-full h-64 sm:h-80 object-cover rounded-t-2xl" onError={(e) => { e.target.style.display = 'none' }} />
+            ) : selectedProduct.videoUrl ? (
               <div className="relative w-full h-64 sm:h-80 rounded-t-2xl overflow-hidden bg-black flex items-center justify-center">
-                <video src={selectedProduct.videoFile} controls className="w-full h-full object-cover" />
+                <video src={selectedProduct.videoUrl} controls className="w-full h-full object-cover" />
               </div>
             ) : (
               <div className="relative w-full h-64 sm:h-80 rounded-t-2xl overflow-hidden">

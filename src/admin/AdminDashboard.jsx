@@ -3,10 +3,20 @@ import { useAuth } from './AuthContext'
 import { useProjects, CATEGORIES } from './ProjectsContext'
 import { supabase } from '../lib/supabaseClient'
 
-
 const STORAGE_BUCKET = 'projects'
 
-const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', price: '', videoFile: '', videoUrl: '', imageUrl: '', images: [], features: [], demoUrl: '' }
+const EMPTY_PROJECT = {
+  title: '',
+  category: 'Website',
+  description: '',
+  tag: '',
+  price: '',
+  imageUrl: '',
+  gallery: [],
+  videoUrl: '',
+  demoUrl: '',
+  features: [],
+}
 
 /** Tiny animated spinner SVG */
 function Spinner({ className = 'w-4 h-4' }) {
@@ -26,7 +36,6 @@ async function uploadToStorage(file, folder) {
   const ext = file.name.split('.').pop() || 'bin'
   const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
 
-  // Try uploading to the Storage bucket
   const { data, error } = await supabase.storage
     .from(STORAGE_BUCKET)
     .upload(fileName, file, { cacheControl: '31536000', upsert: false })
@@ -75,8 +84,12 @@ export default function AdminDashboard() {
   const [featureInput, setFeatureInput] = useState('')
 
   const handleEdit = (project) => {
-    setFormData({ ...project })
-    setVideoPreview(project.videoFile || project.videoUrl || null)
+    setFormData({
+      ...project,
+      gallery: project.gallery || [],
+      features: project.features || [],
+    })
+    setVideoPreview(project.videoUrl || null)
     setEditing(project.id)
     setFeatureInput('')
   }
@@ -132,15 +145,14 @@ export default function AdminDashboard() {
     try {
       const publicUrl = await uploadToStorage(file, 'videos')
       if (publicUrl) {
-        setFormData({ ...formData, videoUrl: publicUrl, videoFile: '' })
+        setFormData(prev => ({ ...prev, videoUrl: publicUrl }))
         setVideoPreview(publicUrl)
         showToast('success', 'Video uploaded successfully!')
       } else {
-        // Fallback: store as Base64 data URL (large — may hit row limits)
         const dataUrl = await fileToDataURL(file)
-        setFormData({ ...formData, videoFile: dataUrl })
+        setFormData(prev => ({ ...prev, videoUrl: dataUrl }))
         setVideoPreview(dataUrl)
-        showToast('error', 'Storage unavailable — video saved as Base64 (may be large). Create a "projects" bucket in Supabase Storage to fix.')
+        showToast('error', 'Storage unavailable — video saved as Base64. Create a "projects" bucket to fix.')
       }
     } catch (err) {
       console.error('Video upload error:', err)
@@ -151,7 +163,7 @@ export default function AdminDashboard() {
     }
   }
 
-  const handleImageUpload = async (e) => {
+  const handleGalleryUpload = async (e) => {
     const files = e.target.files
     if (!files || files.length === 0) return
     setUploading(true)
@@ -160,7 +172,7 @@ export default function AdminDashboard() {
       const newImages = []
       for (let i = 0; i < files.length; i++) {
         setUploadMessage(`Uploading image ${i + 1} of ${files.length}...`)
-        const publicUrl = await uploadToStorage(files[i], 'images')
+        const publicUrl = await uploadToStorage(files[i], 'gallery')
         if (publicUrl) {
           newImages.push(publicUrl)
         } else {
@@ -168,10 +180,10 @@ export default function AdminDashboard() {
           newImages.push(dataUrl)
         }
       }
-      setFormData({ ...formData, images: [...formData.images, ...newImages] })
+      setFormData(prev => ({ ...prev, gallery: [...prev.gallery, ...newImages] }))
       showToast('success', `${newImages.length} image(s) uploaded!`)
     } catch (err) {
-      console.error('Image upload error:', err)
+      console.error('Gallery upload error:', err)
       showToast('error', `Image upload failed: ${err.message}`)
     } finally {
       setUploading(false)
@@ -187,11 +199,11 @@ export default function AdminDashboard() {
     try {
       const publicUrl = await uploadToStorage(file, 'covers')
       if (publicUrl) {
-        setFormData({ ...formData, imageUrl: publicUrl })
+        setFormData(prev => ({ ...prev, imageUrl: publicUrl }))
         showToast('success', 'Cover image uploaded!')
       } else {
         const dataUrl = await fileToDataURL(file)
-        setFormData({ ...formData, imageUrl: dataUrl })
+        setFormData(prev => ({ ...prev, imageUrl: dataUrl }))
         showToast('error', 'Storage unavailable — cover saved as Base64. Create a "projects" bucket to fix.')
       }
     } catch (err) {
@@ -203,19 +215,19 @@ export default function AdminDashboard() {
     }
   }
 
-  const removeImage = (idx) => {
-    setFormData({ ...formData, images: formData.images.filter((_, i) => i !== idx) })
+  const removeGalleryImage = (idx) => {
+    setFormData(prev => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== idx) }))
   }
 
   const addFeature = () => {
     const val = featureInput.trim()
     if (!val) return
-    setFormData({ ...formData, features: [...formData.features, val] })
+    setFormData(prev => ({ ...prev, features: [...prev.features, val] }))
     setFeatureInput('')
   }
 
   const removeFeature = (idx) => {
-    setFormData({ ...formData, features: formData.features.filter((_, i) => i !== idx) })
+    setFormData(prev => ({ ...prev, features: prev.features.filter((_, i) => i !== idx) }))
   }
 
   const getCategoryLabel = (value) => {
@@ -294,7 +306,7 @@ export default function AdminDashboard() {
 
           <div className="space-y-6">
             {/* Title */}
-            <Field label="Project Title" value={formData.title} onChange={(v) => setFormData({ ...formData, title: v })} placeholder="Luxe Fashion" />
+            <Field label="Project Title" value={formData.title} onChange={(v) => setFormData(prev => ({ ...prev, title: v }))} placeholder="Luxe Fashion" />
 
             {/* Category Select */}
             <div>
@@ -302,7 +314,7 @@ export default function AdminDashboard() {
               <div className="relative">
                 <select
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
                   className="w-full appearance-none px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-white/30 transition-all cursor-pointer"
                 >
                   {CATEGORIES.map((cat) => (
@@ -318,17 +330,17 @@ export default function AdminDashboard() {
             </div>
 
             {/* Tag */}
-            <Field label="Tag" value={formData.tag} onChange={(v) => setFormData({ ...formData, tag: v })} placeholder="Shopify" />
+            <Field label="Tag" value={formData.tag} onChange={(v) => setFormData(prev => ({ ...prev, tag: v }))} placeholder="Shopify" />
 
             {/* Price */}
-            <Field label="Price (السعر)" value={formData.price} onChange={(v) => setFormData({ ...formData, price: v })} placeholder="$999" />
+            <Field label="Price (السعر)" value={formData.price} onChange={(v) => setFormData(prev => ({ ...prev, price: v }))} placeholder="$999" />
 
             {/* Description */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
               <textarea
                 value={formData.description}
-                onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="A brief description of the project..."
                 rows={3}
                 className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 resize-none transition-all"
@@ -382,7 +394,7 @@ export default function AdminDashboard() {
                   <div className="relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
                     <img src={formData.imageUrl} alt="Cover preview" className="w-full h-48 object-cover" />
                     <button
-                      onClick={() => setFormData({ ...formData, imageUrl: '' })}
+                      onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
                       className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -406,7 +418,7 @@ export default function AdminDashboard() {
                   <input
                     type="text"
                     value={formData.imageUrl}
-                    onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
+                    onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
                     placeholder="Or paste an image URL"
                     className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
                   />
@@ -422,13 +434,13 @@ export default function AdminDashboard() {
                 <input
                   type="text"
                   value={formData.videoUrl}
-                  onChange={(e) => { setFormData({ ...formData, videoUrl: e.target.value }); setVideoPreview(e.target.value || null) }}
+                  onChange={(e) => { setFormData(prev => ({ ...prev, videoUrl: e.target.value })); setVideoPreview(e.target.value || null) }}
                   placeholder="Paste video URL (YouTube, Vimeo, MP4 link, etc.)"
                   className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
                 />
                 {videoPreview && (
                   <div className="relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
-                    {videoPreview.startsWith('data:video') ? (
+                    {videoPreview.startsWith('data:video') || videoPreview.includes('.mp4') || videoPreview.includes('.webm') ? (
                       <video src={videoPreview} controls className="w-full h-48 object-cover" />
                     ) : (
                       <div className="flex items-center gap-3 px-4 py-3">
@@ -437,7 +449,7 @@ export default function AdminDashboard() {
                       </div>
                     )}
                     <button
-                      onClick={() => { setFormData({ ...formData, videoFile: '', videoUrl: '' }); setVideoPreview(null) }}
+                      onClick={() => { setFormData(prev => ({ ...prev, videoUrl: '' })); setVideoPreview(null) }}
                       className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -460,19 +472,19 @@ export default function AdminDashboard() {
             </div>
 
             {/* Live Demo URL */}
-            <Field label="Live Demo URL" value={formData.demoUrl} onChange={(v) => setFormData({ ...formData, demoUrl: v })} placeholder="https://example.com" />
+            <Field label="Live Demo URL" value={formData.demoUrl} onChange={(v) => setFormData(prev => ({ ...prev, demoUrl: v }))} placeholder="https://example.com" />
 
             {/* Image Gallery */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-2">Image Gallery</label>
               <div className="space-y-3">
-                {formData.images.length > 0 && (
+                {formData.gallery.length > 0 && (
                   <div className="grid grid-cols-3 gap-3">
-                    {formData.images.map((img, idx) => (
+                    {formData.gallery.map((img, idx) => (
                       <div key={idx} className="relative group rounded-xl overflow-hidden border border-white/10 aspect-square">
                         <img src={img} alt="" className="w-full h-full object-cover" />
                         <button
-                          onClick={() => removeImage(idx)}
+                          onClick={() => removeGalleryImage(idx)}
                           className="absolute top-2 right-2 p-1 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
                         >
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -491,7 +503,7 @@ export default function AdminDashboard() {
                   <span className="text-sm text-gray-500 group-hover:text-gray-400">
                     Upload images (multiple OK)
                   </span>
-                  <input type="file" accept="image/*" multiple onChange={handleImageUpload} className="hidden" />
+                  <input type="file" accept="image/*" multiple onChange={handleGalleryUpload} className="hidden" />
                 </label>
               </div>
             </div>
@@ -619,16 +631,16 @@ export default function AdminDashboard() {
               </div>
 
               <div className="col-span-2 flex items-center gap-2">
-                {(project.videoFile || project.videoUrl) && (
+                {project.videoUrl && (
                   <span className="inline-flex items-center gap-1 text-xs text-gray-500">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     Video
                   </span>
                 )}
-                {project.images.length > 0 && (
+                {project.gallery.length > 0 && (
                   <span className="inline-flex items-center gap-1 text-xs text-gray-500">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                    {project.images.length} imgs
+                    {project.gallery.length} imgs
                   </span>
                 )}
                 {project.features?.length > 0 && (
@@ -643,7 +655,7 @@ export default function AdminDashboard() {
                     Demo
                   </span>
                 )}
-                {!project.videoFile && !project.videoUrl && project.images.length === 0 && (!project.features || project.features.length === 0) && !project.demoUrl && (
+                {!project.videoUrl && project.gallery.length === 0 && (!project.features || project.features.length === 0) && !project.demoUrl && (
                   <span className="text-xs text-gray-600">—</span>
                 )}
               </div>

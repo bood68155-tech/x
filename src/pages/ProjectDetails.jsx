@@ -16,29 +16,26 @@ const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1547658719-da2b51169166?w=1200&q=80&auto=format&fit=crop',
 ]
 
+/*
+ * Canonical DB → React mapping (matches ProjectsContext.jsx):
+ *   row.image_url  → imageUrl
+ *   row.gallery    → gallery
+ *   row.video_url  → videoUrl
+ *   row.demo_url   → demoUrl
+ */
 function rowToProject(row) {
-  // Normalize video URL: try video_url, then video, then media
-  const videoUrl = row.video_url || row.video || row.media || ''
-  // Normalize demo URL: try demo_url, then live_demo_url, then demo
-  const demoUrl = row.demo_url || row.live_demo_url || row.demo || ''
-  // Normalize gallery: try gallery, then images, then image_gallery
-  const images = Array.isArray(row.images) ? row.images : []
-  const gallery = Array.isArray(row.gallery) ? row.gallery : Array.isArray(row.image_gallery) ? row.image_gallery : []
-
   return {
     id: row.id,
-    title: row.title,
-    category: row.category,
-    description: row.description,
-    tag: row.tag,
-    price: row.price,
-    videoFile: '',
-    videoUrl,
-    imageUrl: row.image_url || row.cover_image || '',
-    images,
-    gallery,
+    title: row.title ?? '',
+    category: row.category ?? 'Website',
+    description: row.description ?? '',
+    tag: row.tag ?? '',
+    price: row.price ?? '',
+    imageUrl: row.image_url ?? '',
+    gallery: Array.isArray(row.gallery) ? row.gallery : [],
+    videoUrl: row.video_url ?? '',
+    demoUrl: row.demo_url ?? '',
     features: Array.isArray(row.features) ? row.features : [],
-    demoUrl,
   }
 }
 
@@ -67,7 +64,6 @@ export default function ProjectDetails() {
   useEffect(() => {
     const fromCtx = projects.find(p => String(p.id) === String(id))
     if (fromCtx && fromCtx.title) {
-      console.log('Project Data (from context):', fromCtx)
       setProject(fromCtx)
       setLoading(false)
       return
@@ -85,7 +81,6 @@ export default function ProjectDetails() {
         return
       }
 
-      console.log('Project Data (from DB):', data)
       setProject(rowToProject(data))
       setLoading(false)
     }
@@ -132,8 +127,6 @@ export default function ProjectDetails() {
         customer_name: orderForm.name,
         customer_email: orderForm.email,
         customer_phone: orderForm.phone,
-      }).then(() => {}).catch(() => {
-        // Orders table may not exist yet — that's OK
       })
     } catch (_) { /* silent */ }
 
@@ -149,39 +142,35 @@ export default function ProjectDetails() {
     setOrderSubmitted(false)
   }
 
-  // Build a unified gallery: cover image + gallery array + images array (deduplicated)
+  // Build unified media list from canonical fields
   const gallerySet = new Set()
   const allMedia = []
+
   // Cover image first
   if (project.imageUrl) {
     allMedia.push({ type: 'image', src: project.imageUrl })
     gallerySet.add(project.imageUrl)
   }
-  // Gallery column images
+
+  // Gallery images
   for (const src of (project.gallery || [])) {
     if (src && !gallerySet.has(src)) {
       allMedia.push({ type: 'image', src })
       gallerySet.add(src)
     }
   }
-  // Legacy images array
-  for (const src of project.images) {
-    if (src && !gallerySet.has(src)) {
-      allMedia.push({ type: 'image', src })
-      gallerySet.add(src)
-    }
-  }
-  // Video: check multiple possible field names
-  const videoUrl = project.videoUrl || project.video || project.media || project.video_url || ''
-  const hasVideo = !!(videoUrl)
-  console.log('Video URL resolved:', videoUrl, '| hasVideo:', hasVideo)
+
+  // Video (canonical field)
+  const videoUrl = project.videoUrl || ''
+  const hasVideo = !!videoUrl
   if (hasVideo) {
     allMedia.push({ type: 'video', src: videoUrl })
   }
-  // Demo: check multiple possible field names
-  const demoUrl = project.demoUrl || project.live_demo_url || project.demo || project.demo_url || ''
-  const hasDemo = !!(demoUrl)
-  console.log('Demo URL resolved:', demoUrl, '| hasDemo:', hasDemo)
+
+  // Demo URL (canonical field)
+  const demoUrl = project.demoUrl || ''
+  const hasDemo = !!demoUrl
+
   const numericTotal = parsePrice(project.price)
 
   return (
@@ -207,7 +196,6 @@ export default function ProjectDetails() {
             <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
               {allMedia.length > 0 ? (
                 allMedia[activeImage]?.type === 'video' ? (
-                  /* Inline HTML5 Video Player */
                   <video
                     src={allMedia[activeImage].src}
                     controls
@@ -271,9 +259,11 @@ export default function ProjectDetails() {
           <div className="flex flex-col">
             {/* Tags */}
             <div className="flex items-center gap-2 mb-4">
-              <span className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-white/[0.06] text-gray-400 border border-white/[0.08] ${ar ? 'tracking-normal normal-case' : ''}`}>
-                {project.tag}
-              </span>
+              {project.tag && (
+                <span className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-white/[0.06] text-gray-400 border border-white/[0.08] ${ar ? 'tracking-normal normal-case' : ''}`}>
+                  {project.tag}
+                </span>
+              )}
               <span className={`text-xs font-semibold uppercase tracking-wider px-3 py-1 rounded-full bg-white/[0.06] text-gray-400 border border-white/[0.08] ${ar ? 'tracking-normal normal-case' : ''}`}>
                 {project.category}
               </span>

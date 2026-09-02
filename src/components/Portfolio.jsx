@@ -92,14 +92,14 @@ export default function Portfolio() {
                     className="absolute inset-0 pt-12 w-full h-full object-cover"
                     onError={(e) => { e.target.style.display = 'none' }}
                   />
-                ) : project.images.length > 0 ? (
+                ) : project.gallery.length > 0 ? (
                   <img
-                    src={project.images[0]}
+                    src={project.gallery[0]}
                     alt={project.title}
                     className="absolute inset-0 pt-12 w-full h-full object-cover"
                     onError={(e) => { e.target.style.display = 'none' }}
                   />
-                ) : project.videoFile ? (
+                ) : project.videoUrl ? (
                   <div className="absolute inset-0 pt-12 flex items-center justify-center">
                     <svg className="w-12 h-12 text-white/30" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M8 5v14l11-7z"/>

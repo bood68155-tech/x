@@ -9,55 +9,47 @@ const CATEGORIES = [
 
 const ProjectsContext = createContext(null)
 
-/** Map a Supabase row (snake_case) to the app's camelCase shape */
-function rowToProject(row) {
-  // Normalize video URL: try video_url, then video, then media
-  const videoUrl = row.video_url || row.video || row.media || ''
-  // Normalize demo URL: try demo_url, then live_demo_url, then demo
-  const demoUrl = row.demo_url || row.live_demo_url || row.demo || ''
-  // Normalize gallery: try gallery, then images, then image_gallery
-  const images = Array.isArray(row.images) ? row.images : []
-  const gallery = Array.isArray(row.gallery) ? row.gallery : Array.isArray(row.image_gallery) ? row.image_gallery : []
+/*
+ * Canonical DB columns (snake_case):
+ *   id, title, description, price, category, tag,
+ *   features (JSONB), image_url, gallery (JSONB),
+ *   video_url, demo_url, created_at, updated_at
+ *
+ * Canonical React state fields (camelCase):
+ *   id, title, description, price, category, tag,
+ *   features, imageUrl, gallery, videoUrl, demoUrl
+ */
 
+/** Map a Supabase row → React project object */
+function rowToProject(row) {
   return {
     id: row.id,
-    title: row.title,
-    category: row.category,
-    description: row.description,
-    tag: row.tag,
-    price: row.price,
-    videoFile: '',
-    videoUrl,
-    imageUrl: row.image_url || row.cover_image || '',
-    images,
-    gallery,
+    title: row.title ?? '',
+    category: row.category ?? 'Website',
+    description: row.description ?? '',
+    tag: row.tag ?? '',
+    price: row.price ?? '',
+    imageUrl: row.image_url ?? '',
+    gallery: Array.isArray(row.gallery) ? row.gallery : [],
+    videoUrl: row.video_url ?? '',
+    demoUrl: row.demo_url ?? '',
     features: Array.isArray(row.features) ? row.features : [],
-    demoUrl,
   }
 }
 
-/** Map the app's project object to a Supabase-ready row (snake_case) */
+/** Map a React project object → Supabase-ready row */
 function projectToRow(project) {
-  const videoUrl = project.videoUrl || ''
-  const demoUrl = project.demoUrl || ''
   return {
-    title: project.title || '',
-    category: project.category || 'Website',
-    description: project.description || '',
-    tag: project.tag || '',
-    price: project.price || '',
-    // Dual-write video to all possible column names
-    video_url: videoUrl,
-    video: videoUrl,
-    media: videoUrl,
-    image_url: project.imageUrl || '',
-    // Dual-write demo to all possible column names
-    demo_url: demoUrl,
-    live_demo_url: demoUrl,
-    demo: demoUrl,
-    features: project.features || [],
-    images: project.images || [],
-    gallery: project.gallery || [],
+    title: project.title ?? '',
+    category: project.category ?? 'Website',
+    description: project.description ?? '',
+    tag: project.tag ?? '',
+    price: project.price ?? '',
+    features: project.features ?? [],
+    image_url: project.imageUrl ?? '',
+    gallery: project.gallery ?? [],
+    video_url: project.videoUrl ?? '',
+    demo_url: project.demoUrl ?? '',
   }
 }
 
@@ -65,7 +57,6 @@ export function ProjectsProvider({ children }) {
   const [projects, setProjects] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Fetch all projects from Supabase on mount
   const fetchProjects = useCallback(async () => {
     try {
       const { data, error } = await supabase
