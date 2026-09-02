@@ -1,16 +1,10 @@
 import { useState } from 'react'
 import { useAuth } from './AuthContext'
 import { useProjects, CATEGORIES } from './ProjectsContext'
+import { supabase } from '../lib/supabaseClient'
 
 
-function fileToDataURL(file) {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(reader.result)
-    reader.onerror = reject
-    reader.readAsDataURL(file)
-  })
-}
+const STORAGE_BUCKET = 'projects'
 
 const EMPTY_PROJECT = { title: '', category: 'Website', description: '', tag: '', price: '', videoFile: '', videoUrl: '', imageUrl: '', images: [], features: [], demoUrl: '' }
 
@@ -24,6 +18,40 @@ function Spinner({ className = 'w-4 h-4' }) {
   )
 }
 
+/**
+ * Upload a File to Supabase Storage under a given folder.
+ * Returns the public URL on success, or null on failure.
+ */
+async function uploadToStorage(file, folder) {
+  const ext = file.name.split('.').pop() || 'bin'
+  const fileName = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`
+
+  // Try uploading to the Storage bucket
+  const { data, error } = await supabase.storage
+    .from(STORAGE_BUCKET)
+    .upload(fileName, file, { cacheControl: '31536000', upsert: false })
+
+  if (error) {
+    console.warn('Storage upload failed, falling back to Base64:', error.message)
+    return null
+  }
+
+  const { data: urlData } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(data.path)
+  return urlData?.publicUrl || null
+}
+
+/**
+ * Convert a file to a Base64 data URL (fallback when Storage is unavailable).
+ */
+function fileToDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+    reader.onload = () => resolve(reader.result)
+    reader.onerror = reject
+    reader.readAsDataURL(file)
+  })
+}
+
 export default function AdminDashboard() {
   const { logout } = useAuth()
   const { projects, addProject, updateProject, deleteProject, refetchProjects } = useProjects()
@@ -33,6 +61,8 @@ export default function AdminDashboard() {
   const [saving, setSaving] = useState(false)
   const [videoPreview, setVideoPreview] = useState(null)
   const [filterCategory, setFilterCategory] = useState('All')
+  const [uploading, setUploading] = useState(false)
+  const [uploadMessage, setUploadMessage] = useState('')
 
   // Toast / feedback state
   const [toast, setToast] = useState(null) // { type: 'success' | 'error', message: string }
@@ -97,27 +127,80 @@ export default function AdminDashboard() {
   const handleVideoUpload = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const dataUrl = await fileToDataURL(file)
-    setFormData({ ...formData, videoFile: dataUrl })
-    setVideoPreview(dataUrl)
+    setUploading(true)
+    setUploadMessage('Uploading video to storage...')
+    try {
+      const publicUrl = await uploadToStorage(file, 'videos')
+      if (publicUrl) {
+        setFormData({ ...formData, videoUrl: publicUrl, videoFile: '' })
+        setVideoPreview(publicUrl)
+        showToast('success', 'Video uploaded successfully!')
+      } else {
+        // Fallback: store as Base64 data URL (large — may hit row limits)
+        const dataUrl = await fileToDataURL(file)
+        setFormData({ ...formData, videoFile: dataUrl })
+        setVideoPreview(dataUrl)
+        showToast('error', 'Storage unavailable — video saved as Base64 (may be large). Create a "projects" bucket in Supabase Storage to fix.')
+      }
+    } catch (err) {
+      console.error('Video upload error:', err)
+      showToast('error', `Video upload failed: ${err.message}`)
+    } finally {
+      setUploading(false)
+      setUploadMessage('')
+    }
   }
 
   const handleImageUpload = async (e) => {
     const files = e.target.files
     if (!files || files.length === 0) return
-    const newImages = []
-    for (const file of files) {
-      const dataUrl = await fileToDataURL(file)
-      newImages.push(dataUrl)
+    setUploading(true)
+    setUploadMessage(`Uploading ${files.length} image(s)...`)
+    try {
+      const newImages = []
+      for (let i = 0; i < files.length; i++) {
+        setUploadMessage(`Uploading image ${i + 1} of ${files.length}...`)
+        const publicUrl = await uploadToStorage(files[i], 'images')
+        if (publicUrl) {
+          newImages.push(publicUrl)
+        } else {
+          const dataUrl = await fileToDataURL(files[i])
+          newImages.push(dataUrl)
+        }
+      }
+      setFormData({ ...formData, images: [...formData.images, ...newImages] })
+      showToast('success', `${newImages.length} image(s) uploaded!`)
+    } catch (err) {
+      console.error('Image upload error:', err)
+      showToast('error', `Image upload failed: ${err.message}`)
+    } finally {
+      setUploading(false)
+      setUploadMessage('')
     }
-    setFormData({ ...formData, images: [...formData.images, ...newImages] })
   }
 
   const handleCoverImageUpload = async (e) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const dataUrl = await fileToDataURL(file)
-    setFormData({ ...formData, imageUrl: dataUrl })
+    setUploading(true)
+    setUploadMessage('Uploading cover image...')
+    try {
+      const publicUrl = await uploadToStorage(file, 'covers')
+      if (publicUrl) {
+        setFormData({ ...formData, imageUrl: publicUrl })
+        showToast('success', 'Cover image uploaded!')
+      } else {
+        const dataUrl = await fileToDataURL(file)
+        setFormData({ ...formData, imageUrl: dataUrl })
+        showToast('error', 'Storage unavailable — cover saved as Base64. Create a "projects" bucket to fix.')
+      }
+    } catch (err) {
+      console.error('Cover upload error:', err)
+      showToast('error', `Cover upload failed: ${err.message}`)
+    } finally {
+      setUploading(false)
+      setUploadMessage('')
+    }
   }
 
   const removeImage = (idx) => {
@@ -162,7 +245,7 @@ export default function AdminDashboard() {
             <div className="flex items-center gap-3">
               <button
                 onClick={handleSave}
-                disabled={!formData.title.trim() || saving}
+                disabled={!formData.title.trim() || saving || uploading}
                 className="flex items-center gap-2 px-5 py-2 bg-white text-black text-sm font-semibold rounded-lg hover:bg-gray-200 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 {saving && <Spinner className="w-4 h-4" />}
@@ -171,6 +254,16 @@ export default function AdminDashboard() {
             </div>
           </div>
         </header>
+
+        {/* Upload progress indicator */}
+        {uploading && (
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 -mt-4 mb-4">
+            <div className="flex items-center gap-3 px-4 py-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+              <Spinner className="w-4 h-4 text-blue-400" />
+              <span className="text-sm text-blue-400 font-medium">{uploadMessage}</span>
+            </div>
+          </div>
+        )}
 
         {/* Toast notification */}
         {toast && (
