@@ -17,6 +17,14 @@ const FALLBACK_IMAGES = [
 ]
 
 function rowToProject(row) {
+  // Normalize video URL: try video_url, then video, then media
+  const videoUrl = row.video_url || row.video || row.media || ''
+  // Normalize demo URL: try demo_url, then live_demo_url, then demo
+  const demoUrl = row.demo_url || row.live_demo_url || row.demo || ''
+  // Normalize gallery: try gallery, then images, then image_gallery
+  const images = Array.isArray(row.images) ? row.images : []
+  const gallery = Array.isArray(row.gallery) ? row.gallery : Array.isArray(row.image_gallery) ? row.image_gallery : []
+
   return {
     id: row.id,
     title: row.title,
@@ -25,12 +33,12 @@ function rowToProject(row) {
     tag: row.tag,
     price: row.price,
     videoFile: '',
-    videoUrl: row.video_url || '',
-    imageUrl: row.image_url || '',
-    images: Array.isArray(row.images) ? row.images : [],
-    gallery: Array.isArray(row.gallery) ? row.gallery : [],
+    videoUrl,
+    imageUrl: row.image_url || row.cover_image || '',
+    images,
+    gallery,
     features: Array.isArray(row.features) ? row.features : [],
-    demoUrl: row.demo_url || '',
+    demoUrl,
   }
 }
 
@@ -161,12 +169,15 @@ export default function ProjectDetails() {
       gallerySet.add(src)
     }
   }
-  // Video entry
-  const hasVideo = !!(project.videoUrl)
+  // Video: check multiple possible field names
+  const videoUrl = project.videoUrl || project.video || project.media || project.video_url || ''
+  const hasVideo = !!(videoUrl)
   if (hasVideo) {
-    allMedia.push({ type: 'video', src: project.videoUrl })
+    allMedia.push({ type: 'video', src: videoUrl })
   }
-  const hasDemo = !!(project.demoUrl)
+  // Demo: check multiple possible field names
+  const demoUrl = project.demoUrl || project.live_demo_url || project.demo || project.demo_url || ''
+  const hasDemo = !!(demoUrl)
   const numericTotal = parsePrice(project.price)
 
   return (
@@ -198,7 +209,7 @@ export default function ProjectDetails() {
                     controls
                     playsInline
                     className="w-full h-full object-cover"
-                    poster={project.imageUrl || ''}
+                    poster={project.imageUrl || FALLBACK_IMAGES[0]}
                   />
                 ) : allMedia[activeImage]?.type === 'image' ? (
                   <img
@@ -245,7 +256,7 @@ export default function ProjectDetails() {
 
             {/* Quick Video Link (when video is NOT currently selected in thumbnails) */}
             {hasVideo && allMedia[activeImage]?.type !== 'video' && (
-              <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-4 text-sm text-gray-400 hover:text-white transition-colors">
+              <a href={videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-4 text-sm text-gray-400 hover:text-white transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                 Watch Project Video
               </a>
@@ -323,10 +334,8 @@ export default function ProjectDetails() {
                   {project.price ? `Buy Now — ${project.price}` : 'Order Now'}
                 </button>
                 {hasDemo && (
-                  <a
-                    href={project.demoUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button
+                    onClick={() => window.open(demoUrl, '_blank', 'noopener,noreferrer')}
                     className="w-full px-6 py-4 bg-transparent text-white text-sm font-semibold rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/30 transition-all duration-300 uppercase tracking-wider text-center flex items-center justify-center gap-2"
                   >
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -335,7 +344,7 @@ export default function ProjectDetails() {
                       <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
                     Live Demo / Preview
-                  </a>
+                  </button>
                 )}
               </div>
             ) : orderSubmitted ? (
@@ -350,14 +359,14 @@ export default function ProjectDetails() {
                 <p className="text-gray-400 text-sm mb-1">Thank you, <span className="text-white font-medium">{orderForm.name}</span></p>
                 <p className="text-gray-500 text-xs">We'll contact you at <span className="text-gray-300">{orderForm.email}</span> shortly.</p>
                 {hasDemo && (
-                  <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-6 text-sm text-gray-400 hover:text-white transition-colors underline underline-offset-4">
+                  <button onClick={() => window.open(demoUrl, '_blank', 'noopener,noreferrer')} className="inline-flex items-center gap-2 mt-6 text-sm text-gray-400 hover:text-white transition-colors underline underline-offset-4">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
                       <polyline points="15 3 21 3 21 9" />
                       <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
                     Try the Live Demo
-                  </a>
+                  </button>
                 )}
                 <button onClick={handleBackToProject} className="block mx-auto mt-4 text-xs text-gray-600 hover:text-gray-400 transition-colors">
                   ← Back to project

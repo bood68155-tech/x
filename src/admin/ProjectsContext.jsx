@@ -11,6 +11,14 @@ const ProjectsContext = createContext(null)
 
 /** Map a Supabase row (snake_case) to the app's camelCase shape */
 function rowToProject(row) {
+  // Normalize video URL: try video_url, then video, then media
+  const videoUrl = row.video_url || row.video || row.media || ''
+  // Normalize demo URL: try demo_url, then live_demo_url, then demo
+  const demoUrl = row.demo_url || row.live_demo_url || row.demo || ''
+  // Normalize gallery: try gallery, then images, then image_gallery
+  const images = Array.isArray(row.images) ? row.images : []
+  const gallery = Array.isArray(row.gallery) ? row.gallery : Array.isArray(row.image_gallery) ? row.image_gallery : []
+
   return {
     id: row.id,
     title: row.title,
@@ -19,12 +27,12 @@ function rowToProject(row) {
     tag: row.tag,
     price: row.price,
     videoFile: '',
-    videoUrl: row.video_url || '',
-    imageUrl: row.image_url || '',
-    images: Array.isArray(row.images) ? row.images : [],
-    gallery: Array.isArray(row.gallery) ? row.gallery : [],
+    videoUrl,
+    imageUrl: row.image_url || row.cover_image || '',
+    images,
+    gallery,
     features: Array.isArray(row.features) ? row.features : [],
-    demoUrl: row.demo_url || '',
+    demoUrl,
   }
 }
 
