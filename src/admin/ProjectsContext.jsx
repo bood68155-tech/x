@@ -38,15 +38,23 @@ function rowToProject(row) {
 
 /** Map the app's project object to a Supabase-ready row (snake_case) */
 function projectToRow(project) {
+  const videoUrl = project.videoUrl || ''
+  const demoUrl = project.demoUrl || ''
   return {
     title: project.title || '',
     category: project.category || 'Website',
     description: project.description || '',
     tag: project.tag || '',
     price: project.price || '',
-    video_url: project.videoUrl || '',
+    // Dual-write video to all possible column names
+    video_url: videoUrl,
+    video: videoUrl,
+    media: videoUrl,
     image_url: project.imageUrl || '',
-    demo_url: project.demoUrl || '',
+    // Dual-write demo to all possible column names
+    demo_url: demoUrl,
+    live_demo_url: demoUrl,
+    demo: demoUrl,
     features: project.features || [],
     images: project.images || [],
     gallery: project.gallery || [],

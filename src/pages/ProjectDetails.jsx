@@ -67,6 +67,7 @@ export default function ProjectDetails() {
   useEffect(() => {
     const fromCtx = projects.find(p => String(p.id) === String(id))
     if (fromCtx && fromCtx.title) {
+      console.log('Project Data (from context):', fromCtx)
       setProject(fromCtx)
       setLoading(false)
       return
@@ -84,6 +85,7 @@ export default function ProjectDetails() {
         return
       }
 
+      console.log('Project Data (from DB):', data)
       setProject(rowToProject(data))
       setLoading(false)
     }
@@ -172,12 +174,14 @@ export default function ProjectDetails() {
   // Video: check multiple possible field names
   const videoUrl = project.videoUrl || project.video || project.media || project.video_url || ''
   const hasVideo = !!(videoUrl)
+  console.log('Video URL resolved:', videoUrl, '| hasVideo:', hasVideo)
   if (hasVideo) {
     allMedia.push({ type: 'video', src: videoUrl })
   }
   // Demo: check multiple possible field names
   const demoUrl = project.demoUrl || project.live_demo_url || project.demo || project.demo_url || ''
   const hasDemo = !!(demoUrl)
+  console.log('Demo URL resolved:', demoUrl, '| hasDemo:', hasDemo)
   const numericTotal = parsePrice(project.price)
 
   return (

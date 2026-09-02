@@ -321,10 +321,18 @@ export default function AdminDashboard() {
               </div>
             </div>
 
-            {/* Video Upload */}
+            {/* Video URL + Upload */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-2">Project Video</label>
               <div className="space-y-3">
+                {/* Video URL text input */}
+                <input
+                  type="text"
+                  value={formData.videoUrl}
+                  onChange={(e) => { setFormData({ ...formData, videoUrl: e.target.value }); setVideoPreview(e.target.value || null) }}
+                  placeholder="Paste video URL (YouTube, Vimeo, MP4 link, etc.)"
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
+                />
                 {videoPreview && (
                   <div className="relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
                     {videoPreview.startsWith('data:video') ? (
