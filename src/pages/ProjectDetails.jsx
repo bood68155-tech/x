@@ -28,6 +28,7 @@ function rowToProject(row) {
     videoUrl: row.video_url || '',
     imageUrl: row.image_url || '',
     images: Array.isArray(row.images) ? row.images : [],
+    gallery: Array.isArray(row.gallery) ? row.gallery : [],
     features: Array.isArray(row.features) ? row.features : [],
     demoUrl: row.demo_url || '',
   }
@@ -138,8 +139,33 @@ export default function ProjectDetails() {
     setOrderSubmitted(false)
   }
 
-  const allImages = project.images.length > 0 ? project.images : []
+  // Build a unified gallery: cover image + gallery array + images array (deduplicated)
+  const gallerySet = new Set()
+  const allMedia = []
+  // Cover image first
+  if (project.imageUrl) {
+    allMedia.push({ type: 'image', src: project.imageUrl })
+    gallerySet.add(project.imageUrl)
+  }
+  // Gallery column images
+  for (const src of (project.gallery || [])) {
+    if (src && !gallerySet.has(src)) {
+      allMedia.push({ type: 'image', src })
+      gallerySet.add(src)
+    }
+  }
+  // Legacy images array
+  for (const src of project.images) {
+    if (src && !gallerySet.has(src)) {
+      allMedia.push({ type: 'image', src })
+      gallerySet.add(src)
+    }
+  }
+  // Video entry
   const hasVideo = !!(project.videoUrl)
+  if (hasVideo) {
+    allMedia.push({ type: 'video', src: project.videoUrl })
+  }
   const hasDemo = !!(project.demoUrl)
   const numericTotal = parsePrice(project.price)
 
@@ -160,21 +186,28 @@ export default function ProjectDetails() {
         </nav>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16">
-          {/* ====== LEFT: Image Gallery ====== */}
+          {/* ====== LEFT: Media Gallery ====== */}
           <div>
-            {/* Main Image */}
+            {/* Main Media Preview */}
             <div className="relative rounded-2xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
-              {project.imageUrl ? (
-                <img src={project.imageUrl} alt={project.title} className="w-full h-full object-cover transition-opacity duration-300" onError={(e) => { e.target.style.display = 'none' }} />
-              ) : allImages.length > 0 ? (
-                <img src={allImages[activeImage]} alt={`${project.title} - ${activeImage + 1}`} className="w-full h-full object-cover transition-opacity duration-300" onError={(e) => { e.target.style.display = 'none' }} />
-              ) : hasVideo ? (
-                <div className="w-full h-full flex items-center justify-center">
-                  <div className="text-center">
-                    <svg className="w-16 h-16 text-white/30 mx-auto mb-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                    <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="text-sm text-gray-400 hover:text-white transition-colors underline underline-offset-4">Watch Video</a>
-                  </div>
-                </div>
+              {allMedia.length > 0 ? (
+                allMedia[activeImage]?.type === 'video' ? (
+                  /* Inline HTML5 Video Player */
+                  <video
+                    src={allMedia[activeImage].src}
+                    controls
+                    playsInline
+                    className="w-full h-full object-cover"
+                    poster={project.imageUrl || ''}
+                  />
+                ) : allMedia[activeImage]?.type === 'image' ? (
+                  <img
+                    src={allMedia[activeImage].src}
+                    alt={`${project.title} - ${activeImage + 1}`}
+                    className="w-full h-full object-cover transition-opacity duration-300"
+                    onError={(e) => { e.target.style.display = 'none' }}
+                  />
+                ) : null
               ) : (
                 <img src={FALLBACK_IMAGES[0]} alt="" className="w-full h-full object-cover opacity-40" loading="lazy" />
               )}
@@ -188,9 +221,9 @@ export default function ProjectDetails() {
             </div>
 
             {/* Thumbnail Strip */}
-            {allImages.length > 1 && (
+            {allMedia.length > 1 && (
               <div className="flex gap-3 mt-4 overflow-x-auto pb-2">
-                {allImages.map((img, idx) => (
+                {allMedia.map((media, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImage(idx)}
@@ -198,14 +231,20 @@ export default function ProjectDetails() {
                       activeImage === idx ? 'border-white scale-105' : 'border-white/10 hover:border-white/30 opacity-60 hover:opacity-100'
                     }`}
                   >
-                    <img src={img} alt="" className="w-full h-full object-cover" />
+                    {media.type === 'video' ? (
+                      <div className="w-full h-full bg-gray-800 flex items-center justify-center">
+                        <svg className="w-6 h-6 text-white/60" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                      </div>
+                    ) : (
+                      <img src={media.src} alt="" className="w-full h-full object-cover" />
+                    )}
                   </button>
                 ))}
               </div>
             )}
 
-            {/* Video Link */}
-            {hasVideo && (
+            {/* Quick Video Link (when video is NOT currently selected in thumbnails) */}
+            {hasVideo && allMedia[activeImage]?.type !== 'video' && (
               <a href={project.videoUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 mt-4 text-sm text-gray-400 hover:text-white transition-colors">
                 <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                 Watch Project Video

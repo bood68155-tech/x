@@ -22,6 +22,7 @@ function rowToProject(row) {
     videoUrl: row.video_url || '',
     imageUrl: row.image_url || '',
     images: Array.isArray(row.images) ? row.images : [],
+    gallery: Array.isArray(row.gallery) ? row.gallery : [],
     features: Array.isArray(row.features) ? row.features : [],
     demoUrl: row.demo_url || '',
   }
@@ -40,7 +41,7 @@ function projectToRow(project) {
     demo_url: project.demoUrl || '',
     features: project.features || [],
     images: project.images || [],
-    features: project.features || [],
+    gallery: project.gallery || [],
   }
 }
 
