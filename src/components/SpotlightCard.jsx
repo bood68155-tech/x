@@ -1,17 +1,11 @@
 import { useRef, useState, useCallback } from 'react'
 
-/**
- * SpotlightCard – a bento-style card that renders a subtle radial gradient
- * spotlight following the user's cursor.  Uses CSS custom properties
- * --mouse-x / --mouse-y so the gradient can be defined purely in Tailwind /
- * inline styles, keeping the component tree lightweight.
- */
 export default function SpotlightCard({
   children,
   className = '',
   spotlightSize = 600,
   spotlightOpacity = 0.06,
-  spotlightColor = '179, 143, 111', // Warm Sand RGB
+  spotlightColor = '194, 155, 127', // Sand RGB
   ...rest
 }) {
   const ref = useRef(null)
@@ -40,7 +34,6 @@ export default function SpotlightCard({
       }}
       {...rest}
     >
-      {/* Spotlight gradient layer — Warm Sand glow */}
       <div
         className="pointer-events-none absolute inset-0 z-0 transition-opacity duration-300"
         style={{
@@ -48,7 +41,6 @@ export default function SpotlightCard({
           background: `radial-gradient(${spotlightSize}px circle at var(--mouse-x) var(--mouse-y), rgba(${spotlightColor},${spotlightOpacity}), transparent 40%)`,
         }}
       />
-      {/* Content sits above the spotlight */}
       <div className="relative z-10">{children}</div>
     </div>
   )

@@ -160,7 +160,7 @@ const BRAND_DATA = {
     ),
   },
   GitHub: {
-    color: '#B38F6F',
+    color: '#c29b7f',
     glow: '0 0 30px rgba(179,143,111,0.3), 0 0 60px rgba(179,143,111,0.1)',
     glowHover: '0 0 40px rgba(179,143,111,0.5), 0 0 80px rgba(179,143,111,0.2)',
     svg: (
@@ -170,7 +170,7 @@ const BRAND_DATA = {
     ),
   },
   Vercel: {
-    color: '#B38F6F',
+    color: '#c29b7f',
     glow: '0 0 30px rgba(179,143,111,0.3), 0 0 60px rgba(179,143,111,0.1)',
     glowHover: '0 0 40px rgba(179,143,111,0.5), 0 0 80px rgba(179,143,111,0.2)',
     svg: (
