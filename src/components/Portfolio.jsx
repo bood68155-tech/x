@@ -91,9 +91,9 @@ export default function Portfolio() {
     <section id="projects" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
       {/* Ambient background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-        <div className="animate-blob-1 absolute top-[10%] -left-20 w-[500px] h-[500px] rounded-full bg-blue-500/[0.025] blur-[120px]" />
-        <div className="animate-blob-2 absolute top-[50%] -right-32 w-[450px] h-[450px] rounded-full bg-purple-500/[0.025] blur-[110px]" />
-        <div className="animate-blob-3 absolute bottom-[5%] left-[30%] w-[400px] h-[400px] rounded-full bg-red-500/[0.02] blur-[100px]" />
+        <div className="animate-blob-1 absolute top-[10%] -left-20 w-[500px] h-[500px] rounded-full bg-[#710014]/[0.04] blur-[120px]" />
+        <div className="animate-blob-2 absolute top-[50%] -right-32 w-[450px] h-[450px] rounded-full bg-[#B38F6F]/[0.03] blur-[110px]" />
+        <div className="animate-blob-3 absolute bottom-[5%] left-[30%] w-[400px] h-[400px] rounded-full bg-[#710014]/[0.04] blur-[100px]" />
       </div>
 
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
@@ -101,13 +101,13 @@ export default function Portfolio() {
       <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
-          <span className={`inline-block text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4 ${ar ? 'tracking-normal' : ''}`}>
+          <span className={`inline-block text-xs font-semibold uppercase tracking-[0.3em] text-[#B38F6F]/70 mb-4 ${ar ? 'tracking-normal' : ''}`}>
             {t('portLabel')}
           </span>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight ${fontClass}`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold text-[#F2F1ED] tracking-tight ${fontClass}`}>
             {t('portTitle')}
           </h2>
-          <p className={`mt-4 text-gray-400 max-w-xl mx-auto text-base sm:text-lg font-light ${fontClass}`}>
+          <p className={`mt-4 text-[#B38F6F] max-w-xl mx-auto text-base sm:text-lg font-light ${fontClass}`}>
             {t('portSub')}
           </p>
         </div>
@@ -120,8 +120,8 @@ export default function Portfolio() {
               onClick={() => setActiveCategory(tab.value)}
               className={`px-4 py-2 text-xs font-medium rounded-full border transition-all duration-300 ${
                 activeCategory === tab.value
-                  ? 'bg-white text-black border-white'
-                  : 'bg-transparent text-gray-500 border-white/10 hover:text-white hover:border-white/30'
+                  ? 'bg-[#710014] text-[#F2F1ED] border-[#B38F6F]'
+                  : 'bg-transparent text-[#B38F6F]/70 border-[#B38F6F]/15 hover:text-[#F2F1ED] hover:border-[#B38F6F]/30'
               } ${fontClass} ${ar ? 'text-sm' : ''}`}
             >
               {ar ? tab.ar : tab.en}
@@ -141,11 +141,11 @@ export default function Portfolio() {
             >
               {/* Cover */}
               <div className={`relative h-52 sm:h-56 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} overflow-hidden`}>
-                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-black/30 flex items-center gap-1.5 px-2 z-10">
+                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#161616]/30 flex items-center gap-1.5 px-2 z-10">
                   <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
-                  <div className="flex-1 h-3 rounded-sm bg-white/5 ml-2" />
+                  <div className="flex-1 h-3 rounded-sm bg-[#B38F6F]/5 ml-2" />
                 </div>
 
                 {project.imageUrl ? (
@@ -154,7 +154,7 @@ export default function Portfolio() {
                   <img src={project.gallery[0]} alt={project.title} className="absolute inset-0 pt-12 w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none' }} />
                 ) : project.videoUrl ? (
                   <div className="absolute inset-0 pt-12 flex items-center justify-center">
-                    <svg className="w-12 h-12 text-white/30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    <svg className="w-12 h-12 text-[#F2F1ED]/30" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                   </div>
                 ) : (
                   <img src={FALLBACK_IMAGES[i % FALLBACK_IMAGES.length]} alt="" className="absolute inset-0 pt-12 w-full h-full object-cover opacity-40" loading="lazy" />
@@ -162,14 +162,14 @@ export default function Portfolio() {
 
                 {/* Category Badge */}
                 <div className="absolute top-14 right-3 z-10">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm text-gray-300 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#161616]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-[#B38F6F]/15 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.category}
                   </span>
                 </div>
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
-                  <span className={`px-5 py-2.5 border border-white/30 text-white text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+                <div className="absolute inset-0 bg-[#161616]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
+                  <span className={`px-5 py-2.5 border border-[#B38F6F]/30 text-[#F2F1ED] text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
                     {t('portView')}
                   </span>
                 </div>
@@ -178,19 +178,19 @@ export default function Portfolio() {
               {/* Card Info */}
               <div className="p-5 sm:p-6 flex flex-col flex-1">
                 <div className="flex items-start justify-between mb-2 gap-2">
-                  <h3 className={`text-base sm:text-lg font-bold text-white tracking-tight ${fontClass}`}>
+                  <h3 className={`text-base sm:text-lg font-bold text-[#F2F1ED] tracking-tight ${fontClass}`}>
                     {project.title}
                   </h3>
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-white/[0.06] text-gray-400 border border-white/[0.08] shrink-0 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-[#B38F6F]/[0.15] shrink-0 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.tag}
                   </span>
                 </div>
-                <p className={`text-sm text-gray-400 font-light leading-relaxed flex-1 ${fontClass}`}>
+                <p className={`text-sm text-[#B38F6F] font-light leading-relaxed flex-1 ${fontClass}`}>
                   {project.description}
                 </p>
                 {project.price && (
-                  <div className="mt-3 pt-3 border-t border-white/[0.06]">
-                    <span className="text-sm font-bold text-white">${project.price}</span>
+                  <div className="mt-3 pt-3 border-t border-[#B38F6F]/[0.10]">
+                    <span className="text-sm font-bold text-[#F2F1ED]">${project.price}</span>
                   </div>
                 )}
               </div>
@@ -200,7 +200,7 @@ export default function Portfolio() {
 
         {filteredProjects.length === 0 && (
           <div className="text-center py-16">
-            <p className="text-gray-600 text-sm">No projects in this category yet.</p>
+            <p className="text-[#B38F6F]/50 text-sm">No projects in this category yet.</p>
           </div>
         )}
       </div>

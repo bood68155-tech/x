@@ -44,11 +44,11 @@ export default function AdminLogin() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl border border-white/10 bg-white/5 mb-6">
-            <span className="text-2xl font-black text-white tracking-tighter">X</span>
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl border border-[#B38F6F]/15 bg-[#B38F6F]/5 mb-6">
+            <span className="text-2xl font-black text-[#F2F1ED] tracking-tighter">X</span>
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Admin Panel</h1>
-          <p className="text-sm text-gray-500 mt-2">
+          <h1 className="text-2xl font-bold text-[#F2F1ED] tracking-tight">Admin Panel</h1>
+          <p className="text-sm text-[#B38F6F]/70 mt-2">
             {authMode === 'signin' ? 'Sign in to manage your portfolio' : 'Create an admin account'}
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
         <button
           onClick={handleGoogle}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-3 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm font-medium hover:bg-white/10 hover:border-white/20 transition-all disabled:opacity-50 mb-6"
+          className="w-full flex items-center justify-center gap-3 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm font-medium hover:bg-[#B38F6F]/10 hover:border-[#B38F6F]/20 transition-all disabled:opacity-50 mb-6"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -70,9 +70,9 @@ export default function AdminLogin() {
 
         {/* Divider */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex-1 h-px bg-white/10" />
-          <span className="text-[10px] text-gray-600 uppercase tracking-wider">or</span>
-          <div className="flex-1 h-px bg-white/10" />
+          <div className="flex-1 h-px bg-[#B38F6F]/10" />
+          <span className="text-[10px] text-[#B38F6F]/50 uppercase tracking-wider">or</span>
+          <div className="flex-1 h-px bg-[#B38F6F]/10" />
         </div>
 
         {/* Login Form */}
@@ -82,7 +82,7 @@ export default function AdminLogin() {
             <div className={`flex items-center gap-3 p-4 rounded-xl text-sm ${
               error.includes('Check your email')
                 ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
-                : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                : 'bg-[#710014]/15 border border-red-500/20 text-[#B38F6F]'
             }`}>
               <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {error.includes('Check your email') ? (
@@ -101,7 +101,7 @@ export default function AdminLogin() {
 
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-[#B38F6F] mb-2">
               Email Address
             </label>
             <input
@@ -111,13 +111,13 @@ export default function AdminLogin() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@example.com"
               required
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 focus:bg-white/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 focus:bg-[#B38F6F]/[0.07] transition-all duration-300"
             />
           </div>
 
           {/* Password Field */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-400 mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-[#B38F6F] mb-2">
               Password
             </label>
             <input
@@ -128,7 +128,7 @@ export default function AdminLogin() {
               placeholder="••••••••"
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 focus:bg-white/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 focus:bg-[#B38F6F]/[0.07] transition-all duration-300"
             />
           </div>
 
@@ -136,7 +136,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-white text-black text-sm font-semibold rounded-xl hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 bg-[#710014] text-[#F2F1ED] text-sm font-semibold rounded-xl hover:bg-[#5a0010] focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -159,19 +159,19 @@ export default function AdminLogin() {
               setAuthMode(authMode === 'signin' ? 'signup' : 'signin')
               setError('')
             }}
-            className="text-sm text-gray-500 hover:text-gray-300 transition-colors"
+            className="text-sm text-[#B38F6F]/70 hover:text-[#B38F6F] transition-colors"
           >
             {authMode === 'signin' ? (
-              <>Don't have an account? <span className="text-white font-medium">Sign Up</span></>
+              <>Don't have an account? <span className="text-[#F2F1ED] font-medium">Sign Up</span></>
             ) : (
-              <>Already have an account? <span className="text-white font-medium">Sign In</span></>
+              <>Already have an account? <span className="text-[#F2F1ED] font-medium">Sign In</span></>
             )}
           </button>
         </div>
 
         {/* Back to site link */}
         <div className="text-center mt-8">
-          <a href="/" className="text-sm text-gray-600 hover:text-gray-400 transition-colors duration-300">
+          <a href="/" className="text-sm text-[#B38F6F]/50 hover:text-[#B38F6F] transition-colors duration-300">
             ← Back to site
           </a>
         </div>

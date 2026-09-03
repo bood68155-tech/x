@@ -40,13 +40,13 @@ export default function Pricing() {
 
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16 sm:mb-20">
-          <span className={`inline-block text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4 ${ar ? 'tracking-normal' : ''}`}>
+          <span className={`inline-block text-xs font-semibold uppercase tracking-[0.3em] text-[#B38F6F]/70 mb-4 ${ar ? 'tracking-normal' : ''}`}>
             {t('priceLabel')}
           </span>
-          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold text-white tracking-tight ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
+          <h2 className={`text-3xl sm:text-4xl md:text-5xl font-bold text-[#F2F1ED] tracking-tight ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
             {t('priceTitle')}
           </h2>
-          <p className={`mt-4 text-gray-400 max-w-xl mx-auto text-base sm:text-lg font-light ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
+          <p className={`mt-4 text-[#B38F6F] max-w-xl mx-auto text-base sm:text-lg font-light ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
             {t('priceSub')}
           </p>
         </div>
@@ -57,39 +57,39 @@ export default function Pricing() {
               key={i}
               className={`relative p-8 sm:p-10 rounded-2xl border transition-all duration-500 ${
                 plan.popular
-                  ? 'border-white/30 bg-white/[0.04] scale-[1.02]'
-                  : 'border-white/[0.08] bg-white/[0.01] hover:border-white/15'
+                  ? 'border-[#B38F6F]/30 bg-[#B38F6F]/[0.05] scale-[1.02]'
+                  : 'border-[#B38F6F]/[0.15] bg-[#B38F6F]/[0.02] hover:border-[#B38F6F]/15'
               }`}
             >
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className={`px-4 py-1.5 bg-white text-black text-[10px] font-bold uppercase tracking-[0.2em] rounded-full ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`px-4 py-1.5 bg-[#710014] text-[#F2F1ED] text-[10px] font-bold uppercase tracking-[0.2em] rounded-full ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {t('pricePopular')}
                   </span>
                 </div>
               )}
 
-              <h3 className={`text-lg font-semibold text-white mb-2 tracking-tight ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
+              <h3 className={`text-lg font-semibold text-[#F2F1ED] mb-2 tracking-tight ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
                 {plan.name}
               </h3>
 
               <div className="flex items-baseline gap-2 mb-4">
-                <span className={`text-4xl sm:text-5xl font-black text-white tracking-tighter ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
+                <span className={`text-4xl sm:text-5xl font-black text-[#F2F1ED] tracking-tighter ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}>
                   {plan.price}
                 </span>
-                <span className={`text-sm text-gray-500 font-light ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] text-base' : ''}`}>
+                <span className={`text-sm text-[#B38F6F]/70 font-light ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] text-base' : ''}`}>
                   / {plan.period}
                 </span>
               </div>
 
-              <p className={`text-sm text-gray-400 mb-8 font-light leading-relaxed ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] text-base' : ''}`}>
+              <p className={`text-sm text-[#B38F6F] mb-8 font-light leading-relaxed ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] text-base' : ''}`}>
                 {plan.description}
               </p>
 
               <ul className="space-y-3 mb-10">
                 {plan.features.map((feature, j) => (
-                  <li key={j} className="flex items-start gap-3 text-sm text-gray-300">
-                    <svg className="w-4 h-4 mt-0.5 text-white/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <li key={j} className="flex items-start gap-3 text-sm text-[#F2F1ED]/80">
+                    <svg className="w-4 h-4 mt-0.5 text-[#F2F1ED]/60 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                     </svg>
                     <span className={`font-light ${ar ? 'font-[\'Noto_Kufi_Arabic\',sans-serif] text-base' : ''}`}>{feature}</span>
@@ -101,8 +101,8 @@ export default function Pricing() {
                 href="#contact"
                 className={`block w-full text-center py-3.5 rounded-full text-sm font-semibold transition-all duration-300 uppercase tracking-wider ${
                   plan.popular
-                    ? 'bg-white text-black hover:bg-gray-200'
-                    : 'border border-white/20 text-white hover:bg-white/5 hover:border-white/40'
+                    ? 'bg-[#710014] text-[#F2F1ED] hover:bg-[#5a0010]'
+                    : 'border border-[#B38F6F]/20 text-[#F2F1ED] hover:bg-[#B38F6F]/5 hover:border-[#B38F6F]/40'
                 } ${ar ? 'tracking-normal normal-case text-base font-[\'Noto_Kufi_Arabic\',sans-serif]' : ''}`}
               >
                 {plan.cta}

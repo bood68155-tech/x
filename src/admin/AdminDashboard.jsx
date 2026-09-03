@@ -265,11 +265,11 @@ export default function AdminDashboard() {
   if (editing !== null) {
     return (
       <div className="min-h-screen bg-black pt-20">
-        <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
+        <header className="border-b border-[#B38F6F]/15 bg-[#161616]/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <button
               onClick={() => { setEditing(null); setFormData({ ...EMPTY_PROJECT }); setVideoPreview(null); setFeatureInput('') }}
-              className="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors"
+              className="flex items-center gap-2 text-sm text-[#B38F6F] hover:text-[#F2F1ED] transition-colors"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -280,7 +280,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleSave}
                 disabled={!formData.title.trim() || saving || uploading}
-                className="flex items-center gap-2 px-5 py-2 bg-white text-black text-sm font-semibold rounded-lg hover:bg-gray-200 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-5 py-2 bg-[#710014] text-[#F2F1ED] text-sm font-semibold rounded-lg hover:bg-[#5a0010] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 {saving && <Spinner className="w-4 h-4" />}
                 {saving ? 'Saving...' : editing === 'new' ? 'Create Project' : 'Save Changes'}
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
           <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
             toast.type === 'success'
               ? 'bg-green-500/10 text-green-400 border-green-500/20'
-              : 'bg-red-500/10 text-red-400 border-red-500/20'
+              : 'bg-[#710014]/15 text-[#B38F6F] border-red-500/20'
           }`}>
             <div className="flex items-center gap-2">
               {toast.type === 'success' ? (
@@ -322,7 +322,7 @@ export default function AdminDashboard() {
         )}
 
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-          <h2 className="text-xl font-bold text-white mb-8">
+          <h2 className="text-xl font-bold text-[#F2F1ED] mb-8">
             {editing === 'new' ? 'New Project' : 'Edit Project'}
           </h2>
 
@@ -332,32 +332,32 @@ export default function AdminDashboard() {
 
             {/* Price ($ or USDT) */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Price (USD / USDT)</label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Price (USD / USDT)</label>
               <div className="relative">
-                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#B38F6F]/70 text-sm">$</span>
                 <input type="text" value={formData.price}
                   onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
                   placeholder="999 or 999 USDT"
-                  className="w-full pl-8 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all" />
+                  className="w-full pl-8 pr-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
               </div>
             </div>
 
             {/* Category Select */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Category</label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Category</label>
               <div className="relative">
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                  className="w-full appearance-none px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-white/30 transition-all cursor-pointer"
+                  className="w-full appearance-none px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm focus:outline-none focus:border-[#B38F6F]/40 transition-all cursor-pointer"
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value} className="bg-black text-white">
+                    <option key={cat.value} value={cat.value} className="bg-[#161616] text-[#F2F1ED]">
                       {cat.label} ({cat.ar})
                     </option>
                   ))}
                 </select>
-                <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#B38F6F]/70 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                 </svg>
               </div>
@@ -368,26 +368,26 @@ export default function AdminDashboard() {
 
             {/* Description */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Description</label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Description</label>
               <textarea
                 value={formData.description}
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="A brief description of the project..."
                 rows={3}
-                className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 resize-none transition-all"
+                className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 resize-none transition-all"
               />
             </div>
 
             {/* Features */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Features <span className="text-gray-600 font-normal">(المميزات)</span></label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Features <span className="text-[#B38F6F]/50 font-normal">(المميزات)</span></label>
               <div className="space-y-3">
                 {formData.features.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {formData.features.map((feat, idx) => (
-                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-white/[0.06] text-gray-300 border border-white/[0.08] rounded-full">
+                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[#B38F6F]/[0.07] text-[#F2F1ED]/80 border border-[#B38F6F]/[0.15] rounded-full">
                         {feat}
-                        <button onClick={() => removeFeature(idx)} className="text-gray-500 hover:text-red-400 transition-colors">
+                        <button onClick={() => removeFeature(idx)} className="text-[#B38F6F]/70 hover:text-[#B38F6F] transition-colors">
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                           </svg>
@@ -403,13 +403,13 @@ export default function AdminDashboard() {
                     onChange={(e) => setFeatureInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addFeature() } }}
                     placeholder="Add a feature and press Enter"
-                    className="flex-1 px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
+                    className="flex-1 px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all"
                   />
                   <button
                     type="button"
                     onClick={addFeature}
                     disabled={!featureInput.trim()}
-                    className="px-4 py-3 bg-white/10 text-white text-sm font-medium rounded-xl hover:bg-white/15 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="px-4 py-3 bg-[#B38F6F]/10 text-[#F2F1ED] text-sm font-medium rounded-xl hover:bg-[#B38F6F]/15 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Add
                   </button>
@@ -419,14 +419,14 @@ export default function AdminDashboard() {
 
             {/* Cover / Main Image */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Cover Image / Main Photo <span className="text-gray-600 font-normal">(صورة الغلاف)</span></label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Cover Image / Main Photo <span className="text-[#B38F6F]/50 font-normal">(صورة الغلاف)</span></label>
               <div className="space-y-3">
                 {formData.imageUrl && (
-                  <div className="relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                  <div className="relative rounded-xl overflow-hidden border border-[#B38F6F]/15 bg-[#B38F6F]/5">
                     <img src={formData.imageUrl} alt="Cover preview" className="w-full h-48 object-cover" />
                     <button
                       onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
-                      className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors"
+                      className="absolute top-2 right-2 p-1.5 bg-[#161616]/60 rounded-lg text-[#B38F6F] hover:text-[#B38F6F] transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -435,11 +435,11 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-white/20 hover:bg-white/[0.02] transition-all group">
-                  <svg className="w-5 h-5 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-[#B38F6F]/15 rounded-xl cursor-pointer hover:border-[#B38F6F]/20 hover:bg-[#B38F6F]/[0.03] transition-all group">
+                  <svg className="w-5 h-5 text-[#B38F6F]/70 group-hover:text-[#B38F6F] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-sm text-gray-500 group-hover:text-gray-400">
+                  <span className="text-sm text-[#B38F6F]/70 group-hover:text-[#B38F6F]">
                     {formData.imageUrl ? 'Replace cover image' : 'Upload cover image'}
                   </span>
                   <input type="file" accept="image/*" onChange={handleCoverImageUpload} className="hidden" />
@@ -451,7 +451,7 @@ export default function AdminDashboard() {
                     value={formData.imageUrl}
                     onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
                     placeholder="Or paste an image URL"
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
+                    className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all"
                   />
                 )}
               </div>
@@ -459,7 +459,7 @@ export default function AdminDashboard() {
 
             {/* Video URL + Upload */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Project Video</label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Project Video</label>
               <div className="space-y-3">
                 {/* Video URL text input */}
                 <input
@@ -467,21 +467,21 @@ export default function AdminDashboard() {
                   value={formData.videoUrl}
                   onChange={(e) => { setFormData(prev => ({ ...prev, videoUrl: e.target.value })); setVideoPreview(e.target.value || null) }}
                   placeholder="Paste video URL (YouTube, Vimeo, MP4 link, etc.)"
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
+                  className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all"
                 />
                 {videoPreview && (
-                  <div className="relative rounded-xl overflow-hidden border border-white/10 bg-white/5">
+                  <div className="relative rounded-xl overflow-hidden border border-[#B38F6F]/15 bg-[#B38F6F]/5">
                     {videoPreview.startsWith('data:video') || videoPreview.includes('.mp4') || videoPreview.includes('.webm') ? (
                       <video src={videoPreview} controls className="w-full h-48 object-cover" />
                     ) : (
                       <div className="flex items-center gap-3 px-4 py-3">
-                        <svg className="w-5 h-5 text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        <span className="text-sm text-gray-300 truncate">{videoPreview}</span>
+                        <svg className="w-5 h-5 text-[#B38F6F]" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        <span className="text-sm text-[#F2F1ED]/80 truncate">{videoPreview}</span>
                       </div>
                     )}
                     <button
                       onClick={() => { setFormData(prev => ({ ...prev, videoUrl: '' })); setVideoPreview(null) }}
-                      className="absolute top-2 right-2 p-1.5 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors"
+                      className="absolute top-2 right-2 p-1.5 bg-[#161616]/60 rounded-lg text-[#B38F6F] hover:text-[#B38F6F] transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -490,11 +490,11 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-white/20 hover:bg-white/[0.02] transition-all group">
-                  <svg className="w-5 h-5 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-[#B38F6F]/15 rounded-xl cursor-pointer hover:border-[#B38F6F]/20 hover:bg-[#B38F6F]/[0.03] transition-all group">
+                  <svg className="w-5 h-5 text-[#B38F6F]/70 group-hover:text-[#B38F6F] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                   </svg>
-                  <span className="text-sm text-gray-500 group-hover:text-gray-400">
+                  <span className="text-sm text-[#B38F6F]/70 group-hover:text-[#B38F6F]">
                     {videoPreview ? 'Replace video' : 'Upload video file'}
                   </span>
                   <input type="file" accept="video/*" onChange={handleVideoUpload} className="hidden" />
@@ -510,17 +510,17 @@ export default function AdminDashboard() {
 
             {/* Binance Pay Settings */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-3">Binance Pay Settings</label>
-              <div className="space-y-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+              <label className="block text-sm font-medium text-[#B38F6F] mb-3">Binance Pay Settings</label>
+              <div className="space-y-4 p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.10]">
                 <label className="flex items-center gap-3 cursor-pointer">
                   <div className="relative">
                     <input type="checkbox" checked={formData.binancePayEnabled}
                       onChange={(e) => setFormData(prev => ({ ...prev, binancePayEnabled: e.target.checked }))}
                       className="sr-only" />
-                    <div className={`w-10 h-5 rounded-full transition-colors ${formData.binancePayEnabled ? 'bg-yellow-500' : 'bg-white/10'}`} />
-                    <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${formData.binancePayEnabled ? 'translate-x-5' : ''}`} />
+                    <div className={`w-10 h-5 rounded-full transition-colors ${formData.binancePayEnabled ? 'bg-yellow-500' : 'bg-[#B38F6F]/10'}`} />
+                    <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-[#F2F1ED] rounded-full transition-transform ${formData.binancePayEnabled ? 'translate-x-5' : ''}`} />
                   </div>
-                  <span className="text-sm text-gray-300">Enable Binance Pay for this product</span>
+                  <span className="text-sm text-[#F2F1ED]/80">Enable Binance Pay for this product</span>
                 </label>
                 {formData.binancePayEnabled && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
@@ -537,16 +537,16 @@ export default function AdminDashboard() {
 
             {/* Image Gallery */}
             <div>
-              <label className="block text-sm font-medium text-gray-400 mb-2">Image Gallery</label>
+              <label className="block text-sm font-medium text-[#B38F6F] mb-2">Image Gallery</label>
               <div className="space-y-3">
                 {formData.gallery.length > 0 && (
                   <div className="grid grid-cols-3 gap-3">
                     {formData.gallery.map((img, idx) => (
-                      <div key={idx} className="relative group rounded-xl overflow-hidden border border-white/10 aspect-square">
+                      <div key={idx} className="relative group rounded-xl overflow-hidden border border-[#B38F6F]/15 aspect-square">
                         <img src={img} alt="" className="w-full h-full object-cover" />
                         <button
                           onClick={() => removeGalleryImage(idx)}
-                          className="absolute top-2 right-2 p-1 bg-black/60 rounded-lg text-gray-400 hover:text-red-400 transition-colors opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 p-1 bg-[#161616]/60 rounded-lg text-[#B38F6F] hover:text-[#B38F6F] transition-colors opacity-0 group-hover:opacity-100"
                         >
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -557,11 +557,11 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-white/20 hover:bg-white/[0.02] transition-all group">
-                  <svg className="w-5 h-5 text-gray-500 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-[#B38F6F]/15 rounded-xl cursor-pointer hover:border-[#B38F6F]/20 hover:bg-[#B38F6F]/[0.03] transition-all group">
+                  <svg className="w-5 h-5 text-[#B38F6F]/70 group-hover:text-[#B38F6F] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-sm text-gray-500 group-hover:text-gray-400">
+                  <span className="text-sm text-[#B38F6F]/70 group-hover:text-[#B38F6F]">
                     Upload images (multiple OK)
                   </span>
                   <input type="file" accept="image/*" multiple onChange={handleGalleryUpload} className="hidden" />
@@ -577,22 +577,22 @@ export default function AdminDashboard() {
   // === LIST VIEW ===
   return (
     <div className="min-h-screen bg-black pt-20">
-      <header className="border-b border-white/10 bg-black/80 backdrop-blur-xl sticky top-0 z-40">
+      <header className="border-b border-[#B38F6F]/15 bg-[#161616]/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <a href="/" className="text-xl font-black text-white tracking-tighter hover:opacity-80 transition-opacity">
+            <a href="/" className="text-xl font-black text-[#F2F1ED] tracking-tighter hover:opacity-80 transition-opacity">
               X
             </a>
-            <div className="h-5 w-px bg-white/10" />
-            <h1 className="text-sm font-semibold text-white">Admin Dashboard</h1>
+            <div className="h-5 w-px bg-[#B38F6F]/10" />
+            <h1 className="text-sm font-semibold text-[#F2F1ED]">Admin Dashboard</h1>
           </div>
           <div className="flex items-center gap-3">
-            <a href="/" className="text-xs text-gray-500 hover:text-gray-300 transition-colors hidden sm:block">
+            <a href="/" className="text-xs text-[#B38F6F]/70 hover:text-[#B38F6F] transition-colors hidden sm:block">
               View Site
             </a>
             <button
               onClick={logout}
-              className="px-4 py-2 text-xs font-medium text-gray-400 border border-white/10 rounded-lg hover:text-white hover:border-white/20 transition-all"
+              className="px-4 py-2 text-xs font-medium text-[#B38F6F] border border-[#B38F6F]/15 rounded-lg hover:text-[#F2F1ED] hover:border-[#B38F6F]/20 transition-all"
             >
               Logout
             </button>
@@ -605,7 +605,7 @@ export default function AdminDashboard() {
         <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
           toast.type === 'success'
             ? 'bg-green-500/10 text-green-400 border-green-500/20'
-            : 'bg-red-500/10 text-red-400 border-red-500/20'
+            : 'bg-[#710014]/15 text-[#B38F6F] border-red-500/20'
         }`}>
           <div className="flex items-center gap-2">
             {toast.type === 'success' ? (
@@ -624,11 +624,11 @@ export default function AdminDashboard() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Profile Picture Section */}
-        <div className="border border-white/[0.08] rounded-2xl p-6 mb-8 bg-white/[0.02]">
+        <div className="border border-[#B38F6F]/[0.15] rounded-2xl p-6 mb-8 bg-[#B38F6F]/[0.03]">
           <div className="flex items-center gap-6">
             {/* Avatar Preview */}
             <div className="relative">
-              <div className="w-20 h-20 rounded-2xl overflow-hidden border border-white/[0.1] bg-white/[0.05]">
+              <div className="w-20 h-20 rounded-2xl overflow-hidden border border-[#B38F6F]/[0.18] bg-[#B38F6F]/[0.06]">
                 {(avatarPreview || avatarUrl) ? (
                   <img
                     src={avatarPreview || avatarUrl}
@@ -637,24 +637,24 @@ export default function AdminDashboard() {
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    <svg className="w-8 h-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                    <svg className="w-8 h-8 text-[#B38F6F]/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
                     </svg>
                   </div>
                 )}
               </div>
               {avatarUploading && (
-                <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
-                  <Spinner className="w-5 h-5 text-white" />
+                <div className="absolute inset-0 bg-[#161616]/60 rounded-2xl flex items-center justify-center">
+                  <Spinner className="w-5 h-5 text-[#F2F1ED]" />
                 </div>
               )}
             </div>
 
             {/* Upload Controls */}
             <div className="flex-1">
-              <h3 className="text-sm font-semibold text-white mb-1">Profile Picture</h3>
-              <p className="text-xs text-gray-500 mb-3">Upload a profile image to display in the Navbar and Hero section.</p>
-              <label className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/[0.1] rounded-lg text-sm text-gray-300 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer">
+              <h3 className="text-sm font-semibold text-[#F2F1ED] mb-1">Profile Picture</h3>
+              <p className="text-xs text-[#B38F6F]/70 mb-3">Upload a profile image to display in the Navbar and Hero section.</p>
+              <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#B38F6F]/5 border border-[#B38F6F]/[0.18] rounded-lg text-sm text-[#F2F1ED]/80 hover:text-[#F2F1ED] hover:border-[#B38F6F]/20 hover:bg-[#B38F6F]/10 transition-all cursor-pointer">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -673,12 +673,12 @@ export default function AdminDashboard() {
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-bold text-white">Projects</h2>
-            <p className="text-sm text-gray-500 mt-1">{projects.length} portfolio projects</p>
+            <h2 className="text-2xl font-bold text-[#F2F1ED]">Projects</h2>
+            <p className="text-sm text-[#B38F6F]/70 mt-1">{projects.length} portfolio projects</p>
           </div>
           <button
             onClick={handleNew}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-semibold rounded-lg hover:bg-gray-200 transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#710014] text-[#F2F1ED] text-sm font-semibold rounded-lg hover:bg-[#5a0010] transition-all"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -695,8 +695,8 @@ export default function AdminDashboard() {
               onClick={() => setFilterCategory(cat.value)}
               className={`px-4 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 ${
                 filterCategory === cat.value
-                  ? 'bg-white text-black border-white'
-                  : 'bg-transparent text-gray-500 border-white/10 hover:text-white hover:border-white/30'
+                  ? 'bg-[#710014] text-[#F2F1ED] border-[#B38F6F]'
+                  : 'bg-transparent text-[#B38F6F]/70 border-[#B38F6F]/15 hover:text-[#F2F1ED] hover:border-[#B38F6F]/30'
               }`}
             >
               {cat.value === 'All' ? `All (${cat.ar})` : `${cat.label} (${cat.ar})`}
@@ -704,8 +704,8 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        <div className="border border-white/10 rounded-2xl overflow-hidden">
-          <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-white/[0.03] border-b border-white/[0.06] text-xs font-semibold uppercase tracking-wider text-gray-500">
+        <div className="border border-[#B38F6F]/15 rounded-2xl overflow-hidden">
+          <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-[#B38F6F]/[0.04] border-b border-[#B38F6F]/[0.10] text-xs font-semibold uppercase tracking-wider text-[#B38F6F]/70">
             <div className="col-span-3">Project</div>
             <div className="col-span-2">Category</div>
             <div className="col-span-1">Price</div>
@@ -715,74 +715,74 @@ export default function AdminDashboard() {
           </div>
 
           {filteredProjects.map((project) => (
-            <div key={project.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/[0.04] last:border-b-0 hover:bg-white/[0.02] transition-colors items-center">
+            <div key={project.id} className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-[#B38F6F]/[0.04] last:border-b-0 hover:bg-[#B38F6F]/[0.03] transition-colors items-center">
               <div className="col-span-3">
-                <p className="text-sm font-medium text-white truncate">{project.title}</p>
-                <p className="text-xs text-gray-500 truncate mt-0.5">{project.description}</p>
+                <p className="text-sm font-medium text-[#F2F1ED] truncate">{project.title}</p>
+                <p className="text-xs text-[#B38F6F]/70 truncate mt-0.5">{project.description}</p>
               </div>
 
               <div className="col-span-2">
-                <span className="text-xs font-medium px-2 py-1 rounded-md bg-white/[0.06] text-gray-400 border border-white/[0.08]">
+                <span className="text-xs font-medium px-2 py-1 rounded-md bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-[#B38F6F]/[0.15]">
                   {getCategoryLabel(project.category)}
                 </span>
               </div>
 
               <div className="col-span-1">
-                <span className="text-xs font-medium text-gray-400">
+                <span className="text-xs font-medium text-[#B38F6F]">
                   {project.price || '—'}
                 </span>
               </div>
 
               <div className="col-span-2">
-                <span className="text-xs font-medium px-2 py-1 rounded-md bg-white/[0.06] text-gray-400 border border-white/[0.08]">
+                <span className="text-xs font-medium px-2 py-1 rounded-md bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-[#B38F6F]/[0.15]">
                   {project.tag}
                 </span>
               </div>
 
               <div className="col-span-2 flex items-center gap-2">
                 {project.videoUrl && (
-                  <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                  <span className="inline-flex items-center gap-1 text-xs text-[#B38F6F]/70">
                     <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     Video
                   </span>
                 )}
                 {project.gallery.length > 0 && (
-                  <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                  <span className="inline-flex items-center gap-1 text-xs text-[#B38F6F]/70">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
                     {project.gallery.length} imgs
                   </span>
                 )}
                 {project.features?.length > 0 && (
-                  <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                  <span className="inline-flex items-center gap-1 text-xs text-[#B38F6F]/70">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M9 12l2 2 4-4"/><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
                     {project.features.length} feat
                   </span>
                 )}
                 {project.demoUrl && (
-                  <span className="inline-flex items-center gap-1 text-xs text-gray-500">
+                  <span className="inline-flex items-center gap-1 text-xs text-[#B38F6F]/70">
                     <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
                     Demo
                   </span>
                 )}
                 {!project.videoUrl && project.gallery.length === 0 && (!project.features || project.features.length === 0) && !project.demoUrl && (
-                  <span className="text-xs text-gray-600">—</span>
+                  <span className="text-xs text-[#B38F6F]/50">—</span>
                 )}
               </div>
 
               <div className="col-span-3 flex items-center justify-end gap-2">
                 {showDeleteConfirm === project.id ? (
                   <>
-                    <span className="text-xs text-red-400 mr-2">Delete?</span>
+                    <span className="text-xs text-[#B38F6F] mr-2">Delete?</span>
                     <button
                       onClick={() => handleDelete(project.id)}
                       disabled={saving}
-                      className="px-3 py-1.5 text-xs font-medium text-white bg-red-500/20 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-all disabled:opacity-50"
+                      className="px-3 py-1.5 text-xs font-medium text-[#F2F1ED] bg-red-500/20 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-all disabled:opacity-50"
                     >
                       {saving ? '...' : 'Yes'}
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(null)}
-                      className="px-3 py-1.5 text-xs font-medium text-gray-400 border border-white/10 rounded-lg hover:text-white transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#B38F6F] border border-[#B38F6F]/15 rounded-lg hover:text-[#F2F1ED] transition-all"
                     >
                       No
                     </button>
@@ -791,13 +791,13 @@ export default function AdminDashboard() {
                   <>
                     <button
                       onClick={() => handleEdit(project)}
-                      className="px-3 py-1.5 text-xs font-medium text-gray-400 border border-white/10 rounded-lg hover:text-white hover:border-white/20 transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#B38F6F] border border-[#B38F6F]/15 rounded-lg hover:text-[#F2F1ED] hover:border-[#B38F6F]/20 transition-all"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(project.id)}
-                      className="px-3 py-1.5 text-xs font-medium text-red-400/70 border border-red-500/10 rounded-lg hover:text-red-400 hover:border-red-500/20 transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#B38F6F]/70 border border-red-500/10 rounded-lg hover:text-[#B38F6F] hover:border-red-500/20 transition-all"
                     >
                       Delete
                     </button>
@@ -809,7 +809,7 @@ export default function AdminDashboard() {
 
           {filteredProjects.length === 0 && (
             <div className="px-6 py-16 text-center">
-              <p className="text-gray-600 text-sm">{filterCategory === 'All' ? 'No projects yet. Create your first one!' : `No ${filterCategory} projects found.`}</p>
+              <p className="text-[#B38F6F]/50 text-sm">{filterCategory === 'All' ? 'No projects yet. Create your first one!' : `No ${filterCategory} projects found.`}</p>
             </div>
           )}
         </div>
@@ -821,13 +821,13 @@ export default function AdminDashboard() {
 function Field({ label, value, onChange, placeholder }) {
   return (
     <div>
-      <label className="block text-sm font-medium text-gray-400 mb-2">{label}</label>
+      <label className="block text-sm font-medium text-[#B38F6F] mb-2">{label}</label>
       <input
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all"
+        className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all"
       />
     </div>
   )

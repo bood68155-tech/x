@@ -65,12 +65,12 @@ export default function App() {
       <AuthProvider>
         <ProjectsProvider>
           <LanguageProvider>
-            <div className="min-h-screen bg-[#09090b] text-white antialiased relative">
-              {/* Global ambient background gradient blobs */}
+            <div className="min-h-screen bg-[#161616] text-[#F2F1ED] antialiased relative">
+              {/* Global ambient background gradient blobs — Crimson Depth */}
               <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
-                <div className="animate-blob-1 absolute top-[5%] left-[5%] w-[600px] h-[600px] rounded-full bg-red-500/[0.02] blur-[150px]" />
-                <div className="animate-blob-2 absolute top-[40%] right-[5%] w-[500px] h-[500px] rounded-full bg-blue-500/[0.02] blur-[140px]" />
-                <div className="animate-blob-3 absolute bottom-[10%] left-[30%] w-[550px] h-[550px] rounded-full bg-purple-500/[0.02] blur-[130px]" />
+                <div className="animate-blob-1 absolute top-[5%] left-[5%] w-[600px] h-[600px] rounded-full bg-[#710014]/[0.04] blur-[150px]" />
+                <div className="animate-blob-2 absolute top-[40%] right-[5%] w-[500px] h-[500px] rounded-full bg-[#710014]/[0.03] blur-[140px]" />
+                <div className="animate-blob-3 absolute bottom-[10%] left-[30%] w-[550px] h-[550px] rounded-full bg-[#B38F6F]/[0.02] blur-[130px]" />
               </div>
 
               <div className="relative z-10">
