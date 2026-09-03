@@ -117,17 +117,17 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-      <div className="absolute inset-0 bg-[#161616]/80 backdrop-blur-sm animate-fade-in" onClick={onClose} />
+      <div className="absolute inset-0 bg-[#050507]/80 backdrop-blur-sm animate-fade-in" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-[#B38F6F]/15 rounded-2xl shadow-2xl shadow-black/60 animate-fade-in-up">
+      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl shadow-black/60 animate-fade-in-up">
         <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 text-[#B38F6F]/70 hover:text-[#F2F1ED] transition-colors rounded-lg hover:bg-[#B38F6F]/5">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
-        <div className="px-8 pt-8 pb-2 text-center border-b border-[#B38F6F]/[0.10]">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl border border-[#B38F6F]/15 bg-[#B38F6F]/5 mb-4">
+        <div className="px-8 pt-8 pb-2 text-center border-b border-white/[0.06]">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl border border-white/10 bg-[#B38F6F]/5 mb-4">
             <svg className="w-6 h-6 text-[#F2F1ED]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
             </svg>
@@ -153,7 +153,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                   {t('orderName')} *
                 </label>
                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={t('orderNamePh')}
-                  className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.name ? 'border-red-500/50' : 'border-[#B38F6F]/[0.18]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                  className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.name ? 'border-red-500/50' : 'border-white/[0.10]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                 {errors.name && <p className="text-xs text-[#B38F6F] mt-1">{t('orderRequired')}</p>}
               </div>
 
@@ -163,7 +163,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                     {t('orderEmail')} *
                   </label>
                   <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder={t('orderEmailPh')}
-                    className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.email ? 'border-red-500/50' : 'border-[#B38F6F]/[0.18]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                    className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.email ? 'border-red-500/50' : 'border-white/[0.10]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                   {errors.email && <p className="text-xs text-[#B38F6F] mt-1">{t('orderRequired')}</p>}
                 </div>
                 <div>
@@ -171,7 +171,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                     {t('orderPhone')} *
                   </label>
                   <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder={t('orderPhonePh')}
-                    className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.phone ? 'border-red-500/50' : 'border-[#B38F6F]/[0.18]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                    className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.phone ? 'border-red-500/50' : 'border-white/[0.10]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                   {errors.phone && <p className="text-xs text-[#B38F6F] mt-1">{t('orderRequired')}</p>}
                 </div>
               </div>
@@ -181,7 +181,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                   {t('orderService')} *
                 </label>
                 <input type="text" name="service" value={formData.service} onChange={handleChange} placeholder={t('orderServicePh')}
-                  className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.service ? 'border-red-500/50' : 'border-[#B38F6F]/[0.18]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                  className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.service ? 'border-red-500/50' : 'border-white/[0.10]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                 {errors.service && <p className="text-xs text-[#B38F6F] mt-1">{t('orderRequired')}</p>}
               </div>
 
@@ -190,7 +190,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                   {t('orderDetails')} *
                 </label>
                 <textarea name="details" value={formData.details} onChange={handleChange} placeholder={t('orderDetailsPh')} rows={4}
-                  className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.details ? 'border-red-500/50' : 'border-[#B38F6F]/[0.18]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 resize-none transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                  className={`w-full px-4 py-3 bg-[#B38F6F]/[0.04] border ${errors.details ? 'border-red-500/50' : 'border-white/[0.10]'} rounded-xl text-[#F2F1ED] text-sm placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 resize-none transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                 {errors.details && <p className="text-xs text-[#B38F6F] mt-1">{t('orderRequired')}</p>}
               </div>
 

@@ -104,7 +104,7 @@ function BinancePayModal({ project, onClose }) {
   return (
     <div className="space-y-5">
       {/* Order Summary */}
-      <div className="p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.10]">
+      <div className="p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-white/[0.06]">
         <p className="text-[10px] text-[#B38F6F]/70 uppercase tracking-wider mb-1">Order Summary</p>
         <p className="text-sm font-semibold text-[#F2F1ED] mb-1">{project.title}</p>
         <div className="flex items-baseline gap-2">
@@ -119,7 +119,7 @@ function BinancePayModal({ project, onClose }) {
         <div className="flex gap-2">
           {['TRC20', 'BEP20'].map(n => (
             <button key={n} onClick={() => setNetwork(n)}
-              className={`flex-1 py-2.5 text-xs font-semibold rounded-xl border transition-all ${network === n ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400' : 'bg-[#B38F6F]/[0.04] border-[#B38F6F]/[0.15] text-[#B38F6F]/70 hover:text-[#B38F6F] hover:border-[#B38F6F]/20'}`}>
+              className={`flex-1 py-2.5 text-xs font-semibold rounded-xl border transition-all ${network === n ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400' : 'bg-[#B38F6F]/[0.04] border-white/[0.08] text-[#B38F6F]/70 hover:text-[#B38F6F] hover:border-[#B38F6F]/20'}`}>
               {n}
             </button>
           ))}
@@ -127,7 +127,7 @@ function BinancePayModal({ project, onClose }) {
       </div>
 
       {/* Total */}
-      <div className="flex items-center justify-between py-3 border-t border-b border-[#B38F6F]/[0.10]">
+      <div className="flex items-center justify-between py-3 border-t border-b border-white/[0.06]">
         <span className="text-sm text-[#B38F6F] font-medium">Total to Pay</span>
         <div className="text-right">
           <span className="text-2xl font-bold text-[#F2F1ED]">{numericTotal}</span>
@@ -139,16 +139,16 @@ function BinancePayModal({ project, onClose }) {
       <div>
         <label className="block text-xs font-semibold text-[#B38F6F] uppercase tracking-wider mb-2">Deposit Address (USDT · {network})</label>
         <div className="flex items-stretch gap-2">
-          <div className="flex-1 px-4 py-3 bg-[#B38F6F]/[0.05] border border-[#B38F6F]/15 rounded-xl text-sm text-[#F2F1ED]/80 font-mono break-all leading-relaxed select-all">{walletAddress}</div>
+          <div className="flex-1 px-4 py-3 bg-[#B38F6F]/[0.05] border border-white/10 rounded-xl text-sm text-[#F2F1ED]/80 font-mono break-all leading-relaxed select-all">{walletAddress}</div>
           <button onClick={handleCopy}
-            className={`shrink-0 px-4 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${copied ? 'bg-green-500/15 border border-green-500/25 text-green-400' : 'bg-[#B38F6F]/[0.07] border border-[#B38F6F]/15 text-[#F2F1ED]/80 hover:text-[#F2F1ED] hover:border-[#B38F6F]/25'}`}>
+            className={`shrink-0 px-4 rounded-xl text-xs font-semibold transition-all flex items-center gap-1.5 ${copied ? 'bg-green-500/15 border border-green-500/25 text-green-400' : 'bg-[#B38F6F]/[0.07] border border-white/10 text-[#F2F1ED]/80 hover:text-[#F2F1ED] hover:border-[#B38F6F]/25'}`}>
             {copied ? '✓ Copied' : 'Copy'}
           </button>
         </div>
       </div>
 
       {/* Instructions */}
-      <div className="bg-[#B38F6F]/[0.03] border border-[#B38F6F]/[0.10] rounded-xl p-4">
+      <div className="bg-[#B38F6F]/[0.03] border border-white/[0.06] rounded-xl p-4">
         <p className="text-xs font-semibold text-[#F2F1ED]/80 uppercase tracking-wider mb-2">How to Pay</p>
         <ol className="space-y-1.5 text-xs text-[#B38F6F] font-light">
           <li className="flex items-start gap-2"><span className="w-4 h-4 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F]/70 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">1</span> Open your Binance app or wallet.</li>
@@ -164,7 +164,7 @@ function BinancePayModal({ project, onClose }) {
           <label className="block text-xs font-semibold text-[#B38F6F] uppercase tracking-wider mb-2">Transaction Hash / TxID</label>
           <input type="text" value={txHash} onChange={e => { setTxHash(e.target.value); setError('') }}
             placeholder="Paste your TxID here..." required
-            className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
+            className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-white/10 rounded-xl text-[#F2F1ED] text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
         </div>
         {error && (
           <div className="flex items-center gap-2 p-3 rounded-lg bg-[#710014]/15 border border-red-500/20 text-[#B38F6F] text-xs">
@@ -231,7 +231,7 @@ export default function Store() {
         <div className="flex items-center justify-center gap-2 mb-12 flex-wrap">
           {['All', ...CATEGORIES.map(c => c.value)].map(cat => (
             <button key={cat} onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2 text-xs font-medium rounded-full border transition-all duration-300 ${activeCategory === cat ? 'bg-[#710014] text-[#F2F1ED] border-[#B38F6F]' : 'bg-transparent text-[#B38F6F]/70 border-[#B38F6F]/15 hover:text-[#F2F1ED] hover:border-[#B38F6F]/30'} ${fontClass} ${ar ? 'text-sm' : ''}`}>
+              className={`px-5 py-2 text-xs font-medium rounded-full border transition-all duration-300 ${activeCategory === cat ? 'bg-[#710014] text-[#F2F1ED] border-[#B38F6F]' : 'bg-transparent text-[#B38F6F]/70 border-white/10 hover:text-[#F2F1ED] hover:border-white/20'} ${fontClass} ${ar ? 'text-sm' : ''}`}>
               {cat === 'All' ? (ar ? 'الكل' : 'All') : cat}
             </button>
           ))}
@@ -244,7 +244,7 @@ export default function Store() {
               className="group relative bento-card overflow-hidden glow-border-hover cursor-pointer flex flex-col">
               {/* Cover */}
               <div className={`relative h-52 sm:h-56 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} overflow-hidden`}>
-                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#161616]/30 flex items-center gap-1.5 px-2 z-10">
+                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#050507]/30 flex items-center gap-1.5 px-2 z-10">
                   <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
@@ -262,14 +262,14 @@ export default function Store() {
 
                 {/* Category Badge */}
                 <div className="absolute top-14 right-3 z-10">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#161616]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-[#B38F6F]/15 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#050507]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.category}
                   </span>
                 </div>
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[#161616]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
-                  <span className="px-5 py-2.5 border border-[#B38F6F]/30 text-[#F2F1ED] text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300">
+                <div className="absolute inset-0 bg-[#050507]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
+                  <span className="px-5 py-2.5 border border-white/20 text-[#F2F1ED] text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300">
                     View Details
                   </span>
                 </div>
@@ -280,13 +280,13 @@ export default function Store() {
                 <div className="flex items-start justify-between mb-2 gap-2">
                   <h3 className={`text-base sm:text-lg font-bold text-[#F2F1ED] tracking-tight ${fontClass}`}>{project.title}</h3>
                   {project.tag && (
-                    <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-[#B38F6F]/[0.15] shrink-0 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>{project.tag}</span>
+                    <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-white/[0.08] shrink-0 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>{project.tag}</span>
                   )}
                 </div>
                 <p className={`text-sm text-[#B38F6F] font-light leading-relaxed mb-5 flex-1 ${fontClass}`}>{project.description}</p>
 
                 {/* Price & CTA */}
-                <div className="flex items-center justify-between pt-4 border-t border-[#B38F6F]/[0.10]">
+                <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
                   <div>
                     {formatPrice(project.price)
                       ? <span className={`text-xl font-bold text-[#F2F1ED] ${fontClass}`}>{formatPrice(project.price)}</span>
@@ -319,7 +319,7 @@ export default function Store() {
       {checkoutProduct && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
           <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" onClick={() => setCheckoutProduct(null)} />
-          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#1a1a1a] border border-[#B38F6F]/[0.15] rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
+          <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#0d0d11] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">

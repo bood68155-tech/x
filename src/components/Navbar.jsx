@@ -127,18 +127,18 @@ export default function Navbar() {
       <nav
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-2xl ${
           scrolled
-            ? 'bg-[#1a1a1a]/90 backdrop-blur-2xl border border-[#B38F6F]/[0.15] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
-            : 'bg-[#1a1a1a]/60 backdrop-blur-xl border border-[#B38F6F]/[0.10] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
+            ? 'bg-[#0d0d11]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
+            : 'bg-[#0d0d11]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
         }`}
       >
         <div className="flex items-center justify-between">
           {/* Brand */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-[#B38F6F] overflow-hidden border border-[#B38F6F]/15 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-8 h-8 rounded-lg bg-[#B38F6F] overflow-hidden border border-white/10 group-hover:scale-110 transition-transform duration-300">
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Abood" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-[#161616] text-sm font-black flex items-center justify-center w-full h-full">A</span>
+                <span className="text-[#050507] text-sm font-black flex items-center justify-center w-full h-full">A</span>
               )}
             </div>
             <div className="hidden sm:block">
@@ -180,13 +180,13 @@ export default function Navbar() {
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center border border-[#B38F6F]/[0.18] rounded-full overflow-hidden hover:border-[#B38F6F]/[0.30] transition-all duration-300"
+              className="flex items-center border border-white/[0.10] rounded-full overflow-hidden hover:border-white/[0.18] transition-all duration-300"
             >
               <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                language === 'en' ? 'bg-[#B38F6F] text-[#161616]' : 'text-[#B38F6F]/70 hover:text-[#F2F1ED]'
+                language === 'en' ? 'bg-[#B38F6F] text-[#050507]' : 'text-[#B38F6F]/70 hover:text-[#F2F1ED]'
               }`}>EN</span>
               <span className={`px-2.5 py-1 text-[10px] font-bold transition-all duration-300 ${
-                language === 'ar' ? 'bg-[#B38F6F] text-[#161616]' : 'text-[#B38F6F]/70 hover:text-[#F2F1ED]'
+                language === 'ar' ? 'bg-[#B38F6F] text-[#050507]' : 'text-[#B38F6F]/70 hover:text-[#F2F1ED]'
               }`}>ع</span>
             </button>
 
@@ -206,8 +206,8 @@ export default function Navbar() {
                     </button>
 
                     {adminMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#1a1a1a]/95 backdrop-blur-xl border border-[#B38F6F]/[0.15] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
-                        <div className="px-4 py-3 border-b border-[#B38F6F]/[0.10]">
+                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#0d0d11]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
+                        <div className="px-4 py-3 border-b border-white/[0.06]">
                           <p className="text-[10px] text-[#B38F6F]/70">Signed in as</p>
                           <p className="text-xs font-medium text-[#F2F1ED] truncate">{displayName}</p>
                         </div>
@@ -221,7 +221,7 @@ export default function Navbar() {
                           </svg>
                           Open Dashboard
                         </Link>
-                        <div className="mx-3 my-1 border-t border-[#B38F6F]/[0.10]" />
+                        <div className="mx-3 my-1 border-t border-white/[0.06]" />
                         <button
                           onClick={handleLogout}
                           className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-[#B38F6F]/70 hover:text-[#B38F6F] hover:bg-[#B38F6F]/5 transition-all"
@@ -236,7 +236,7 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#B38F6F]/30 bg-[#B38F6F]/5">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/20 bg-[#B38F6F]/5">
                       <span className="relative flex h-1.5 w-1.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#B38F6F] opacity-75" />
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#B38F6F]" />
@@ -249,7 +249,7 @@ export default function Navbar() {
               ) : (
                 <button
                   onClick={() => setLoginOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 border border-[#B38F6F]/[0.18] text-[#F2F1ED]/80 text-[11px] font-medium rounded-full hover:text-[#F2F1ED] hover:border-[#B38F6F]/[0.30] transition-all duration-300"
+                  className="flex items-center gap-1.5 px-3 py-1.5 border border-white/[0.10] text-[#F2F1ED]/80 text-[11px] font-medium rounded-full hover:text-[#F2F1ED] hover:border-white/[0.18] transition-all duration-300"
                 >
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -278,7 +278,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="lg:hidden mt-3 pt-3 border-t border-[#B38F6F]/[0.10]">
+          <div className="lg:hidden mt-3 pt-3 border-t border-white/[0.06]">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 link.isRoute ? (
@@ -311,9 +311,9 @@ export default function Navbar() {
       {/* Auth Modal */}
       {loginOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-          <div className="absolute inset-0 bg-[#161616]/80 backdrop-blur-sm animate-fade-in" onClick={resetLoginModal} />
+          <div className="absolute inset-0 bg-[#050507]/80 backdrop-blur-sm animate-fade-in" onClick={resetLoginModal} />
 
-          <div className="relative w-full max-w-sm bg-[#1a1a1a] border border-[#B38F6F]/[0.15] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
+          <div className="relative w-full max-w-sm bg-[#0d0d11] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             <button
               onClick={resetLoginModal}
               className="absolute top-4 right-4 p-1.5 text-[#B38F6F]/70 hover:text-[#F2F1ED] transition-colors rounded-lg hover:bg-[#B38F6F]/5"
@@ -324,7 +324,7 @@ export default function Navbar() {
             </button>
 
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl border border-[#B38F6F]/[0.15] bg-[#B38F6F]/5 mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl border border-white/[0.08] bg-[#B38F6F]/5 mb-4">
                 <svg className="w-5 h-5 text-[#B38F6F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -342,7 +342,7 @@ export default function Navbar() {
               <button
                 onClick={handleGoogleAuth}
                 disabled={loginLoading}
-                className="w-full flex items-center justify-center gap-3 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/[0.20] rounded-lg text-[#F2F1ED] text-sm font-medium hover:bg-[#B38F6F]/10 hover:border-[#B38F6F]/20 transition-all disabled:opacity-50 mb-4"
+                className="w-full flex items-center justify-center gap-3 py-2.5 bg-[#B38F6F]/5 border border-white/[0.12] rounded-lg text-[#F2F1ED] text-sm font-medium hover:bg-[#B38F6F]/10 hover:border-[#B38F6F]/20 transition-all disabled:opacity-50 mb-4"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -356,7 +356,7 @@ export default function Navbar() {
 
             {/* Fallback notice when Google is unavailable */}
             {googleUnavailable && (
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-[#B38F6F]/5 border border-[#B38F6F]/[0.15] mb-4">
+              <div className="flex items-start gap-3 p-3 rounded-lg bg-[#B38F6F]/5 border border-white/[0.08] mb-4">
                 <svg className="w-4 h-4 text-[#B38F6F] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -401,7 +401,7 @@ export default function Navbar() {
                 placeholder="Email"
                 required
                 autoFocus
-                className="w-full px-4 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/[0.15] rounded-lg text-[#F2F1ED] text-sm placeholder-[#B38F6F]/40 focus:outline-none focus:border-[#B38F6F]/25 transition-all"
+                className="w-full px-4 py-2.5 bg-[#B38F6F]/5 border border-white/[0.08] rounded-lg text-[#F2F1ED] text-sm placeholder-[#B38F6F]/40 focus:outline-none focus:border-[#B38F6F]/25 transition-all"
               />
               <input
                 type="password"
@@ -410,7 +410,7 @@ export default function Navbar() {
                 placeholder="Password"
                 required
                 minLength={6}
-                className="w-full px-4 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/[0.15] rounded-lg text-[#F2F1ED] text-sm placeholder-[#B38F6F]/40 focus:outline-none focus:border-[#B38F6F]/25 transition-all"
+                className="w-full px-4 py-2.5 bg-[#B38F6F]/5 border border-white/[0.08] rounded-lg text-[#F2F1ED] text-sm placeholder-[#B38F6F]/40 focus:outline-none focus:border-[#B38F6F]/25 transition-all"
               />
               <button
                 type="submit"

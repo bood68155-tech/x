@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #161616;
-  --color-secondary: #1a1a1a;
+  --color-primary: #050507;
+  --color-secondary: #0d0d11;
   --color-accent: #F2F1ED;
   --color-crimson: #710014;
   --color-sand: #B38F6F;
   --color-pearl: #F2F1ED;
-  --color-dark-900: #161616;
-  --color-dark-800: #1a1a1a;
-  --color-dark-700: #222222;
-  --color-dark-600: #2a2a2a;
-  --color-dark-500: #444444;
-  --color-dark-400: #888888;
+  --color-dark-900: #050507;
+  --color-dark-800: #0d0d11;
+  --color-dark-700: #121218;
+  --color-dark-600: #1a1a22;
+  --color-dark-500: #2a2a33;
+  --color-dark-400: #6a6a78;
   --color-dark-300: #B38F6F;
   --font-display: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, sans-serif;
 }
@@ -22,9 +22,11 @@ html {
 }
 
 body {
-  background-color: #161616;
+  background-color: #050507;
   color: #F2F1ED;
   font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Apply Plus Jakarta Sans to all headings, buttons, and inputs */
@@ -50,36 +52,36 @@ button, input, textarea, select {
 }
 
 ::selection {
-  background-color: rgba(113, 0, 20, 0.4);
+  background-color: rgba(113, 0, 20, 0.5);
   color: #F2F1ED;
 }
 
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #161616; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #444444; }
+::-webkit-scrollbar-track { background: #050507; }
+::-webkit-scrollbar-thumb { background: #1a1a22; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #2a2a33; }
 
 /* =========================
-   Bento Card Base — Luxury Theme
+   Bento Card — Pitch-Black Obsidian
    ========================= */
 .bento-card {
-  background-color: #1a1a1a;
-  border: 1px solid rgba(179, 143, 111, 0.10);
+  background-color: #0d0d11;
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 1rem;
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .bento-card:hover {
-  border-color: rgba(179, 143, 111, 0.25);
-  box-shadow: 0 0 30px rgba(113, 0, 20, 0.04), 0 0 60px rgba(179, 143, 111, 0.02);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 0 40px rgba(113, 0, 20, 0.05), 0 0 80px rgba(179, 143, 111, 0.02);
 }
 
 .glow-border {
-  border: 1px solid rgba(179, 143, 111, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 0 20px rgba(113, 0, 20, 0.03), inset 0 0 20px rgba(179, 143, 111, 0.02);
 }
 .glow-border-hover:hover {
-  border-color: rgba(179, 143, 111, 0.30);
-  box-shadow: 0 0 40px rgba(113, 0, 20, 0.06), inset 0 0 30px rgba(179, 143, 111, 0.03);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 0 40px rgba(113, 0, 20, 0.08), inset 0 0 30px rgba(179, 143, 111, 0.03);
 }
 
 /* =========================
@@ -101,8 +103,8 @@ button, input, textarea, select {
   to { opacity: 1; transform: translateX(0); }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px rgba(113,0,20,0.08), 0 0 40px rgba(179,143,111,0.03); }
-  50% { box-shadow: 0 0 30px rgba(113,0,20,0.15), 0 0 60px rgba(179,143,111,0.05); }
+  0%, 100% { box-shadow: 0 0 20px rgba(113,0,20,0.1), 0 0 40px rgba(179,143,111,0.03); }
+  50% { box-shadow: 0 0 30px rgba(113,0,20,0.18), 0 0 60px rgba(179,143,111,0.06); }
 }
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
@@ -130,7 +132,7 @@ button, input, textarea, select {
 }
 @keyframes blob-pulse {
   0%, 100% { opacity: 0.03; }
-  50%      { opacity: 0.07; }
+  50%      { opacity: 0.08; }
 }
 
 .animate-blob-1 {

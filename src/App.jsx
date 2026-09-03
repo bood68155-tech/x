@@ -65,7 +65,7 @@ export default function App() {
       <AuthProvider>
         <ProjectsProvider>
           <LanguageProvider>
-            <div className="min-h-screen bg-[#161616] text-[#F2F1ED] antialiased relative">
+            <div className="min-h-screen bg-[#050507] text-[#F2F1ED] antialiased relative">
               {/* Global ambient background gradient blobs — Crimson Depth */}
               <div className="fixed inset-0 pointer-events-none z-0" aria-hidden="true">
                 <div className="animate-blob-1 absolute top-[5%] left-[5%] w-[600px] h-[600px] rounded-full bg-[#710014]/[0.04] blur-[150px]" />

@@ -121,7 +121,7 @@ export default function Portfolio() {
               className={`px-4 py-2 text-xs font-medium rounded-full border transition-all duration-300 ${
                 activeCategory === tab.value
                   ? 'bg-[#710014] text-[#F2F1ED] border-[#B38F6F]'
-                  : 'bg-transparent text-[#B38F6F]/70 border-[#B38F6F]/15 hover:text-[#F2F1ED] hover:border-[#B38F6F]/30'
+                  : 'bg-transparent text-[#B38F6F]/70 border-white/10 hover:text-[#F2F1ED] hover:border-white/20'
               } ${fontClass} ${ar ? 'text-sm' : ''}`}
             >
               {ar ? tab.ar : tab.en}
@@ -141,7 +141,7 @@ export default function Portfolio() {
             >
               {/* Cover */}
               <div className={`relative h-52 sm:h-56 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} overflow-hidden`}>
-                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#161616]/30 flex items-center gap-1.5 px-2 z-10">
+                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#050507]/30 flex items-center gap-1.5 px-2 z-10">
                   <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
@@ -162,14 +162,14 @@ export default function Portfolio() {
 
                 {/* Category Badge */}
                 <div className="absolute top-14 right-3 z-10">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#161616]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-[#B38F6F]/15 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#050507]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.category}
                   </span>
                 </div>
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[#161616]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
-                  <span className={`px-5 py-2.5 border border-[#B38F6F]/30 text-[#F2F1ED] text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
+                <div className="absolute inset-0 bg-[#050507]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
+                  <span className={`px-5 py-2.5 border border-white/20 text-[#F2F1ED] text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
                     {t('portView')}
                   </span>
                 </div>
@@ -181,7 +181,7 @@ export default function Portfolio() {
                   <h3 className={`text-base sm:text-lg font-bold text-[#F2F1ED] tracking-tight ${fontClass}`}>
                     {project.title}
                   </h3>
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-[#B38F6F]/[0.15] shrink-0 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-white/[0.08] shrink-0 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.tag}
                   </span>
                 </div>
@@ -189,7 +189,7 @@ export default function Portfolio() {
                   {project.description}
                 </p>
                 {project.price && (
-                  <div className="mt-3 pt-3 border-t border-[#B38F6F]/[0.10]">
+                  <div className="mt-3 pt-3 border-t border-white/[0.06]">
                     <span className="text-sm font-bold text-[#F2F1ED]">${project.price}</span>
                   </div>
                 )}

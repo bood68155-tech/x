@@ -96,13 +96,13 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#161616]/80 backdrop-blur-md animate-fade-in" onClick={onClose} />
+      <div className="absolute inset-0 bg-[#050507]/80 backdrop-blur-md animate-fade-in" onClick={onClose} />
 
       {/* Modal Window */}
-      <div className="relative w-full max-w-5xl max-h-[85vh] bg-[#1a1a1a] border border-[#B38F6F]/[0.15] rounded-2xl shadow-2xl shadow-black/80 overflow-hidden animate-fade-in-up flex flex-col">
+      <div className="relative w-full max-w-5xl max-h-[85vh] bg-[#0d0d11] border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/80 overflow-hidden animate-fade-in-up flex flex-col">
 
         {/* ===== MAC-STYLE TITLE BAR ===== */}
-        <div className="flex items-center justify-between px-5 py-3 border-b border-[#B38F6F]/[0.10] bg-white/[0.02] shrink-0">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-white/[0.02] shrink-0">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <button onClick={onClose} className="w-3 h-3 rounded-full bg-[#ff5f57] hover:brightness-110 transition-all" title="Close" />
@@ -122,9 +122,9 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full">
 
             {/* ========== LEFT COLUMN: Media & Actions ========== */}
-            <div className="p-5 sm:p-6 border-b md:border-b-0 md:border-r border-[#B38F6F]/[0.10]">
+            <div className="p-5 sm:p-6 border-b md:border-b-0 md:border-r border-white/[0.06]">
               {/* Main Media Preview */}
-              <div className="relative rounded-xl overflow-hidden border border-[#B38F6F]/[0.15] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
+              <div className="relative rounded-xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
                 {allMedia.length > 0 ? (
                   allMedia[activeImage]?.type === 'video'
                     ? <video src={allMedia[activeImage].src} controls playsInline className="w-full h-full object-cover" poster={project.imageUrl || FALLBACK_IMAGES[0]} />
@@ -135,7 +135,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
 
                 {/* Category Badge */}
                 <div className="absolute top-3 right-3 z-10">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#161616]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-[#B38F6F]/15 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#050507]/60 backdrop-blur-sm text-[#F2F1ED]/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.category}
                   </span>
                 </div>
@@ -143,7 +143,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                 {/* Video indicator */}
                 {hasVideo && allMedia[activeImage]?.type !== 'video' && (
                   <button onClick={() => setActiveImage(allMedia.findIndex(m => m.type === 'video'))}
-                    className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#161616]/60 backdrop-blur-sm text-[#F2F1ED] text-xs font-medium hover:bg-[#161616]/80 transition-all">
+                    className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#050507]/60 backdrop-blur-sm text-[#F2F1ED] text-xs font-medium hover:bg-[#050507]/80 transition-all">
                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     Video
                   </button>
@@ -155,7 +155,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                 <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
                   {allMedia.map((media, idx) => (
                     <button key={idx} onClick={() => setActiveImage(idx)}
-                      className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${activeImage === idx ? 'border-[#B38F6F] scale-105' : 'border-[#B38F6F]/15 hover:border-[#B38F6F]/30 opacity-60 hover:opacity-100'}`}>
+                      className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${activeImage === idx ? 'border-[#B38F6F] scale-105' : 'border-white/10 hover:border-white/20 opacity-60 hover:opacity-100'}`}>
                       {media.type === 'video'
                         ? <div className="w-full h-full bg-gray-800 flex items-center justify-center"><svg className="w-5 h-5 text-[#F2F1ED]/60" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></div>
                         : <img src={media.src} alt="" className="w-full h-full object-cover" />}
@@ -168,21 +168,21 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
               <div className="mt-5 space-y-2.5">
                 {hasDemo && (
                   <a href={project.demoUrl} target="_blank" rel="noopener noreferrer"
-                    className="w-full py-3 bg-[#B38F6F] hover:bg-emerald-400 font-bold text-[#161616] text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider">
+                    className="w-full py-3 bg-[#B38F6F] hover:bg-emerald-400 font-bold text-[#050507] text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
                     Live Demo
                   </a>
                 )}
                 {hasSource && (
                   <a href={project.sourceCodeUrl} target="_blank" rel="noopener noreferrer"
-                    className="w-full py-3 bg-[#B38F6F]/[0.05] hover:bg-[#B38F6F]/[0.10] text-[#F2F1ED] text-sm font-medium rounded-xl border border-[#B38F6F]/[0.20] hover:border-[#B38F6F]/[0.2] transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider">
+                    className="w-full py-3 bg-[#B38F6F]/[0.05] hover:bg-[#B38F6F]/[0.10] text-[#F2F1ED] text-sm font-medium rounded-xl border border-white/[0.12] hover:border-[#B38F6F]/[0.2] transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
                     Source Code / Template
                   </a>
                 )}
                 {hasVideo && allMedia[activeImage]?.type !== 'video' && (
                   <button onClick={() => setActiveImage(allMedia.findIndex(m => m.type === 'video'))}
-                    className="w-full py-3 bg-[#B38F6F]/[0.05] hover:bg-[#B38F6F]/[0.10] text-[#F2F1ED] text-sm font-medium rounded-xl border border-[#B38F6F]/[0.20] hover:border-[#B38F6F]/[0.2] transition-all flex items-center justify-center gap-2.5">
+                    className="w-full py-3 bg-[#B38F6F]/[0.05] hover:bg-[#B38F6F]/[0.10] text-[#F2F1ED] text-sm font-medium rounded-xl border border-white/[0.12] hover:border-[#B38F6F]/[0.2] transition-all flex items-center justify-center gap-2.5">
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     Watch Video
                   </button>
@@ -203,7 +203,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
               {/* Tags */}
               {project.tag && (
                 <div className="flex items-center gap-2 mb-4">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-[#B38F6F]/[0.15] ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>{project.tag}</span>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#B38F6F]/[0.07] text-[#B38F6F] border border-white/[0.08] ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>{project.tag}</span>
                 </div>
               )}
 
@@ -223,7 +223,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   <h2 className="text-[11px] font-bold text-[#B38F6F]/70 uppercase tracking-[0.15em] mb-3">Core Technologies</h2>
                   <div className="flex flex-wrap gap-2">
                     {project.features.map((feat, i) => (
-                      <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#B38F6F]/[0.05] border border-[#B38F6F]/[0.15] text-xs font-medium text-[#F2F1ED]/80">
+                      <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#B38F6F]/[0.05] border border-white/[0.08] text-xs font-medium text-[#F2F1ED]/80">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/70" />
                         {feat}
                       </span>
@@ -240,33 +240,33 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                 <>
                   {/* Price Badge */}
                   {displayPrice ? (
-                    <div className="flex items-center justify-between mb-5 p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.10]">
+                    <div className="flex items-center justify-between mb-5 p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-white/[0.06]">
                       <span className="text-sm text-[#B38F6F]">Price</span>
                       <span className={`text-2xl font-bold text-[#F2F1ED] ${fontClass}`}>{displayPrice}</span>
                     </div>
                   ) : (
-                    <div className="mb-5 p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.10] text-center">
+                    <div className="mb-5 p-4 rounded-xl bg-[#B38F6F]/[0.04] border border-white/[0.06] text-center">
                       <span className="text-sm text-[#B38F6F]">Contact for pricing</span>
                     </div>
                   )}
 
                   {/* BUY NOW — Primary CTA */}
                   <button onClick={() => setShowCheckout(true)}
-                    className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 font-bold text-[#161616] text-sm font-bold rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2.5">
+                    className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 font-bold text-[#050507] text-sm font-bold rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2.5">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
                     Buy Now with Binance Pay
                   </button>
 
                   {/* Secondary: Pay via Contact */}
                   <button onClick={() => setShowCheckout(true)}
-                    className="w-full mt-2.5 py-3 bg-[#B38F6F]/[0.05] hover:bg-[#B38F6F]/[0.10] text-[#F2F1ED]/80 text-sm font-medium rounded-xl border border-[#B38F6F]/[0.18] hover:border-[#B38F6F]/[0.2] transition-all text-center">
+                    className="w-full mt-2.5 py-3 bg-[#B38F6F]/[0.05] hover:bg-[#B38F6F]/[0.10] text-[#F2F1ED]/80 text-sm font-medium rounded-xl border border-white/[0.10] hover:border-[#B38F6F]/[0.2] transition-all text-center">
                     Pay via Contact Form
                   </button>
                 </>
               ) : orderSubmitted ? (
                 /* ===== ORDER CONFIRMED ===== */
                 <div className="text-center py-6">
-                  <div className="w-14 h-14 rounded-full bg-[#B38F6F]/10 border border-[#B38F6F]/30 flex items-center justify-center mx-auto mb-4">
+                  <div className="w-14 h-14 rounded-full bg-[#B38F6F]/10 border border-white/20 flex items-center justify-center mx-auto mb-4">
                     <svg className="w-7 h-7 text-[#B38F6F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
                   </div>
                   <h3 className="text-lg font-bold text-[#F2F1ED] mb-2">Order Confirmed!</h3>
@@ -297,7 +297,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                     <h3 className="text-sm font-bold text-[#F2F1ED]">Binance Pay</h3>
                     <button onClick={() => setPaymentMethod(null)} className="text-[#B38F6F]/70 hover:text-[#F2F1ED] transition-colors"><svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></button>
                   </div>
-                  <div className="p-3 rounded-lg bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.10] mb-4">
+                  <div className="p-3 rounded-lg bg-[#B38F6F]/[0.04] border border-white/[0.06] mb-4">
                     <p className="text-[10px] text-[#B38F6F]/70 uppercase tracking-wider mb-0.5">Total</p>
                     <div className="flex items-baseline gap-1.5">
                       <span className="text-xl font-bold text-[#F2F1ED]">{numericTotal}</span>
@@ -307,17 +307,17 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   <div className="flex gap-2 mb-4">
                     {['TRC20', 'BEP20'].map(n => (
                       <button key={n} onClick={() => setBinanceNetwork(n)}
-                        className={`flex-1 py-2 text-[11px] font-semibold rounded-lg border transition-all ${binanceNetwork === n ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400' : 'bg-[#B38F6F]/[0.04] border-[#B38F6F]/[0.15] text-[#B38F6F]/70 hover:text-[#B38F6F]'}`}>{n}</button>
+                        className={`flex-1 py-2 text-[11px] font-semibold rounded-lg border transition-all ${binanceNetwork === n ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400' : 'bg-[#B38F6F]/[0.04] border-white/[0.08] text-[#B38F6F]/70 hover:text-[#B38F6F]'}`}>{n}</button>
                     ))}
                   </div>
                   <div className="mb-4">
                     <label className="block text-[10px] font-semibold text-[#B38F6F]/70 uppercase tracking-wider mb-1.5">Deposit Address ({binanceNetwork})</label>
                     <div className="flex items-stretch gap-1.5">
-                      <div className="flex-1 px-3 py-2.5 bg-[#B38F6F]/[0.05] border border-[#B38F6F]/15 rounded-lg text-[11px] text-[#F2F1ED]/80 font-mono break-all select-all leading-relaxed">{project.binanceWallet || BINANCE_WALLET_DEFAULT}</div>
+                      <div className="flex-1 px-3 py-2.5 bg-[#B38F6F]/[0.05] border border-white/10 rounded-lg text-[11px] text-[#F2F1ED]/80 font-mono break-all select-all leading-relaxed">{project.binanceWallet || BINANCE_WALLET_DEFAULT}</div>
                       <button onClick={async () => {
                         try { await navigator.clipboard.writeText(project.binanceWallet || BINANCE_WALLET_DEFAULT) } catch {}
                         setBinanceCopied(true); setTimeout(() => setBinanceCopied(false), 2000)
-                      }} className={`shrink-0 px-3 rounded-lg text-[10px] font-semibold transition-all ${binanceCopied ? 'bg-[#B38F6F]/15 border border-emerald-500/25 text-[#B38F6F]' : 'bg-[#B38F6F]/[0.07] border border-[#B38F6F]/15 text-[#B38F6F] hover:text-[#F2F1ED]'}`}>
+                      }} className={`shrink-0 px-3 rounded-lg text-[10px] font-semibold transition-all ${binanceCopied ? 'bg-[#B38F6F]/15 border border-emerald-500/25 text-[#B38F6F]' : 'bg-[#B38F6F]/[0.07] border border-white/10 text-[#B38F6F] hover:text-[#F2F1ED]'}`}>
                         {binanceCopied ? '✓' : 'Copy'}
                       </button>
                     </div>
@@ -334,7 +334,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                     await new Promise(r => setTimeout(r, 600)); setOrderLoading(false); setOrderSubmitted(true)
                   }} className="space-y-2.5">
                     <input name="txHash" type="text" required placeholder="Paste TxID..."
-                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-lg text-[#F2F1ED] text-xs font-mono placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-white/10 rounded-lg text-[#F2F1ED] text-xs font-mono placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
                     <button type="submit" disabled={orderLoading}
                       className="w-full py-3 bg-[#710014] text-[#F2F1ED] text-xs font-bold rounded-lg hover:bg-[#5a0010] transition-all uppercase tracking-wider disabled:opacity-40">
                       {orderLoading ? 'Submitting...' : 'Confirm Payment'}
@@ -346,7 +346,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                 <div>
                   <h3 className="text-sm font-bold text-[#F2F1ED] mb-3">Choose Payment Method</h3>
                   {displayPrice && (
-                    <div className="flex items-center justify-between py-2.5 border-t border-b border-[#B38F6F]/[0.10] mb-3">
+                    <div className="flex items-center justify-between py-2.5 border-t border-b border-white/[0.06] mb-3">
                       <span className="text-xs text-[#B38F6F]">Total</span>
                       <span className="text-lg font-bold text-[#F2F1ED]">{displayPrice}</span>
                     </div>
@@ -363,7 +363,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                       </button>
                     )}
                     <button onClick={() => setPaymentMethod('crypto')}
-                      className="w-full p-3.5 rounded-xl border border-[#B38F6F]/[0.15] bg-white/[0.02] hover:bg-[#B38F6F]/[0.06] hover:border-[#B38F6F]/20 transition-all flex items-center gap-3 text-left group">
+                      className="w-full p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-[#B38F6F]/[0.06] hover:border-[#B38F6F]/20 transition-all flex items-center gap-3 text-left group">
                       <div className="w-10 h-10 rounded-lg bg-yellow-500/[0.06] border border-yellow-500/10 flex items-center justify-center shrink-0">
                         <svg className="w-4 h-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </div>
@@ -371,8 +371,8 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                       <svg className="w-3.5 h-3.5 text-[#B38F6F]/50 group-hover:text-[#B38F6F]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                     </button>
                     <button onClick={() => setPaymentMethod('contact')}
-                      className="w-full p-3.5 rounded-xl border border-[#B38F6F]/[0.15] bg-white/[0.02] hover:bg-[#B38F6F]/[0.06] hover:border-[#B38F6F]/20 transition-all flex items-center gap-3 text-left group">
-                      <div className="w-10 h-10 rounded-lg bg-[#B38F6F]/[0.07] border border-[#B38F6F]/[0.15] flex items-center justify-center shrink-0 group-hover:border-[#B38F6F]/20 transition-all">
+                      className="w-full p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-[#B38F6F]/[0.06] hover:border-[#B38F6F]/20 transition-all flex items-center gap-3 text-left group">
+                      <div className="w-10 h-10 rounded-lg bg-[#B38F6F]/[0.07] border border-white/[0.08] flex items-center justify-center shrink-0 group-hover:border-[#B38F6F]/20 transition-all">
                         <svg className="w-4 h-4 text-[#F2F1ED]/80" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" /></svg>
                       </div>
                       <div className="flex-1"><p className="text-xs font-semibold text-[#F2F1ED]">Pay via Contact</p><p className="text-[10px] text-[#B38F6F]/70">Name, email & phone</p></div>
@@ -389,13 +389,13 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   </div>
                   <form onSubmit={handleOrderSubmit} className="space-y-3">
                     <input type="text" required value={orderForm.name} onChange={e => setOrderForm({ ...orderForm, name: e.target.value })} placeholder="Full name"
-                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-lg text-[#F2F1ED] text-xs placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-white/10 rounded-lg text-[#F2F1ED] text-xs placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
                     <input type="email" required value={orderForm.email} onChange={e => setOrderForm({ ...orderForm, email: e.target.value })} placeholder="Email address"
-                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-lg text-[#F2F1ED] text-xs placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-white/10 rounded-lg text-[#F2F1ED] text-xs placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
                     <input type="tel" value={orderForm.phone} onChange={e => setOrderForm({ ...orderForm, phone: e.target.value })} placeholder="Phone / WhatsApp (optional)"
-                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-lg text-[#F2F1ED] text-xs placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#B38F6F]/5 border border-white/10 rounded-lg text-[#F2F1ED] text-xs placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all" />
                     {displayPrice && (
-                      <div className="flex items-center justify-between py-2 border-t border-[#B38F6F]/[0.10]">
+                      <div className="flex items-center justify-between py-2 border-t border-white/[0.06]">
                         <span className="text-xs text-[#B38F6F]">Total</span>
                         <span className="text-lg font-bold text-[#F2F1ED]">{displayPrice}</span>
                       </div>

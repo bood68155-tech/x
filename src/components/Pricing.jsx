@@ -57,8 +57,8 @@ export default function Pricing() {
               key={i}
               className={`relative p-8 sm:p-10 rounded-2xl border transition-all duration-500 ${
                 plan.popular
-                  ? 'border-[#B38F6F]/30 bg-[#B38F6F]/[0.05] scale-[1.02]'
-                  : 'border-[#B38F6F]/[0.15] bg-[#B38F6F]/[0.02] hover:border-[#B38F6F]/15'
+                  ? 'border-white/20 bg-[#B38F6F]/[0.05] scale-[1.02]'
+                  : 'border-white/[0.08] bg-[#B38F6F]/[0.02] hover:border-white/10'
               }`}
             >
               {plan.popular && (

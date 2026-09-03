@@ -69,7 +69,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         <div className="max-w-lg mx-auto text-center">
-          <div className="bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.15] rounded-2xl p-8 sm:p-10">
+          <div className="bg-[#B38F6F]/[0.04] border border-white/[0.08] rounded-2xl p-8 sm:p-10">
             <div className="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6">
               <svg className="w-10 h-10 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -88,12 +88,12 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
               We will notify you at the email associated with your account.
             </p>
 
-            <div className="bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.10] rounded-xl p-4 mb-6">
+            <div className="bg-[#B38F6F]/[0.04] border border-white/[0.06] rounded-xl p-4 mb-6">
               <p className="text-[10px] uppercase tracking-widest text-[#B38F6F]/70 mb-1">Transaction ID</p>
               <p className="text-xs text-[#F2F1ED]/80 font-mono break-all">{txHash.trim()}</p>
             </div>
 
-            <div className="flex items-center justify-between py-3 border-t border-[#B38F6F]/[0.10] mb-6">
+            <div className="flex items-center justify-between py-3 border-t border-white/[0.06] mb-6">
               <span className="text-sm text-[#B38F6F]">Amount Paid</span>
               <span className="text-lg font-bold text-[#F2F1ED]">{total} {CURRENCY}</span>
             </div>
@@ -131,7 +131,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
           </p>
         </div>
 
-        <div className="bg-[#B38F6F]/[0.04] border border-[#B38F6F]/[0.15] rounded-2xl p-6 sm:p-8">
+        <div className="bg-[#B38F6F]/[0.04] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
           {/* Network Info */}
           <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-blue-500/[0.06] border border-blue-500/10">
             <svg className="w-5 h-5 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -146,7 +146,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
           </div>
 
           {/* Total Amount */}
-          <div className="flex items-center justify-between py-4 border-b border-[#B38F6F]/[0.10] mb-6">
+          <div className="flex items-center justify-between py-4 border-b border-white/[0.06] mb-6">
             <span className="text-sm text-[#B38F6F] font-medium">Total Amount</span>
             <div className="text-right">
               <span className="text-2xl sm:text-3xl font-bold text-[#F2F1ED]">{total}</span>
@@ -160,7 +160,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
               Deposit Address ({CURRENCY} - {NETWORK_LABEL})
             </label>
             <div className="flex items-stretch gap-2">
-              <div className="flex-1 px-4 py-3.5 bg-[#B38F6F]/[0.05] border border-[#B38F6F]/15 rounded-xl text-sm text-[#F2F1ED]/80 font-mono break-all leading-relaxed select-all">
+              <div className="flex-1 px-4 py-3.5 bg-[#B38F6F]/[0.05] border border-white/10 rounded-xl text-sm text-[#F2F1ED]/80 font-mono break-all leading-relaxed select-all">
                 {USDT_WALLET_ADDRESS}
               </div>
               <button
@@ -168,7 +168,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
                 className={`shrink-0 px-5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${
                   copied
                     ? 'bg-green-500/15 border border-green-500/25 text-green-400'
-                    : 'bg-[#B38F6F]/[0.07] border border-[#B38F6F]/15 text-[#F2F1ED]/80 hover:text-[#F2F1ED] hover:border-[#B38F6F]/25'
+                    : 'bg-[#B38F6F]/[0.07] border border-white/10 text-[#F2F1ED]/80 hover:text-[#F2F1ED] hover:border-[#B38F6F]/25'
                 }`}
               >
                 {copied ? (
@@ -191,7 +191,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
           </div>
 
           {/* Instructions */}
-          <div className="bg-white/[0.02] border border-[#B38F6F]/[0.10] rounded-xl p-4 mb-6">
+          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 mb-6">
             <p className="text-xs font-semibold text-[#F2F1ED]/80 uppercase tracking-wider mb-2">How to Pay</p>
             <ol className="space-y-2 text-xs text-[#B38F6F] font-light">
               <li className="flex items-start gap-2.5">
@@ -225,7 +225,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
                 onChange={(e) => { setTxHash(e.target.value); if (error) setError('') }}
                 placeholder="Paste your TxID here (e.g. 0xabc123...)"
                 required
-                className="w-full px-4 py-3.5 bg-[#B38F6F]/5 border border-[#B38F6F]/15 rounded-xl text-[#F2F1ED] text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all"
+                className="w-full px-4 py-3.5 bg-[#B38F6F]/5 border border-white/10 rounded-xl text-[#F2F1ED] text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-[#B38F6F]/40 transition-all"
               />
             </div>
 
