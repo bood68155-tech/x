@@ -7,16 +7,18 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
   const [loginOpen, setLoginOpen] = useState(false)
-  const [authMode, setAuthMode] = useState('signin') // 'signin' | 'signup'
+  const [authMode, setAuthMode] = useState('signin')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
   const [adminMenuOpen, setAdminMenuOpen] = useState(false)
   const { language, toggleLanguage, t } = useLanguage()
-  const { isAuthenticated, loading: authLoading, displayName, avatarUrl, signIn, signUp, signInWithGoogle, logout } = useAuth()
+  const { isAuthenticated, loading: authLoading, user, displayName, avatarUrl, signIn, signUp, signInWithGoogle, logout } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
+
+  const isAdmin = isAuthenticated && user?.email === 'bood68155@gmail.com'
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -24,19 +26,14 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  // Close modal on Escape
   useEffect(() => {
     const handleEsc = (e) => {
-      if (e.key === 'Escape') {
-        setLoginOpen(false)
-        setAdminMenuOpen(false)
-      }
+      if (e.key === 'Escape') { setLoginOpen(false); setAdminMenuOpen(false) }
     }
     window.addEventListener('keydown', handleEsc)
     return () => window.removeEventListener('keydown', handleEsc)
   }, [])
 
-  // Close login modal when user becomes authenticated
   useEffect(() => {
     if (isAuthenticated && loginOpen) {
       setLoginOpen(false)
@@ -62,9 +59,9 @@ export default function Navbar() {
         await signIn(email, password)
       } else {
         await signUp(email, password)
-        setLoginError('')
-        // Show a friendly message for sign up
         setLoginError('Check your email for a confirmation link!')
+        setLoginLoading(false)
+        return
       }
       resetLoginModal()
     } catch (err) {
@@ -80,19 +77,16 @@ export default function Navbar() {
     try {
       await signInWithGoogle()
     } catch (err) {
-      setLoginError(err.message || 'Google sign-in failed')
+      setLoginError(err.message || 'Google sign-in failed. The provider may not be enabled.')
       setLoginLoading(false)
     }
   }
 
   const handleLogout = async () => {
-    try {
-      await logout()
-    } catch (_) { /* silent */ }
+    try { await logout() } catch (_) { /* silent */ }
     setAdminMenuOpen(false)
   }
 
-  /** Navigate to a hash section, handling same-page vs cross-page scrolls */
   const handleNavClick = (e, href) => {
     if (href.startsWith('#')) {
       const targetId = href.slice(1)
@@ -110,39 +104,48 @@ export default function Navbar() {
 
   const navLinks = [
     { label: t('navHome'), href: '/', isRoute: true },
+    { label: t('navEducation'), href: '#education', isRoute: false },
+    { label: t('navTechStack'), href: '#techstack', isRoute: false },
+    { label: t('navProjects'), href: '#projects', isRoute: false },
     { label: t('navServices'), href: '#services', isRoute: false },
-    { label: t('navStore'), href: '/store', isRoute: true },
-    { label: t('navContact'), href: '#contact', isRoute: false },
+    { label: t('navAboutMe'), href: '#contact', isRoute: false },
   ]
 
-  // Don't render auth-dependent UI until session is resolved
   const showAuthUI = !authLoading
 
   return (
     <>
+      {/* Floating Centered Navbar */}
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-2xl ${
           scrolled
-            ? 'bg-black/80 backdrop-blur-2xl border-b border-white/[0.06] py-3'
-            : 'bg-transparent py-5'
+            ? 'bg-[#0f0f12]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
+            : 'bg-[#0f0f12]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-1 text-2xl font-black tracking-[-0.03em] text-white hover:opacity-80 transition-opacity">
-            <span>Abood</span>
+        <div className="flex items-center justify-between">
+          {/* Brand */}
+          <Link to="/" className="flex items-center gap-2 group">
+            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+              <span className="text-black text-sm font-black">A</span>
+            </div>
+            <div className="hidden sm:block">
+              <span className="text-sm font-bold text-white tracking-tight">Abdelrahman Osama</span>
+              <span className="text-[10px] text-gray-500 block leading-none">Abood</span>
+            </div>
           </Link>
 
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Nav Links */}
+          <div className="hidden lg:flex items-center gap-1">
             {navLinks.map((link) => (
               link.isRoute ? (
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`text-sm font-medium transition-colors duration-300 tracking-wide uppercase ${
+                  className={`px-3 py-1.5 text-[11px] font-medium rounded-lg transition-all duration-300 tracking-wide ${
                     location.pathname === link.href
-                      ? 'text-white'
-                      : 'text-gray-400 hover:text-white'
+                      ? 'text-white bg-white/[0.08]'
+                      : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
                   }`}
                 >
                   {link.label}
@@ -152,77 +155,49 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="text-sm font-medium text-gray-400 hover:text-white transition-colors duration-300 tracking-wide uppercase"
+                  className="px-3 py-1.5 text-[11px] font-medium text-gray-400 hover:text-white hover:bg-white/[0.04] rounded-lg transition-all duration-300 tracking-wide"
                 >
                   {link.label}
                 </a>
               )
             ))}
+          </div>
 
+          {/* Right: Language + Auth */}
+          <div className="flex items-center gap-2">
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center gap-0 border border-white/[0.12] rounded-full overflow-hidden hover:border-white/[0.25] transition-all duration-300"
+              className="flex items-center border border-white/[0.1] rounded-full overflow-hidden hover:border-white/[0.2] transition-all duration-300"
             >
-              <span
-                className={`px-3 py-1.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 ${
-                  language === 'en'
-                    ? 'bg-white text-black'
-                    : 'text-gray-500 hover:text-white'
-                }`}
-              >
-                EN
-              </span>
-              <span
-                className={`px-3 py-1.5 text-xs font-semibold transition-all duration-300 ${
-                  language === 'ar'
-                    ? 'bg-white text-black'
-                    : 'text-gray-500 hover:text-white'
-                }`}
-              >
-                العربية
-              </span>
+              <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
+                language === 'en' ? 'bg-white text-black' : 'text-gray-500 hover:text-white'
+              }`}>EN</span>
+              <span className={`px-2.5 py-1 text-[10px] font-bold transition-all duration-300 ${
+                language === 'ar' ? 'bg-white text-black' : 'text-gray-500 hover:text-white'
+              }`}>ع</span>
             </button>
 
             {/* Auth Section */}
             {showAuthUI && (
               isAuthenticated ? (
-                <div className="flex items-center gap-3">
-                  {/* User Profile Pill */}
-                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full border border-emerald-500/20 bg-emerald-500/5">
-                    {avatarUrl ? (
-                      <img src={avatarUrl} alt="" className="w-5 h-5 rounded-full object-cover" />
-                    ) : (
-                      <span className="relative flex h-2 w-2">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-                      </span>
-                    )}
-                    <span className="text-xs font-medium text-emerald-400 tracking-wide max-w-[120px] truncate">{displayName}</span>
-                  </div>
-
-                  {/* Admin Dashboard Button with dropdown */}
+                isAdmin ? (
                   <div className="relative">
                     <button
                       onClick={() => setAdminMenuOpen(!adminMenuOpen)}
-                      className="flex items-center gap-2 px-4 py-2 bg-white text-black text-sm font-semibold rounded-full hover:bg-gray-200 transition-all duration-300"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-white text-black text-[11px] font-bold rounded-full hover:bg-gray-200 transition-all duration-300"
                     >
-                      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
                       </svg>
-                      Dashboard
-                      <svg className={`w-3 h-3 transition-transform duration-200 ${adminMenuOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                      </svg>
+                      Admin Active
                     </button>
 
-                    {/* Dropdown */}
                     {adminMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-black/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
-                        {/* User Info */}
-                        <div className="px-4 py-3 border-b border-white/[0.08]">
-                          <p className="text-xs text-gray-500">Signed in as</p>
-                          <p className="text-sm font-medium text-white truncate">{displayName}</p>
+                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#0f0f12]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
+                        <div className="px-4 py-3 border-b border-white/[0.06]">
+                          <p className="text-[10px] text-gray-500">Signed in as</p>
+                          <p className="text-xs font-medium text-white truncate">{displayName}</p>
                         </div>
                         <Link
                           to="/admin"
@@ -234,7 +209,7 @@ export default function Navbar() {
                           </svg>
                           Open Dashboard
                         </Link>
-                        <div className="mx-3 my-1 border-t border-white/[0.08]" />
+                        <div className="mx-3 my-1 border-t border-white/[0.06]" />
                         <button
                           onClick={handleLogout}
                           className="flex items-center gap-3 w-full px-4 py-2.5 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-500/5 transition-all"
@@ -247,102 +222,38 @@ export default function Navbar() {
                       </div>
                     )}
                   </div>
-                </div>
-              ) : (
-                <button
-                  onClick={() => setLoginOpen(true)}
-                  className="flex items-center gap-2 ml-2 px-5 py-2.5 border border-white/[0.12] text-gray-300 text-sm font-medium rounded-full hover:text-white hover:border-white/[0.25] transition-all duration-300"
-                >
-                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  Login
-                </button>
-              )
-            )}
-          </div>
-
-          {/* Mobile Toggle */}
-          <div className="md:hidden flex items-center gap-3">
-            {/* Mobile Language Toggle */}
-            <button
-              onClick={toggleLanguage}
-              className="flex items-center border border-white/[0.12] rounded-full overflow-hidden hover:border-white/[0.25] transition-all duration-300"
-            >
-              <span
-                className={`px-2 py-1 text-[10px] font-bold uppercase transition-all duration-300 ${
-                  language === 'en'
-                    ? 'bg-white text-black'
-                    : 'text-gray-500'
-                }`}
-              >
-                EN
-              </span>
-              <span
-                className={`px-2 py-1 text-[10px] font-bold transition-all duration-300 ${
-                  language === 'ar'
-                    ? 'bg-white text-black'
-                    : 'text-gray-500'
-                }`}
-              >
-                ع
-              </span>
-            </button>
-
-            {/* Mobile Admin / Login */}
-            {showAuthUI && (
-              isAuthenticated ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setAdminMenuOpen(!adminMenuOpen)}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-black text-[10px] font-bold rounded-full"
-                  >
-                    {avatarUrl ? (
-                      <img src={avatarUrl} alt="" className="w-4 h-4 rounded-full object-cover" />
-                    ) : (
+                ) : (
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-emerald-500/20 bg-emerald-500/5">
                       <span className="relative flex h-1.5 w-1.5">
                         <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
                         <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500" />
                       </span>
-                    )}
-                    ADMIN
-                  </button>
-                  {adminMenuOpen && (
-                    <div className="absolute right-0 top-full mt-2 w-52 py-2 bg-black/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl z-50">
-                      <div className="px-4 py-2 border-b border-white/[0.08]">
-                        <p className="text-[10px] text-gray-500">Signed in as</p>
-                        <p className="text-xs font-medium text-white truncate">{displayName}</p>
-                      </div>
-                      <Link to="/admin" onClick={() => setAdminMenuOpen(false)} className="flex items-center gap-2 px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" /></svg>
-                        Dashboard
-                      </Link>
-                      <div className="mx-3 my-1 border-t border-white/[0.08]" />
-                      <button onClick={handleLogout} className="flex items-center gap-2 w-full px-4 py-2.5 text-sm text-red-400/80 hover:text-red-400 hover:bg-red-500/5">
-                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" /></svg>
-                        Logout
-                      </button>
+                      <span className="text-[10px] font-medium text-emerald-400 max-w-[80px] truncate">{displayName}</span>
                     </div>
-                  )}
-                </div>
+                    <button onClick={handleLogout} className="text-[10px] text-gray-500 hover:text-gray-300 transition-colors">Logout</button>
+                  </div>
+                )
               ) : (
                 <button
                   onClick={() => setLoginOpen(true)}
-                  className="p-2 text-gray-400 hover:text-white transition-colors"
+                  className="flex items-center gap-1.5 px-3 py-1.5 border border-white/[0.1] text-gray-300 text-[11px] font-medium rounded-full hover:text-white hover:border-white/[0.2] transition-all duration-300"
                 >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                   </svg>
+                  Sign In
                 </button>
               )
             )}
 
+            {/* Mobile Toggle */}
             <button
-              className="text-white p-2"
+              className="lg:hidden text-white p-1.5"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 {mobileOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -355,15 +266,17 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="md:hidden bg-black/95 backdrop-blur-2xl border-t border-white/[0.06] mt-3">
-            <div className="px-4 py-6 space-y-4">
+          <div className="lg:hidden mt-3 pt-3 border-t border-white/[0.06]">
+            <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 link.isRoute ? (
                   <Link
                     key={link.href}
                     to={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wide"
+                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                      location.pathname === link.href ? 'text-white bg-white/[0.08]' : 'text-gray-400 hover:text-white hover:bg-white/[0.04]'
+                    }`}
                   >
                     {link.label}
                   </Link>
@@ -372,36 +285,23 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="block text-sm font-medium text-gray-400 hover:text-white transition-colors uppercase tracking-wide"
+                    className="px-4 py-2 text-sm font-medium text-gray-400 hover:text-white hover:bg-white/[0.04] rounded-lg transition-all"
                   >
                     {link.label}
                   </a>
                 )
               ))}
-              <Link
-                to="/store"
-                onClick={() => setMobileOpen(false)}
-                className="block w-full text-center px-6 py-3 bg-white text-black text-sm font-semibold rounded-full hover:bg-gray-200 transition-all"
-              >
-                {t('navGetStarted')}
-              </Link>
             </div>
           </div>
         )}
       </nav>
 
-      {/* ===== AUTH MODAL ===== */}
+      {/* Auth Modal */}
       {loginOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-          {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in"
-            onClick={resetLoginModal}
-          />
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-sm animate-fade-in" onClick={resetLoginModal} />
 
-          {/* Modal */}
-          <div className="relative w-full max-w-sm bg-[#0a0a0a] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
-            {/* Close */}
+          <div className="relative w-full max-w-sm bg-[#0f0f12] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             <button
               onClick={resetLoginModal}
               className="absolute top-4 right-4 p-1.5 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-white/5"
@@ -411,7 +311,6 @@ export default function Navbar() {
               </svg>
             </button>
 
-            {/* Header */}
             <div className="text-center mb-6">
               <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl border border-white/[0.08] bg-white/5 mb-4">
                 <svg className="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -422,13 +321,10 @@ export default function Navbar() {
                 {authMode === 'signin' ? 'Welcome Back' : 'Create Account'}
               </h3>
               <p className="text-xs text-gray-500 mt-1">
-                {authMode === 'signin'
-                  ? 'Sign in to manage your projects'
-                  : 'Sign up to get started'}
+                {authMode === 'signin' ? 'Sign in to manage your projects' : 'Sign up to get started'}
               </p>
             </div>
 
-            {/* Google OAuth Button */}
             <button
               onClick={handleGoogleAuth}
               disabled={loginLoading}
@@ -443,21 +339,19 @@ export default function Navbar() {
               Continue with Google
             </button>
 
-            {/* Divider */}
             <div className="flex items-center gap-3 mb-4">
               <div className="flex-1 h-px bg-white/[0.08]" />
               <span className="text-[10px] text-gray-600 uppercase tracking-wider">or</span>
               <div className="flex-1 h-px bg-white/[0.08]" />
             </div>
 
-            {/* Error / Info Message */}
             {loginError && (
               <div className={`flex items-center gap-2 p-3 rounded-lg text-xs mb-4 ${
                 loginError.includes('Check your email')
                   ? 'bg-blue-500/10 border border-blue-500/20 text-blue-400'
                   : 'bg-red-500/10 border border-red-500/20 text-red-400'
               }`}>
-                <svg className="w-4 h-4 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   {loginError.includes('Check your email') ? (
                     <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   ) : (
@@ -472,32 +366,25 @@ export default function Navbar() {
               </div>
             )}
 
-            {/* Email/Password Form */}
             <form onSubmit={handleEmailAuth} className="space-y-3">
-              <div>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Email"
-                  required
-                  autoFocus
-                  className="w-full px-4 py-2.5 bg-white/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
-                />
-              </div>
-
-              <div>
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Password"
-                  required
-                  minLength={6}
-                  className="w-full px-4 py-2.5 bg-white/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
-                />
-              </div>
-
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+                required
+                autoFocus
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
+              />
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Password"
+                required
+                minLength={6}
+                className="w-full px-4 py-2.5 bg-white/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/25 transition-all"
+              />
               <button
                 type="submit"
                 disabled={loginLoading}
@@ -515,13 +402,9 @@ export default function Navbar() {
               </button>
             </form>
 
-            {/* Toggle Sign In / Sign Up */}
             <div className="mt-4 text-center">
               <button
-                onClick={() => {
-                  setAuthMode(authMode === 'signin' ? 'signup' : 'signin')
-                  setLoginError('')
-                }}
+                onClick={() => { setAuthMode(authMode === 'signin' ? 'signup' : 'signin'); setLoginError('') }}
                 className="text-xs text-gray-500 hover:text-gray-300 transition-colors"
               >
                 {authMode === 'signin' ? (

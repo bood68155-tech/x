@@ -6,9 +6,9 @@ import { ProjectsProvider } from './admin/ProjectsContext'
 import ProtectedRoute from './admin/ProtectedRoute'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
-import Services from './components/Services'
+import Education from './components/Education'
 import Portfolio from './components/Portfolio'
-import Contact from './components/Contact'
+import Services from './components/Services'
 import Footer from './components/Footer'
 import AdminDashboard from './admin/AdminDashboard'
 import Store from './pages/Store'
@@ -28,9 +28,9 @@ function HomeSite() {
     <>
       <main>
         <Hero onGetStarted={() => openOrderModal(null)} />
-        <Services />
+        <Education />
         <Portfolio />
-        <Contact />
+        <Services />
       </main>
       <Footer />
     </>
@@ -65,26 +65,23 @@ export default function App() {
       <AuthProvider>
         <ProjectsProvider>
           <LanguageProvider>
-            <div className="min-h-screen bg-black text-white antialiased">
+            <div className="min-h-screen bg-[#09090b] text-white antialiased">
               <OrderModalProvider>
-              <Navbar />
-              <Routes>
-                {/* Public Routes */}
-              <Route path="/" element={<HomeSite />} />
-              <Route path="/store" element={<Store />} />
-              <Route path="/checkout/crypto" element={<CryptoPaymentCheckout />} />
-              <Route path="/project/:id" element={<ProjectDetails />} />
-
-              {/* Admin Routes */}
-                <Route
-                  path="/admin"
-                  element={
-                    <ProtectedRoute>
-                      <AdminDashboard />
-                    </ProtectedRoute>
-                  }
-                />
-              </Routes>
+                <Navbar />
+                <Routes>
+                  <Route path="/" element={<HomeSite />} />
+                  <Route path="/store" element={<Store />} />
+                  <Route path="/checkout/crypto" element={<CryptoPaymentCheckout />} />
+                  <Route path="/project/:id" element={<ProjectDetails />} />
+                  <Route
+                    path="/admin"
+                    element={
+                      <ProtectedRoute>
+                        <AdminDashboard />
+                      </ProtectedRoute>
+                    }
+                  />
+                </Routes>
               </OrderModalProvider>
             </div>
           </LanguageProvider>

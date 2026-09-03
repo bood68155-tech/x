@@ -3,24 +3,23 @@ import { supabase } from '../lib/supabaseClient'
 
 const AuthContext = createContext(null)
 
+const ADMIN_EMAIL = 'bood68155@gmail.com'
+const ADMIN_PASSWORD = '123123'
+
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
 
-  // Derive isAuthenticated from session
   const isAuthenticated = !!session
 
-  // Listen for auth state changes — this handles persistence across reloads
   useEffect(() => {
-    // Get initial session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession)
       setUser(currentSession?.user ?? null)
       setLoading(false)
     })
 
-    // Subscribe to future changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         setSession(currentSession)
@@ -32,21 +31,46 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  // Email & Password Sign Up
+  // Exclusive admin fallback login
+  const signInWithAdminFallback = useCallback(async (email, password) => {
+    if (email.toLowerCase() === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+      // Try Supabase first
+      try {
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+        if (!error) return data
+      } catch (_) { /* fall through to fallback */ }
+
+      // Fallback: create a mock session for admin
+      const mockUser = {
+        id: 'admin-fallback',
+        email: ADMIN_EMAIL,
+        user_metadata: {
+          full_name: 'Abdelrahman Osama',
+          name: 'Abood',
+        },
+      }
+      const mockSession = { user: mockUser, access_token: 'admin-fallback' }
+      setUser(mockUser)
+      setSession(mockSession)
+      setLoading(false)
+      return { user: mockUser }
+    }
+    // Regular user — try Supabase
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+    if (error) throw error
+    return data
+  }, [])
+
   const signUp = useCallback(async (email, password) => {
     const { data, error } = await supabase.auth.signUp({ email, password })
     if (error) throw error
     return data
   }, [])
 
-  // Email & Password Sign In
   const signIn = useCallback(async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) throw error
-    return data
-  }, [])
+    return signInWithAdminFallback(email, password)
+  }, [signInWithAdminFallback])
 
-  // Google OAuth Sign In
   const signInWithGoogle = useCallback(async () => {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -56,13 +80,17 @@ export function AuthProvider({ children }) {
     return data
   }, [])
 
-  // Sign Out
   const logout = useCallback(async () => {
+    // Clear fallback session
+    if (session?.access_token === 'admin-fallback') {
+      setUser(null)
+      setSession(null)
+      return
+    }
     const { error } = await supabase.auth.signOut()
     if (error) throw error
-  }, [])
+  }, [session])
 
-  // Get display name or email
   const displayName = user?.user_metadata?.full_name
     || user?.user_metadata?.name
     || user?.email

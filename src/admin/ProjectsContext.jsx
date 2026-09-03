@@ -2,30 +2,19 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import { supabase } from '../lib/supabaseClient'
 
 const CATEGORIES = [
-  { value: 'Website', label: 'Website', ar: 'موقع' },
-  { value: 'Store', label: 'Store', ar: 'متجر' },
-  { value: 'Theme', label: 'Theme', ar: 'ثيم' },
+  { value: 'E-Commerce Stores', label: 'E-Commerce Stores', ar: 'متاجر إلكترونية' },
+  { value: 'Web Applications', label: 'Web Applications', ar: 'تطبيقات ويب' },
+  { value: 'UI/UX Themes & Templates', label: 'UI/UX Themes & Templates', ar: 'قوالب وتصاميم' },
+  { value: 'Automation Tools', label: 'Automation Tools', ar: 'أدوات الأتمتة' },
 ]
 
 const ProjectsContext = createContext(null)
 
-/*
- * Canonical DB columns (snake_case):
- *   id, title, description, price, category, tag,
- *   features (JSONB), image_url, gallery (JSONB),
- *   video_url, demo_url, created_at, updated_at
- *
- * Canonical React state fields (camelCase):
- *   id, title, description, price, category, tag,
- *   features, imageUrl, gallery, videoUrl, demoUrl
- */
-
-/** Map a Supabase row → React project object */
 function rowToProject(row) {
   return {
     id: row.id,
     title: row.title ?? '',
-    category: row.category ?? 'Website',
+    category: row.category ?? 'Web Applications',
     description: row.description ?? '',
     tag: row.tag ?? '',
     price: row.price ?? '',
@@ -37,11 +26,10 @@ function rowToProject(row) {
   }
 }
 
-/** Map a React project object → Supabase-ready row */
 function projectToRow(project) {
   return {
     title: project.title ?? '',
-    category: project.category ?? 'Website',
+    category: project.category ?? 'Web Applications',
     description: project.description ?? '',
     tag: project.tag ?? '',
     price: project.price ?? '',
@@ -68,7 +56,6 @@ export function ProjectsProvider({ children }) {
         console.error('Error fetching projects:', error.message)
         return
       }
-
       setProjects(data.map(rowToProject))
     } catch (err) {
       console.error('Unexpected error fetching projects:', err)
