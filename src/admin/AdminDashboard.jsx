@@ -62,7 +62,7 @@ function fileToDataURL(file) {
 }
 
 export default function AdminDashboard() {
-  const { logout } = useAuth()
+  const { logout, avatarUrl, updateAvatar } = useAuth()
   const { projects, addProject, updateProject, deleteProject, refetchProjects } = useProjects()
   const [editing, setEditing] = useState(null)
   const [formData, setFormData] = useState({ ...EMPTY_PROJECT })
@@ -72,6 +72,8 @@ export default function AdminDashboard() {
   const [filterCategory, setFilterCategory] = useState('All')
   const [uploading, setUploading] = useState(false)
   const [uploadMessage, setUploadMessage] = useState('')
+  const [avatarUploading, setAvatarUploading] = useState(false)
+  const [avatarPreview, setAvatarPreview] = useState(null)
 
   // Toast / feedback state
   const [toast, setToast] = useState(null) // { type: 'success' | 'error', message: string }
@@ -82,6 +84,22 @@ export default function AdminDashboard() {
 
   // Feature input helper
   const [featureInput, setFeatureInput] = useState('')
+
+  // Profile picture upload handler
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setAvatarUploading(true)
+    try {
+      await updateAvatar(file)
+      showToast('success', 'Profile picture updated!')
+    } catch (err) {
+      console.error('Avatar upload error:', err)
+      showToast('error', `Avatar upload failed: ${err.message}`)
+    } finally {
+      setAvatarUploading(false)
+    }
+  }
 
   const handleEdit = (project) => {
     setFormData({
@@ -562,6 +580,54 @@ export default function AdminDashboard() {
       )}
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        {/* Profile Picture Section */}
+        <div className="border border-white/[0.08] rounded-2xl p-6 mb-8 bg-white/[0.02]">
+          <div className="flex items-center gap-6">
+            {/* Avatar Preview */}
+            <div className="relative">
+              <div className="w-20 h-20 rounded-2xl overflow-hidden border border-white/[0.1] bg-white/[0.05]">
+                {(avatarPreview || avatarUrl) ? (
+                  <img
+                    src={avatarPreview || avatarUrl}
+                    alt="Profile"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <div className="w-full h-full flex items-center justify-center">
+                    <svg className="w-8 h-8 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+              {avatarUploading && (
+                <div className="absolute inset-0 bg-black/60 rounded-2xl flex items-center justify-center">
+                  <Spinner className="w-5 h-5 text-white" />
+                </div>
+              )}
+            </div>
+
+            {/* Upload Controls */}
+            <div className="flex-1">
+              <h3 className="text-sm font-semibold text-white mb-1">Profile Picture</h3>
+              <p className="text-xs text-gray-500 mb-3">Upload a profile image to display in the Navbar and Hero section.</p>
+              <label className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/[0.1] rounded-lg text-sm text-gray-300 hover:text-white hover:border-white/20 hover:bg-white/10 transition-all cursor-pointer">
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                {avatarUploading ? 'Uploading...' : avatarUrl ? 'Change Picture' : 'Upload Picture'}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  disabled={avatarUploading}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-bold text-white">Projects</h2>

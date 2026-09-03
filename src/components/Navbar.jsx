@@ -14,7 +14,7 @@ export default function Navbar() {
   const [loginLoading, setLoginLoading] = useState(false)
   const [adminMenuOpen, setAdminMenuOpen] = useState(false)
   const { language, toggleLanguage, t } = useLanguage()
-  const { isAuthenticated, loading: authLoading, user, displayName, avatarUrl, signIn, signUp, signInWithGoogle, logout } = useAuth()
+  const { isAuthenticated, loading: authLoading, user, displayName, avatarUrl, signIn, signUp, signInWithGoogle, logout, updateAvatar } = useAuth()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -126,8 +126,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Brand */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-              <span className="text-black text-sm font-black">A</span>
+            <div className="w-8 h-8 rounded-lg bg-white overflow-hidden border border-white/10 group-hover:scale-110 transition-transform duration-300">
+              {avatarUrl ? (
+                <img src={avatarUrl} alt="Abood" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-black text-sm font-black flex items-center justify-center w-full h-full">A</span>
+              )}
             </div>
             <div className="hidden sm:block">
               <span className="text-sm font-bold text-white tracking-tight">Abdelrahman Osama</span>

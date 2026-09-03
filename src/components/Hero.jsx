@@ -1,7 +1,9 @@
 import { useLanguage } from '../i18n/LanguageContext'
+import { useAuth } from '../admin/AuthContext'
 
 export default function Hero({ onGetStarted }) {
   const { language, t } = useLanguage()
+  const { avatarUrl } = useAuth()
   const ar = language === 'ar'
   const fontClass = ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''
 
@@ -114,16 +116,20 @@ export default function Hero({ onGetStarted }) {
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-3xl overflow-hidden glow-border animate-float">
                 {/* Gradient background */}
                 <div className="absolute inset-0 bg-gradient-to-br from-[#18181b] via-[#0f0f12] to-[#09090b]" />
-                {/* Avatar / Initials */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center mx-auto mb-4">
-                      <span className="text-3xl sm:text-4xl font-black text-white/80">A</span>
+                {/* Avatar / Profile Image */}
+                {avatarUrl ? (
+                  <img src={avatarUrl} alt="Abdelrahman Osama" className="absolute inset-0 w-full h-full object-cover" />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-2xl bg-white/[0.06] border border-white/[0.1] flex items-center justify-center mx-auto mb-4">
+                        <span className="text-3xl sm:text-4xl font-black text-white/80">A</span>
+                      </div>
+                      <p className="text-sm font-bold text-white/70">Abdelrahman</p>
+                      <p className="text-xs text-gray-500">Osama</p>
                     </div>
-                    <p className="text-sm font-bold text-white/70">Abdelrahman</p>
-                    <p className="text-xs text-gray-500">Osama</p>
                   </div>
-                </div>
+                )}
                 {/* Corner glow */}
                 <div className="absolute top-0 right-0 w-32 h-32 bg-white/[0.03] rounded-bl-full" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/[0.02] rounded-tr-full" />
