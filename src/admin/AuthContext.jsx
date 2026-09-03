@@ -6,7 +6,13 @@ const AuthContext = createContext(null)
 const ADMIN_EMAIL = 'bood68155@gmail.com'
 const ADMIN_PASSWORD = '123123'
 const AVATAR_STORAGE_BUCKET = 'portfolio-assets'
-const AVATAR_LOCALSTORAGE_KEY = 'abood_profile_avatar'
+// Primary localStorage key for the profile image (instant display + offline fallback)
+const AVATAR_LOCALSTORAGE_KEY = 'admin_profile_image'
+// Legacy key kept so previously cached avatars keep working after the rename
+const LEGACY_AVATAR_LOCALSTORAGE_KEY = 'abood_profile_avatar'
+// Database persistence — the settings table is the source of truth for all visitors
+const SETTINGS_TABLE = 'settings'
+const PROFILE_IMAGE_SETTING_KEY = 'profile_image_url'
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
@@ -14,8 +20,49 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
   // Persisted avatar URL — used across all components
   const [profileAvatar, setProfileAvatar] = useState(() => {
-    try { return localStorage.getItem(AVATAR_LOCALSTORAGE_KEY) || null } catch { return null }
+    try {
+      return localStorage.getItem(AVATAR_LOCALSTORAGE_KEY)
+        || localStorage.getItem(LEGACY_AVATAR_LOCALSTORAGE_KEY)
+        || null
+    } catch { return null }
   })
+
+  // Write the avatar to both storage keys so new and legacy readers stay in sync
+  const persistAvatarLocally = useCallback((url) => {
+    try {
+      localStorage.setItem(AVATAR_LOCALSTORAGE_KEY, url)
+      localStorage.setItem(LEGACY_AVATAR_LOCALSTORAGE_KEY, url)
+    } catch { /* storage unavailable */ }
+  }, [])
+
+  // Load the saved profile image from the database on initial app load so
+  // returning visitors (and admins on a fresh device) always see the photo
+  useEffect(() => {
+    let cancelled = false
+    const fetchSavedAvatar = async () => {
+      try {
+        const { data, error } = await supabase
+          .from(SETTINGS_TABLE)
+          .select('value')
+          .eq('key', PROFILE_IMAGE_SETTING_KEY)
+          .maybeSingle()
+        if (error) {
+          // settings table/policies not created yet — keep local/metadata fallback
+          console.warn('Profile image DB fetch skipped:', error.message)
+          return
+        }
+        if (cancelled) return
+        if (data?.value) {
+          setProfileAvatar(data.value)
+          persistAvatarLocally(data.value)
+        }
+      } catch (err) {
+        console.warn('Profile image DB fetch failed:', err.message)
+      }
+    }
+    fetchSavedAvatar()
+    return () => { cancelled = true }
+  }, [persistAvatarLocally])
 
   const isAuthenticated = !!session
 
@@ -23,11 +70,11 @@ export function AuthProvider({ children }) {
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       setSession(currentSession)
       setUser(currentSession?.user ?? null)
-      // If user has avatar in metadata, use it
+      // If user has avatar in metadata, use it as a fallback (DB row wins above)
       const metaAvatar = currentSession?.user?.user_metadata?.avatar_url
       if (metaAvatar) {
-        setProfileAvatar(metaAvatar)
-        try { localStorage.setItem(AVATAR_LOCALSTORAGE_KEY, metaAvatar) } catch {}
+        setProfileAvatar((prev) => prev || metaAvatar)
+        persistAvatarLocally(metaAvatar)
       }
       setLoading(false)
     })
@@ -38,8 +85,8 @@ export function AuthProvider({ children }) {
         setUser(currentSession?.user ?? null)
         const metaAvatar = currentSession?.user?.user_metadata?.avatar_url
         if (metaAvatar) {
-          setProfileAvatar(metaAvatar)
-          try { localStorage.setItem(AVATAR_LOCALSTORAGE_KEY, metaAvatar) } catch {}
+          setProfileAvatar((prev) => prev || metaAvatar)
+          persistAvatarLocally(metaAvatar)
         }
         setLoading(false)
       }
@@ -80,6 +127,21 @@ export function AuthProvider({ children }) {
 
     if (!publicUrl) throw new Error('Failed to upload avatar')
 
+    // Persist in the database (settings table) — source of truth so the image
+    // survives refresh/logout and is visible to returning visitors on any device
+    try {
+      const { error } = await supabase
+        .from(SETTINGS_TABLE)
+        .upsert({
+          key: PROFILE_IMAGE_SETTING_KEY,
+          value: publicUrl,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: 'key' })
+      if (error) console.warn('DB avatar persistence failed:', error.message)
+    } catch (err) {
+      console.warn('DB avatar persistence error:', err.message)
+    }
+
     // Update Supabase user_metadata
     try {
       const { error } = await supabase.auth.updateUser({
@@ -90,9 +152,9 @@ export function AuthProvider({ children }) {
       console.warn('Metadata update error:', err)
     }
 
-    // Update local state and localStorage
+    // Update local state and localStorage (instant UI + offline fallback)
     setProfileAvatar(publicUrl)
-    try { localStorage.setItem(AVATAR_LOCALSTORAGE_KEY, publicUrl) } catch {}
+    persistAvatarLocally(publicUrl)
 
     // Update local user state
     setUser((prev) => prev ? {
@@ -101,7 +163,7 @@ export function AuthProvider({ children }) {
     } : prev)
 
     return publicUrl
-  }, [])
+  }, [persistAvatarLocally])
 
   // Exclusive admin fallback login
   const signInWithAdminFallback = useCallback(async (email, password) => {
