@@ -127,11 +127,11 @@ export default function Navbar() {
       <nav
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500  ${
           scrolled
-            ? 'bg-[#111116]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
-            : 'bg-[#111116]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
+            ? 'bg-[#111116]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl lg:max-w-6xl px-4 sm:px-6'
+            : 'bg-[#111116]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl lg:max-w-6xl px-4 sm:px-6'
         }`}
       >
-        <div className="flex items-center justify-between">
+        <div className="flex h-16 lg:h-20 items-center justify-between gap-3">
           {/* Brand */}
           <Link to="/" className="flex items-center gap-2 group">
             <div className="w-8 h-8  bg-[#c29b7f] overflow-hidden border border-white/10 group-hover:scale-110 transition-transform duration-300">
@@ -141,14 +141,14 @@ export default function Navbar() {
                 <span className="text-[#08080a] text-sm font-extrabold flex items-center justify-center w-full h-full">A</span>
               )}
             </div>
-            <div className="hidden sm:block">
-              <span className="text-sm font-bold text-white tracking-tight">Abdelrahman Osama</span>
-              <span className="text-[10px] text-[#c29b7f]/70 block leading-none">Abood</span>
+            <div className="hidden md:block min-w-0">
+              <span className="block text-sm font-bold text-white tracking-tight leading-tight whitespace-nowrap">Abdelrahman Osama</span>
+              <span className="text-[10px] text-[#c29b7f]/70 block leading-none whitespace-nowrap">Abood</span>
             </div>
           </Link>
 
           {/* Desktop Nav Links */}
-          <div className="hidden lg:flex items-center gap-1">
+          <div className="hidden xl:flex items-center gap-1">
             {navLinks.map((link) => (
               link.isRoute ? (
                 <Link
@@ -292,7 +292,7 @@ export default function Navbar() {
 
             {/* Mobile Toggle */}
             <button
-              className="lg:hidden text-white p-1.5"
+              className="xl:hidden text-white p-1.5"
               onClick={() => setMobileOpen(!mobileOpen)}
               aria-label="Toggle menu"
             >
@@ -309,7 +309,7 @@ export default function Navbar() {
 
         {/* Mobile Menu */}
         {mobileOpen && (
-          <div className="lg:hidden mt-3 pt-3 border-t border-white/[0.06]">
+          <div className="xl:hidden mt-3 pt-3 border-t border-white/[0.06]">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
                 link.isRoute ? (
