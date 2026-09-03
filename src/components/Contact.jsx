@@ -101,9 +101,9 @@ export default function Contact() {
                 style={{ backgroundImage: chevronSvg, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
               >
                 <option value="" className="bg-black text-[#c29b7f]/70">{t('contactServicePh')}</option>
-                <option value="Website" className="bg-[#0a0a0d] text-white">{t('contactService1')}</option>
-                <option value="Store" className="bg-[#0a0a0d] text-white">{t('contactService2')}</option>
-                <option value="Theme" className="bg-[#0a0a0d] text-white">{t('contactService3')}</option>
+                <option value="Website" className="bg-[#08080a] text-white">{t('contactService1')}</option>
+                <option value="Store" className="bg-[#08080a] text-white">{t('contactService2')}</option>
+                <option value="Theme" className="bg-[#08080a] text-white">{t('contactService3')}</option>
               </select>
             </div>
           </div>

@@ -15,7 +15,7 @@ export default function Footer() {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <div className="w-8 h-8 rounded-lg bg-[#c29b7f] flex items-center justify-center">
-                <span className="font-bold text-[#0a0a0d] text-sm font-extrabold">A</span>
+                <span className="font-bold text-[#08080a] text-sm font-extrabold">A</span>
               </div>
               <div>
                 <span className="text-sm font-bold text-white tracking-tight">Abdelrahman Osama</span>

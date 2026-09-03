@@ -265,7 +265,7 @@ export default function AdminDashboard() {
   if (editing !== null) {
     return (
       <div className="min-h-screen bg-black pt-20">
-        <header className="border-b border-white/10 bg-[#0a0a0d]/80 backdrop-blur-xl sticky top-0 z-40">
+        <header className="border-b border-white/10 bg-[#08080a]/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <button
               onClick={() => { setEditing(null); setFormData({ ...EMPTY_PROJECT }); setVideoPreview(null); setFeatureInput('') }}
@@ -292,9 +292,9 @@ export default function AdminDashboard() {
         {/* Upload progress indicator */}
         {uploading && (
           <div className="max-w-3xl mx-auto px-4 sm:px-6 -mt-4 mb-4">
-            <div className="flex items-center gap-3 px-4 py-3 bg-blue-500/10 border border-blue-500/20 rounded-xl">
-              <Spinner className="w-4 h-4 text-blue-400" />
-              <span className="text-sm text-blue-400 font-medium">{uploadMessage}</span>
+            <div className="flex items-center gap-3 px-4 py-3 bg-[#800020]/10 border border-[#800020]/20 rounded-xl">
+              <Spinner className="w-4 h-4 text-[#c29b7f]" />
+              <span className="text-sm text-[#c29b7f] font-medium">{uploadMessage}</span>
             </div>
           </div>
         )}
@@ -352,7 +352,7 @@ export default function AdminDashboard() {
                   className="w-full appearance-none px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#c29b7f]/40 transition-all cursor-pointer"
                 >
                   {CATEGORIES.map((cat) => (
-                    <option key={cat.value} value={cat.value} className="bg-[#0a0a0d] text-white">
+                    <option key={cat.value} value={cat.value} className="bg-[#08080a] text-white">
                       {cat.label} ({cat.ar})
                     </option>
                   ))}
@@ -426,7 +426,7 @@ export default function AdminDashboard() {
                     <img src={formData.imageUrl} alt="Cover preview" className="w-full h-48 object-cover" />
                     <button
                       onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
-                      className="absolute top-2 right-2 p-1.5 bg-[#0a0a0d]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
+                      className="absolute top-2 right-2 p-1.5 bg-[#08080a]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -481,7 +481,7 @@ export default function AdminDashboard() {
                     )}
                     <button
                       onClick={() => { setFormData(prev => ({ ...prev, videoUrl: '' })); setVideoPreview(null) }}
-                      className="absolute top-2 right-2 p-1.5 bg-[#0a0a0d]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
+                      className="absolute top-2 right-2 p-1.5 bg-[#08080a]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -546,7 +546,7 @@ export default function AdminDashboard() {
                         <img src={img} alt="" className="w-full h-full object-cover" />
                         <button
                           onClick={() => removeGalleryImage(idx)}
-                          className="absolute top-2 right-2 p-1 bg-[#0a0a0d]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 p-1 bg-[#08080a]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors opacity-0 group-hover:opacity-100"
                         >
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -577,7 +577,7 @@ export default function AdminDashboard() {
   // === LIST VIEW ===
   return (
     <div className="min-h-screen bg-black pt-20">
-      <header className="border-b border-white/10 bg-[#0a0a0d]/80 backdrop-blur-xl sticky top-0 z-40">
+      <header className="border-b border-white/10 bg-[#08080a]/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <a href="/" className="text-xl font-extrabold text-white tracking-tighter hover:opacity-80 transition-opacity">
@@ -644,7 +644,7 @@ export default function AdminDashboard() {
                 )}
               </div>
               {avatarUploading && (
-                <div className="absolute inset-0 bg-[#0a0a0d]/60 rounded-2xl flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#08080a]/60 rounded-2xl flex items-center justify-center">
                   <Spinner className="w-5 h-5 text-white" />
                 </div>
               )}

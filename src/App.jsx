@@ -65,7 +65,7 @@ export default function App() {
       <AuthProvider>
         <ProjectsProvider>
           <LanguageProvider>
-            <div className="min-h-screen bg-[#0a0a0d] text-white antialiased">
+            <div className="min-h-screen bg-[#08080a] text-white antialiased">
               <OrderModalProvider>
                 <Navbar />
                 <Routes>

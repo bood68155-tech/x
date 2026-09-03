@@ -134,9 +134,9 @@ export default function Portfolio() {
             >
               {/* Cover */}
               <div className={`relative h-52 sm:h-56 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} overflow-hidden`}>
-                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#0a0a0d]/30 flex items-center gap-1.5 px-2 z-10">
+                <div className="absolute top-3 left-3 right-3 h-5 rounded-md bg-[#08080a]/30 flex items-center gap-1.5 px-2 z-10">
                   <div className="w-1.5 h-1.5 rounded-full bg-red-400/60" />
-                  <div className="w-1.5 h-1.5 rounded-full bg-yellow-400/60" />
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#c29b7f]/60" />
                   <div className="w-1.5 h-1.5 rounded-full bg-green-400/60" />
                   <div className="flex-1 h-3 rounded-sm bg-[#c29b7f]/5 ml-2" />
                 </div>
@@ -155,13 +155,13 @@ export default function Portfolio() {
 
                 {/* Category Badge */}
                 <div className="absolute top-14 right-3 z-10">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#0a0a0d]/60 backdrop-blur-sm text-white/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#08080a]/60 backdrop-blur-sm text-white/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.category}
                   </span>
                 </div>
 
                 {/* Hover overlay */}
-                <div className="absolute inset-0 bg-[#0a0a0d]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
+                <div className="absolute inset-0 bg-[#08080a]/60 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center z-20">
                   <span className={`px-5 py-2.5 border border-white/20 text-white text-xs font-medium rounded-xl uppercase tracking-wider hover:bg-white hover:text-black transition-all duration-300 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>
                     {t('portView')}
                   </span>

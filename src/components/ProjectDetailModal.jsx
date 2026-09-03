@@ -96,10 +96,10 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center p-4 sm:p-6">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-[#0a0a0d]/80 backdrop-blur-md animate-fade-in" onClick={onClose} />
+      <div className="absolute inset-0 bg-[#08080a]/80 backdrop-blur-md animate-fade-in" onClick={onClose} />
 
       {/* Modal Window */}
-      <div className="relative w-full max-w-5xl max-h-[85vh] bg-[#121218] border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/80 overflow-hidden animate-fade-in-up flex flex-col">
+      <div className="relative w-full max-w-5xl max-h-[85vh] bg-[#111116] border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/80 overflow-hidden animate-fade-in-up flex flex-col">
 
         {/* ===== MAC-STYLE TITLE BAR ===== */}
         <div className="flex items-center justify-between px-5 py-3 border-b border-white/[0.06] bg-white/[0.02] shrink-0">
@@ -135,7 +135,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
 
                 {/* Category Badge */}
                 <div className="absolute top-3 right-3 z-10">
-                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#0a0a0d]/60 backdrop-blur-sm text-white/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`text-[10px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-[#08080a]/60 backdrop-blur-sm text-white/80 border border-white/10 ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {project.category}
                   </span>
                 </div>
@@ -143,7 +143,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                 {/* Video indicator */}
                 {hasVideo && allMedia[activeImage]?.type !== 'video' && (
                   <button onClick={() => setActiveImage(allMedia.findIndex(m => m.type === 'video'))}
-                    className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#0a0a0d]/60 backdrop-blur-sm text-white text-xs font-medium hover:bg-[#0a0a0d]/80 transition-all">
+                    className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-[#08080a]/60 backdrop-blur-sm text-white text-xs font-medium hover:bg-[#08080a]/80 transition-all">
                     <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     Video
                   </button>
@@ -168,7 +168,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
               <div className="mt-5 space-y-2.5">
                 {hasDemo && (
                   <a href={project.demoUrl} target="_blank" rel="noopener noreferrer"
-                    className="w-full py-3 bg-[#c29b7f] hover:bg-emerald-400 font-bold text-[#0a0a0d] text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider">
+                    className="w-full py-3 bg-[#c29b7f] hover:bg-[#c29b7f] font-bold text-[#08080a] text-sm font-bold rounded-xl transition-all flex items-center justify-center gap-2.5 uppercase tracking-wider">
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
                     Live Demo
                   </a>
@@ -192,7 +192,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
               {/* Demo URL */}
               {hasDemo && (
                 <a href={project.demoUrl} target="_blank" rel="noopener noreferrer"
-                  className="block mt-3 text-center text-[11px] text-blue-400/70 hover:text-blue-300 break-all transition-colors">
+                  className="block mt-3 text-center text-[11px] text-[#c29b7f]/70 hover:text-[#c29b7f] break-all transition-colors">
                   {project.demoUrl}
                 </a>
               )}
@@ -224,7 +224,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   <div className="flex flex-wrap gap-2">
                     {project.features.map((feat, i) => (
                       <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-[#c29b7f]/[0.05] border border-white/[0.08] text-xs font-medium text-white/80">
-                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400/70" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#c29b7f]/70" />
                         {feat}
                       </span>
                     ))}
@@ -252,7 +252,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
 
                   {/* BUY NOW — Primary CTA */}
                   <button onClick={() => setShowCheckout(true)}
-                    className="w-full py-4 bg-yellow-500 hover:bg-yellow-400 font-bold text-[#0a0a0d] text-sm font-bold rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2.5">
+                    className="w-full py-4 bg-[#c29b7f] hover:bg-[#c29b7f] font-bold text-[#08080a] text-sm font-bold rounded-xl transition-all uppercase tracking-wider flex items-center justify-center gap-2.5">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" /></svg>
                     Buy Now with Binance Pay
                   </button>
@@ -307,7 +307,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   <div className="flex gap-2 mb-4">
                     {['TRC20', 'BEP20'].map(n => (
                       <button key={n} onClick={() => setBinanceNetwork(n)}
-                        className={`flex-1 py-2 text-[11px] font-semibold rounded-lg border transition-all ${binanceNetwork === n ? 'bg-yellow-500/10 border-yellow-500/30 text-yellow-400' : 'bg-[#c29b7f]/[0.04] border-white/[0.08] text-[#c29b7f]/70 hover:text-[#c29b7f]'}`}>{n}</button>
+                        className={`flex-1 py-2 text-[11px] font-semibold rounded-lg border transition-all ${binanceNetwork === n ? 'bg-[#c29b7f]/10 border-yellow-500/30 text-yellow-400' : 'bg-[#c29b7f]/[0.04] border-white/[0.08] text-[#c29b7f]/70 hover:text-[#c29b7f]'}`}>{n}</button>
                     ))}
                   </div>
                   <div className="mb-4">
@@ -354,8 +354,8 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   <div className="space-y-2">
                     {project.binancePayEnabled && (
                       <button onClick={() => setPaymentMethod('binance')}
-                        className="w-full p-3.5 rounded-xl border border-yellow-500/10 bg-yellow-500/[0.03] hover:bg-yellow-500/[0.08] hover:border-yellow-500/25 transition-all flex items-center gap-3 text-left group">
-                        <div className="w-10 h-10 rounded-lg bg-yellow-500/[0.08] border border-yellow-500/15 flex items-center justify-center shrink-0">
+                        className="w-full p-3.5 rounded-xl border border-yellow-500/10 bg-[#c29b7f]/[0.03] hover:bg-[#c29b7f]/[0.08] hover:border-yellow-500/25 transition-all flex items-center gap-3 text-left group">
+                        <div className="w-10 h-10 rounded-lg bg-[#c29b7f]/[0.08] border border-yellow-500/15 flex items-center justify-center shrink-0">
                           <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 10.894l-1.406 1.406-1.406-1.406-1.406 1.406 1.406 1.406-1.406 1.406 1.406 1.406 1.406-1.406 1.406 1.406 1.406-1.406-1.406-1.406 1.406-1.406-1.406-1.406z"/></svg>
                         </div>
                         <div className="flex-1"><p className="text-xs font-semibold text-white">Binance Pay</p><p className="text-[10px] text-[#c29b7f]/70">USDT via TRC-20 / BEP-20</p></div>
@@ -364,7 +364,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                     )}
                     <button onClick={() => setPaymentMethod('crypto')}
                       className="w-full p-3.5 rounded-xl border border-white/[0.08] bg-white/[0.02] hover:bg-[#c29b7f]/[0.06] hover:border-[#c29b7f]/20 transition-all flex items-center gap-3 text-left group">
-                      <div className="w-10 h-10 rounded-lg bg-yellow-500/[0.06] border border-yellow-500/10 flex items-center justify-center shrink-0">
+                      <div className="w-10 h-10 rounded-lg bg-[#c29b7f]/[0.06] border border-yellow-500/10 flex items-center justify-center shrink-0">
                         <svg className="w-4 h-4 text-yellow-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                       </div>
                       <div className="flex-1"><p className="text-xs font-semibold text-white">Pay with USDT</p><p className="text-[10px] text-[#c29b7f]/70">Direct crypto transfer</p></div>

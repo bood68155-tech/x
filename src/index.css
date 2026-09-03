@@ -1,35 +1,59 @@
 @import "tailwindcss";
 
+/* =====================================================
+   ROOT VARIABLES — CUSTOM COLOR PALETTE
+   ===================================================== */
+:root {
+  --bg-main: #08080a;
+  --bg-card: #111116;
+  --bg-card-hover: #16161c;
+  --accent-burgundy: #800020;
+  --accent-burgundy-hover: #6b0c22;
+  --accent-sand: #c29b7f;
+  --accent-sand-gold: #d4af37;
+  --text-primary: #f4f4f5;
+  --text-secondary: #a1a1aa;
+  --text-muted: #71717a;
+  --border-subtle: rgba(194, 155, 127, 0.15);
+  --border-card: rgba(194, 155, 127, 0.2);
+  --border-hover: rgba(194, 155, 127, 0.35);
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
 @theme {
-  --color-primary: #0a0a0d;
-  --color-secondary: #121218;
-  --color-accent: #ffffff;
+  --color-primary: #08080a;
+  --color-secondary: #111116;
+  --color-accent: #f4f4f5;
   --color-burgundy: #800020;
   --color-burgundy-deep: #6b0c22;
   --color-sand: #c29b7f;
   --color-sand-gold: #d4af37;
-  --color-text-primary: #ffffff;
+  --color-text-primary: #f4f4f5;
   --color-text-secondary: #a1a1aa;
-  --color-dark-900: #0a0a0d;
-  --color-dark-800: #121218;
-  --color-dark-700: #1a1a22;
-  --color-dark-600: #222230;
-  --color-dark-500: #2e2e3a;
+  --color-dark-900: #08080a;
+  --color-dark-800: #111116;
+  --color-dark-700: #16161c;
+  --color-dark-600: #1c1c24;
+  --color-dark-500: #2a2a34;
   --color-dark-400: #6a6a78;
   --color-dark-300: #a1a1aa;
   --font-display: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, sans-serif;
 }
 
+/* =====================================================
+   GLOBAL ELEMENT STYLES
+   ===================================================== */
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  background-color: #0a0a0d;
-  color: #ffffff;
-  font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
+  background-color: #08080a !important;
+  color: #f4f4f5 !important;
+  font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
 }
 
 h1, h2, h3, h4, h5, h6,
@@ -37,6 +61,61 @@ button, input, textarea, select {
   font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
 }
 
+/* Force card containers to dark obsidian */
+.bento-card,
+div[class*="bento-card"] {
+  background-color: #111116 !important;
+  border: 1px solid rgba(194, 155, 127, 0.2) !important;
+  border-radius: 1rem;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.bento-card:hover,
+div[class*="bento-card"]:hover {
+  border-color: rgba(194, 155, 127, 0.35) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* Primary buttons — Deep Burgundy */
+button[type="submit"],
+button:not([type]),
+.btn-primary {
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Glow border system */
+.glow-border {
+  border: 1px solid rgba(194, 155, 127, 0.15) !important;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.glow-border-hover:hover {
+  border-color: rgba(194, 155, 127, 0.30) !important;
+  box-shadow: 0 0 0 1px rgba(194, 155, 127, 0.08),
+              0 8px 32px rgba(0, 0, 0, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+/* Card accent top line */
+.card-accent-top {
+  position: relative;
+}
+.card-accent-top::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 1.5rem;
+  right: 1.5rem;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(194, 155, 127, 0.3), transparent);
+}
+
+/* =====================================================
+   RTL SUPPORT
+   ===================================================== */
 [dir="rtl"] body {
   direction: rtl;
   text-align: right;
@@ -53,64 +132,22 @@ button, input, textarea, select {
   font-family: 'Noto Kufi Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
+/* =====================================================
+   SELECTION & SCROLLBAR
+   ===================================================== */
 ::selection {
   background-color: rgba(128, 0, 32, 0.5);
-  color: #ffffff;
+  color: #f4f4f5;
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #0a0a0d; }
-::-webkit-scrollbar-thumb { background: #222230; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #2e2e3a; }
+::-webkit-scrollbar-track { background: #08080a; }
+::-webkit-scrollbar-thumb { background: #1c1c24; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #2a2a34; }
 
-/* =========================
-   Glassmorphism Bento Card
-   ========================= */
-.bento-card {
-  background: rgba(18, 18, 24, 0.8);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
-  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.bento-card:hover {
-  border-color: rgba(194, 155, 127, 0.20);
-  box-shadow:
-    0 0 0 1px rgba(194, 155, 127, 0.08),
-    0 8px 32px rgba(0, 0, 0, 0.4),
-    inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-
-.glow-border {
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
-}
-.glow-border-hover:hover {
-  border-color: rgba(194, 155, 127, 0.22);
-  box-shadow:
-    0 0 0 1px rgba(194, 155, 127, 0.06),
-    0 8px 32px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
-}
-
-/* Sharp gradient top accent line for cards */
-.card-accent-top {
-  position: relative;
-}
-.card-accent-top::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 1.5rem;
-  right: 1.5rem;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(194, 155, 127, 0.3), transparent);
-}
-
-/* =========================
-   Animations
-   ========================= */
+/* =====================================================
+   ANIMATIONS
+   ===================================================== */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(24px); }
   to { opacity: 1; transform: translateY(0); }
@@ -130,6 +167,10 @@ button, input, textarea, select {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
 }
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
 
 .animate-fade-in-up { animation: fadeInUp 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
 .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
@@ -137,11 +178,6 @@ button, input, textarea, select {
 .animate-slide-in-right { animation: slideInRight 0.7s cubic-bezier(0.16,1,0.3,1) forwards; }
 .animate-pulse-glow { animation: subtlePulse 3s ease-in-out infinite; }
 .animate-float { animation: float 6s ease-in-out infinite; }
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
 
 .delay-100 { animation-delay: 0.1s; }
 .delay-200 { animation-delay: 0.2s; }

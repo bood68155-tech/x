@@ -127,8 +127,8 @@ export default function Navbar() {
       <nav
         className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-2xl ${
           scrolled
-            ? 'bg-[#121218]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
-            : 'bg-[#121218]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
+            ? 'bg-[#111116]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
+            : 'bg-[#111116]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
         }`}
       >
         <div className="flex items-center justify-between">
@@ -138,7 +138,7 @@ export default function Navbar() {
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Abood" className="w-full h-full object-cover" />
               ) : (
-                <span className="text-[#0a0a0d] text-sm font-extrabold flex items-center justify-center w-full h-full">A</span>
+                <span className="text-[#08080a] text-sm font-extrabold flex items-center justify-center w-full h-full">A</span>
               )}
             </div>
             <div className="hidden sm:block">
@@ -183,10 +183,10 @@ export default function Navbar() {
               className="flex items-center border border-white/[0.10] rounded-full overflow-hidden hover:border-white/[0.18] transition-all duration-300"
             >
               <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
-                language === 'en' ? 'bg-[#c29b7f] text-[#0a0a0d]' : 'text-[#c29b7f]/70 hover:text-white'
+                language === 'en' ? 'bg-[#c29b7f] text-[#08080a]' : 'text-[#c29b7f]/70 hover:text-white'
               }`}>EN</span>
               <span className={`px-2.5 py-1 text-[10px] font-bold transition-all duration-300 ${
-                language === 'ar' ? 'bg-[#c29b7f] text-[#0a0a0d]' : 'text-[#c29b7f]/70 hover:text-white'
+                language === 'ar' ? 'bg-[#c29b7f] text-[#08080a]' : 'text-[#c29b7f]/70 hover:text-white'
               }`}>ع</span>
             </button>
 
@@ -206,7 +206,7 @@ export default function Navbar() {
                     </button>
 
                     {adminMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#121218]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
+                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#111116]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
                         <div className="px-4 py-3 border-b border-white/[0.06]">
                           <p className="text-[10px] text-[#c29b7f]/70">Signed in as</p>
                           <p className="text-xs font-medium text-white truncate">{displayName}</p>
@@ -311,9 +311,9 @@ export default function Navbar() {
       {/* Auth Modal */}
       {loginOpen && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-          <div className="absolute inset-0 bg-[#0a0a0d]/80 backdrop-blur-sm animate-fade-in" onClick={resetLoginModal} />
+          <div className="absolute inset-0 bg-[#08080a]/80 backdrop-blur-sm animate-fade-in" onClick={resetLoginModal} />
 
-          <div className="relative w-full max-w-sm bg-[#121218] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
+          <div className="relative w-full max-w-sm bg-[#111116] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             <button
               onClick={resetLoginModal}
               className="absolute top-4 right-4 p-1.5 text-[#c29b7f]/70 hover:text-white transition-colors rounded-lg hover:bg-[#c29b7f]/5"

@@ -11,7 +11,7 @@ export default function Hero({ onGetStarted }) {
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
       {/* Background Effects */}
-      <div className="absolute inset-0 bg-[#0a0a0d]" />
+      <div className="absolute inset-0 bg-[#08080a]" />
       <div className="absolute inset-0 opacity-[0.015]">
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle, rgba(194,155,127,0.4) 0.5px, transparent 0.5px)',
@@ -115,7 +115,7 @@ export default function Hero({ onGetStarted }) {
           <div className="lg:col-span-5 flex justify-center lg:justify-end animate-slide-in-right opacity-0 delay-300">
             <div className="relative">
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 rounded-3xl overflow-hidden glow-border animate-float">
-                <div className="absolute inset-0 bg-gradient-to-br from-[#121218] via-[#0d0d11] to-[#0a0a0d]" />
+                <div className="absolute inset-0 bg-gradient-to-br from-[#111116] via-[#111116] to-[#08080a]" />
                 {avatarUrl ? (
                   <img src={avatarUrl} alt="Abdelrahman Osama" className="absolute inset-0 w-full h-full object-cover" />
                 ) : (
@@ -132,7 +132,7 @@ export default function Hero({ onGetStarted }) {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-[#c29b7f]/[0.04] rounded-bl-full" />
                 <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/[0.02] rounded-tr-full" />
               </div>
-              <div className="absolute -bottom-4 -left-4 px-4 py-2 bg-[#121218] border border-white/[0.10] rounded-xl animate-float" style={{ animationDelay: '1s' }}>
+              <div className="absolute -bottom-4 -left-4 px-4 py-2 bg-[#111116] border border-white/[0.10] rounded-xl animate-float" style={{ animationDelay: '1s' }}>
                 <p className="text-[10px] text-[#a1a1aa] uppercase tracking-wider">Based in</p>
                 <p className="text-xs font-bold text-white">Gaza, Palestine</p>
               </div>

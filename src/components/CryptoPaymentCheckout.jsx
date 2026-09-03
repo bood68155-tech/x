@@ -133,12 +133,12 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
 
         <div className="bg-[#c29b7f]/[0.04] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
           {/* Network Info */}
-          <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-blue-500/[0.06] border border-blue-500/10">
-            <svg className="w-5 h-5 text-blue-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-[#800020]/[0.06] border border-[#c29b7f]/15">
+            <svg className="w-5 h-5 text-[#c29b7f] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div>
-              <p className="text-xs font-semibold text-blue-300 uppercase tracking-wider">Network: {NETWORK_LABEL}</p>
+              <p className="text-xs font-semibold text-[#c29b7f] uppercase tracking-wider">Network: {NETWORK_LABEL}</p>
               <p className="text-[11px] text-[#c29b7f] mt-0.5">
                 Only send USDT on the Tron (TRC-20) network. Sending any other token or using a different network may result in permanent loss.
               </p>
