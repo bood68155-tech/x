@@ -160,7 +160,7 @@ const BRAND_DATA = {
     ),
   },
   GitHub: {
-    color: '#c29b7f',
+    color: '#B38F6F',
     glow: '0 0 30px rgba(179,143,111,0.3), 0 0 60px rgba(179,143,111,0.1)',
     glowHover: '0 0 40px rgba(179,143,111,0.5), 0 0 80px rgba(179,143,111,0.2)',
     svg: (
@@ -170,7 +170,7 @@ const BRAND_DATA = {
     ),
   },
   Vercel: {
-    color: '#c29b7f',
+    color: '#B38F6F',
     glow: '0 0 30px rgba(179,143,111,0.3), 0 0 60px rgba(179,143,111,0.1)',
     glowHover: '0 0 40px rgba(179,143,111,0.5), 0 0 80px rgba(179,143,111,0.2)',
     svg: (
@@ -260,7 +260,7 @@ const BRAND_DATA = {
 }
 
 const DEFAULT_DATA = {
-  color: '#A1A1AA',
+  color: '#A6A199',
   glow: '0 0 30px rgba(161,161,170,0.3), 0 0 60px rgba(161,161,170,0.1)',
   glowHover: '0 0 40px rgba(161,161,170,0.5), 0 0 80px rgba(161,161,170,0.2)',
   svg: null,
@@ -348,7 +348,7 @@ export default function TechStackIcon({ name, index = 0 }) {
       {/* Label */}
       <span
         className="text-[10px] sm:text-xs font-medium text-center leading-tight max-w-[80px] transition-colors duration-300"
-        style={{ color: hovered ? brand.color : '#71717a' }}
+        style={{ color: hovered ? brand.color : '#767168' }}
       >
         {name}
       </span>

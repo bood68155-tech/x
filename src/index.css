@@ -4,39 +4,39 @@
    ROOT VARIABLES — CUSTOM COLOR PALETTE
    ===================================================== */
 :root {
-  --bg-main: #08080a;
-  --bg-card: #111116;
-  --bg-card-hover: #16161c;
-  --accent-burgundy: #800020;
-  --accent-burgundy-hover: #6b0c22;
-  --accent-sand: #c29b7f;
-  --accent-sand-gold: #d4af37;
-  --text-primary: #f4f4f5;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --border-subtle: rgba(194, 155, 127, 0.15);
-  --border-card: rgba(194, 155, 127, 0.2);
-  --border-hover: rgba(194, 155, 127, 0.35);
+  --bg-main: #161616;
+  --bg-card: #161616;
+  --bg-card-hover: #1E1E1E;
+  --accent-burgundy: #710014;
+  --accent-burgundy-hover: #5F0B1E;
+  --accent-sand: #B38F6F;
+  --accent-sand-gold: #B38F6F;
+  --text-primary: #F2F1ED;
+  --text-secondary: #A6A199;
+  --text-muted: #767168;
+  --border-subtle: rgba(179, 143, 111, 0.15);
+  --border-card: rgba(179, 143, 111, 0.2);
+  --border-hover: rgba(179, 143, 111, 0.35);
   --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
 @theme {
-  --color-primary: #08080a;
-  --color-secondary: #111116;
-  --color-accent: #f4f4f5;
-  --color-burgundy: #800020;
-  --color-burgundy-deep: #6b0c22;
-  --color-sand: #c29b7f;
-  --color-sand-gold: #d4af37;
-  --color-text-primary: #f4f4f5;
-  --color-text-secondary: #a1a1aa;
-  --color-dark-900: #08080a;
-  --color-dark-800: #111116;
-  --color-dark-700: #16161c;
-  --color-dark-600: #1c1c24;
-  --color-dark-500: #2a2a34;
-  --color-dark-400: #6a6a78;
-  --color-dark-300: #a1a1aa;
+  --color-primary: #161616;
+  --color-secondary: #161616;
+  --color-accent: #F2F1ED;
+  --color-burgundy: #710014;
+  --color-burgundy-deep: #5F0B1E;
+  --color-sand: #B38F6F;
+  --color-sand-gold: #B38F6F;
+  --color-text-primary: #F2F1ED;
+  --color-text-secondary: #A6A199;
+  --color-dark-900: #161616;
+  --color-dark-800: #161616;
+  --color-dark-700: #1E1E1E;
+  --color-dark-600: #1C1C1C;
+  --color-dark-500: #2A2A2A;
+  --color-dark-400: #6F6B64;
+  --color-dark-300: #A6A199;
   --font-display: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, sans-serif;
 }
 
@@ -48,8 +48,8 @@ html {
 }
 
 body {
-  background-color: #08080a !important;
-  color: #f4f4f5 !important;
+  background-color: #161616 !important;
+  color: #F2F1ED !important;
   font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -64,15 +64,15 @@ button, input, textarea, select {
 /* Force card containers to dark obsidian */
 .bento-card,
 div[class*="bento-card"] {
-  background-color: #111116 !important;
-  border: 1px solid rgba(194, 155, 127, 0.2) !important;
+  background-color: #161616 !important;
+  border: 1px solid rgba(179, 143, 111, 0.2) !important;
   border-radius: 0;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .bento-card:hover,
 div[class*="bento-card"]:hover {
-  border-color: rgba(194, 155, 127, 0.35) !important;
+  border-color: rgba(179, 143, 111, 0.35) !important;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
               inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
@@ -88,13 +88,13 @@ button:not([type]),
 
 /* Glow border system */
 .glow-border {
-  border: 1px solid rgba(194, 155, 127, 0.15) !important;
+  border: 1px solid rgba(179, 143, 111, 0.15) !important;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .glow-border-hover:hover {
-  border-color: rgba(194, 155, 127, 0.30) !important;
-  box-shadow: 0 0 0 1px rgba(194, 155, 127, 0.08),
+  border-color: rgba(179, 143, 111, 0.30) !important;
+  box-shadow: 0 0 0 1px rgba(179, 143, 111, 0.08),
               0 8px 32px rgba(0, 0, 0, 0.5),
               inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
@@ -110,7 +110,7 @@ button:not([type]),
   left: 1.5rem;
   right: 1.5rem;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(194, 155, 127, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(179, 143, 111, 0.3), transparent);
 }
 
 /* =====================================================
@@ -136,14 +136,14 @@ button:not([type]),
    SELECTION & SCROLLBAR
    ===================================================== */
 ::selection {
-  background-color: rgba(128, 0, 32, 0.5);
-  color: #f4f4f5;
+  background-color: rgba(113, 0, 20, 0.5);
+  color: #F2F1ED;
 }
 
 ::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #08080a; }
-::-webkit-scrollbar-thumb { background: #1c1c24; border-radius: 2px; }
-::-webkit-scrollbar-thumb:hover { background: #2a2a34; }
+::-webkit-scrollbar-track { background: #161616; }
+::-webkit-scrollbar-thumb { background: #1C1C1C; border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: #2A2A2A; }
 
 /* =====================================================
    ANIMATIONS
@@ -198,30 +198,30 @@ button:not([type]),
 }
 
 body, #root {
-  background-color: #08080a !important;
-  color: #f4f4f5 !important;
+  background-color: #161616 !important;
+  color: #F2F1ED !important;
 }
 
 /* Force Card Backgrounds */
 .bento-card, [class*="bg-slate-"], [class*="bg-zinc-"], [class*="bg-gray-"], [class*="bg-[#12121a]"] {
-  background-color: #111116 !important;
-  border-color: rgba(194, 155, 127, 0.18) !important;
+  background-color: #161616 !important;
+  border-color: rgba(179, 143, 111, 0.18) !important;
 }
 
 /* Force Buttons & Accents */
 button.btn-primary, [class*="bg-blue-"], [class*="bg-cyan-"] {
-  background-color: #800020 !important;
+  background-color: #710014 !important;
   color: #ffffff !important;
-  border: 1px solid #c29b7f !important;
+  border: 1px solid #B38F6F !important;
 }
 
 button.btn-primary:hover, [class*="bg-blue-"]:hover, [class*="bg-cyan-"]:hover {
-  background-color: #990026 !important;
+  background-color: #5F0B1E !important;
 }
 
 /* Force Text Highlights */
 [class*="text-cyan-"], [class*="text-blue-"] {
-  color: #c29b7f !important;
+  color: #B38F6F !important;
 }
 
 /* =====================================================

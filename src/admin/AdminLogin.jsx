@@ -40,15 +40,15 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-[#08080a] flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#161616] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16  border border-white/10 bg-[#c29b7f]/5 mb-6">
-            <span className="text-2xl font-extrabold text-white tracking-tighter">X</span>
+          <div className="inline-flex items-center justify-center w-16 h-16  border border-[#B38F6F]/10 bg-[#B38F6F]/5 mb-6">
+            <span className="text-2xl font-extrabold text-[#F2F1ED] tracking-tighter">X</span>
           </div>
-          <h1 className="text-2xl font-bold text-white tracking-tight">Admin Panel</h1>
-          <p className="text-sm text-[#c29b7f]/70 mt-2">
+          <h1 className="text-2xl font-bold text-[#F2F1ED] tracking-tight">Admin Panel</h1>
+          <p className="text-sm text-[#B38F6F]/70 mt-2">
             {authMode === 'signin' ? 'Sign in to manage your portfolio' : 'Create an admin account'}
           </p>
         </div>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
         <button
           onClick={handleGoogle}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-3 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm font-medium hover:bg-[#c29b7f]/10 hover:border-[#c29b7f]/20 transition-all disabled:opacity-50 mb-6"
+          className="w-full flex items-center justify-center gap-3 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/10  text-[#F2F1ED] text-sm font-medium hover:bg-[#B38F6F]/10 hover:border-[#B38F6F]/20 transition-all disabled:opacity-50 mb-6"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -70,9 +70,9 @@ export default function AdminLogin() {
 
         {/* Divider */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="flex-1 h-px bg-[#c29b7f]/10" />
-          <span className="text-[10px] text-[#c29b7f]/50 uppercase tracking-wider">or</span>
-          <div className="flex-1 h-px bg-[#c29b7f]/10" />
+          <div className="flex-1 h-px bg-[#B38F6F]/10" />
+          <span className="text-[10px] text-[#B38F6F]/50 uppercase tracking-wider">or</span>
+          <div className="flex-1 h-px bg-[#B38F6F]/10" />
         </div>
 
         {/* Login Form */}
@@ -81,8 +81,8 @@ export default function AdminLogin() {
           {error && (
             <div className={`flex items-center gap-3 p-4  text-sm ${
               error.includes('Check your email')
-                ? 'bg-[#800020]/10 border border-[#800020]/20 text-[#c29b7f]'
-                : 'bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f]'
+                ? 'bg-[#710014]/10 border border-[#710014]/20 text-[#B38F6F]'
+                : 'bg-[#710014]/15 border border-[#710014]/30 text-[#B38F6F]'
             }`}>
               <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {error.includes('Check your email') ? (
@@ -101,7 +101,7 @@ export default function AdminLogin() {
 
           {/* Email Field */}
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-[#c29b7f] mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-[#B38F6F] mb-2">
               Email Address
             </label>
             <input
@@ -111,13 +111,13 @@ export default function AdminLogin() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@example.com"
               required
-              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/10  text-[#F2F1ED] text-sm placeholder-[#767168] focus:outline-none focus:border-[#B38F6F]/40 focus:bg-[#B38F6F]/[0.07] transition-all duration-300"
             />
           </div>
 
           {/* Password Field */}
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-[#c29b7f] mb-2">
+            <label htmlFor="password" className="block text-sm font-medium text-[#B38F6F] mb-2">
               Password
             </label>
             <input
@@ -128,7 +128,7 @@ export default function AdminLogin() {
               placeholder="••••••••"
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#B38F6F]/5 border border-[#B38F6F]/10  text-[#F2F1ED] text-sm placeholder-[#767168] focus:outline-none focus:border-[#B38F6F]/40 focus:bg-[#B38F6F]/[0.07] transition-all duration-300"
             />
           </div>
 
@@ -136,7 +136,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 bg-[#710014] text-[#F2F1ED] text-sm font-semibold  hover:bg-[#5F0B1E] focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">
@@ -159,19 +159,19 @@ export default function AdminLogin() {
               setAuthMode(authMode === 'signin' ? 'signup' : 'signin')
               setError('')
             }}
-            className="text-sm text-[#c29b7f]/70 hover:text-[#c29b7f] transition-colors"
+            className="text-sm text-[#B38F6F]/70 hover:text-[#B38F6F] transition-colors"
           >
             {authMode === 'signin' ? (
-              <>Don't have an account? <span className="text-white font-medium">Sign Up</span></>
+              <>Don't have an account? <span className="text-[#F2F1ED] font-medium">Sign Up</span></>
             ) : (
-              <>Already have an account? <span className="text-white font-medium">Sign In</span></>
+              <>Already have an account? <span className="text-[#F2F1ED] font-medium">Sign In</span></>
             )}
           </button>
         </div>
 
         {/* Back to site link */}
         <div className="text-center mt-8">
-          <a href="/" className="text-sm text-[#c29b7f]/50 hover:text-[#c29b7f] transition-colors duration-300">
+          <a href="/" className="text-sm text-[#B38F6F]/50 hover:text-[#B38F6F] transition-colors duration-300">
             ← Back to site
           </a>
         </div>
