@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { useProjects, CATEGORIES } from '../admin/ProjectsContext'
 import { useLanguage } from '../i18n/LanguageContext'
 import { supabase } from '../lib/supabaseClient'
+import ProjectDetailModal from '../components/ProjectDetailModal'
 
 const GRADIENTS = [
   'from-gray-800 to-gray-900', 'from-gray-900 to-black', 'from-gray-800 to-gray-900',
@@ -181,113 +182,7 @@ function BinancePayModal({ project, onClose }) {
   )
 }
 
-/* ===== PRODUCT DETAIL MODAL ===== */
-function ProductDetailModal({ project, onClose, onBuy }) {
-  const { language, t } = useLanguage()
-  const ar = language === 'ar'
-  const fontClass = ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''
-  const [activeImage, setActiveImage] = useState(0)
 
-  const gallerySet = new Set()
-  const allMedia = []
-  if (project.imageUrl) { allMedia.push({ type: 'image', src: project.imageUrl }); gallerySet.add(project.imageUrl) }
-  for (const src of (project.gallery || [])) { if (src && !gallerySet.has(src)) { allMedia.push({ type: 'image', src }); gallerySet.add(src) } }
-  if (project.videoUrl) { allMedia.push({ type: 'video', src: project.videoUrl }) }
-
-  return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center px-4">
-      <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" onClick={onClose} />
-      <div className="relative w-full max-w-3xl max-h-[90vh] overflow-y-auto bg-[#0f0f12] border border-white/[0.08] rounded-2xl shadow-2xl shadow-black/60 animate-fade-in-up">
-        <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 text-gray-500 hover:text-white transition-colors rounded-lg hover:bg-white/5">
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-        </button>
-
-        {/* Main Media */}
-        <div className="relative aspect-video rounded-t-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900">
-          {allMedia.length > 0 ? (
-            allMedia[activeImage]?.type === 'video'
-              ? <video src={allMedia[activeImage].src} controls playsInline className="w-full h-full object-cover" poster={project.imageUrl || FALLBACK_IMAGES[0]} />
-              : <img src={allMedia[activeImage]?.src} alt={project.title} className="w-full h-full object-cover" onError={e => { e.target.style.display = 'none' }} />
-          ) : <img src={FALLBACK_IMAGES[0]} alt="" className="w-full h-full object-cover opacity-40" loading="lazy" />}
-        </div>
-
-        {/* Thumbnails */}
-        {allMedia.length > 1 && (
-          <div className="flex gap-2 px-6 pt-4 overflow-x-auto">
-            {allMedia.map((media, idx) => (
-              <button key={idx} onClick={() => setActiveImage(idx)}
-                className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all ${activeImage === idx ? 'border-white scale-105' : 'border-white/10 hover:border-white/30 opacity-60 hover:opacity-100'}`}>
-                {media.type === 'video' ? (
-                  <div className="w-full h-full bg-gray-800 flex items-center justify-center"><svg className="w-5 h-5 text-white/60" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></div>
-                ) : <img src={media.src} alt="" className="w-full h-full object-cover" />}
-              </button>
-            ))}
-          </div>
-        )}
-
-        {/* Info */}
-        <div className="p-6 sm:p-8">
-          <div className="flex items-start justify-between mb-4 gap-3">
-            <div>
-              <h2 className={`text-2xl sm:text-3xl font-bold text-white tracking-tight ${fontClass}`}>{project.title}</h2>
-              <p className="text-sm text-gray-500 mt-1">{project.category}</p>
-            </div>
-            {project.tag && (
-              <span className={`text-xs font-semibold uppercase tracking-wider px-3 py-1.5 rounded-full bg-white/[0.06] text-gray-400 border border-white/[0.08] shrink-0 ${ar ? 'tracking-normal normal-case text-sm' : ''}`}>{project.tag}</span>
-            )}
-          </div>
-
-          <p className={`text-gray-400 text-sm sm:text-base leading-relaxed mb-6 ${fontClass}`}>{project.description}</p>
-
-          {/* Features */}
-          {project.features?.length > 0 && (
-            <div className="mb-6">
-              <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-3">Features</h4>
-              <ul className="space-y-2">
-                {project.features.map((feat, i) => (
-                  <li key={i} className="flex items-center gap-2.5 text-sm text-gray-300">
-                    <svg className="w-4 h-4 text-green-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" /></svg>
-                    {feat}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
-
-          {/* Price */}
-          {project.price && (
-            <div className="flex items-center justify-between py-4 border-t border-b border-white/[0.06] mb-6">
-              <span className="text-sm text-gray-400">Price</span>
-              <span className="text-2xl font-bold text-white">{formatPrice(project.price)}</span>
-            </div>
-          )}
-
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3">
-            {project.demoUrl && (
-              <a href={project.demoUrl} target="_blank" rel="noopener noreferrer"
-                className="flex-1 py-3.5 bg-white/5 border border-white/20 text-white font-medium text-sm rounded-xl hover:bg-white/10 hover:border-white/30 transition-all text-center flex items-center justify-center gap-2">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" /><polyline points="15 3 21 3 21 9" /><line x1="10" y1="14" x2="21" y2="3" /></svg>
-                {t('productDemo')}
-              </a>
-            )}
-            {project.sourceCodeUrl && (
-              <a href={project.sourceCodeUrl} target="_blank" rel="noopener noreferrer"
-                className="flex-1 py-3.5 bg-white/5 border border-white/20 text-white font-medium text-sm rounded-xl hover:bg-white/10 hover:border-white/30 transition-all text-center flex items-center justify-center gap-2">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
-                Source Code
-              </a>
-            )}
-            <button onClick={() => { onClose(); onBuy(project) }}
-              className="flex-1 py-3.5 bg-white text-black font-semibold text-sm rounded-xl hover:bg-gray-200 transition-all text-center uppercase tracking-wider">
-              Buy Now {formatPrice(project.price) ? `— ${formatPrice(project.price)}` : ''}
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 /* ===== MAIN STORE PAGE ===== */
 export default function Store() {
@@ -415,9 +310,9 @@ export default function Store() {
         )}
       </div>
 
-      {/* ===== PRODUCT DETAIL MODAL ===== */}
+      {/* ===== PROJECT DETAIL MODAL ===== */}
       {selectedProduct && (
-        <ProductDetailModal project={selectedProduct} onClose={() => setSelectedProduct(null)} onBuy={handleBuy} />
+        <ProjectDetailModal project={selectedProduct} onClose={() => setSelectedProduct(null)} onBuy={handleBuy} />
       )}
 
       {/* ===== BINANCE PAY CHECKOUT MODAL ===== */}
