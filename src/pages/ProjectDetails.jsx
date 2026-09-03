@@ -48,7 +48,7 @@ export default function ProjectDetails() {
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-[#08080a]/80 backdrop-blur-md">
       <div className="text-center">
         <p className="text-[#c29b7f] text-lg mb-4">Project not found</p>
-        <button onClick={() => navigate('/store')} className="px-5 py-2 bg-[#800020] text-white text-sm font-semibold rounded-lg hover:bg-[#6b0c22] transition-all">Back to Store</button>
+        <button onClick={() => navigate('/store')} className="px-5 py-2 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] transition-all">Back to Store</button>
       </div>
     </div>
   )

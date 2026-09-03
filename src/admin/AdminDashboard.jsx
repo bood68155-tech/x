@@ -280,7 +280,7 @@ export default function AdminDashboard() {
               <button
                 onClick={handleSave}
                 disabled={!formData.title.trim() || saving || uploading}
-                className="flex items-center gap-2 px-5 py-2 bg-[#800020] text-white text-sm font-semibold rounded-lg hover:bg-[#6b0c22] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                className="flex items-center gap-2 px-5 py-2 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] transition-all disabled:opacity-30 disabled:cursor-not-allowed"
               >
                 {saving && <Spinner className="w-4 h-4" />}
                 {saving ? 'Saving...' : editing === 'new' ? 'Create Project' : 'Save Changes'}
@@ -292,7 +292,7 @@ export default function AdminDashboard() {
         {/* Upload progress indicator */}
         {uploading && (
           <div className="max-w-3xl mx-auto px-4 sm:px-6 -mt-4 mb-4">
-            <div className="flex items-center gap-3 px-4 py-3 bg-[#800020]/10 border border-[#800020]/20 rounded-xl">
+            <div className="flex items-center gap-3 px-4 py-3 bg-[#800020]/10 border border-[#800020]/20 ">
               <Spinner className="w-4 h-4 text-[#c29b7f]" />
               <span className="text-sm text-[#c29b7f] font-medium">{uploadMessage}</span>
             </div>
@@ -301,7 +301,7 @@ export default function AdminDashboard() {
 
         {/* Toast notification */}
         {toast && (
-          <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
+          <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3  text-sm font-medium shadow-xl border animate-fade-in-up ${
             toast.type === 'success'
               ? 'bg-green-500/10 text-green-400 border-green-500/20'
               : 'bg-[#800020]/15 text-[#c29b7f] border-[#800020]/30'
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
                 <input type="text" value={formData.price}
                   onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
                   placeholder="999 or 999 USDT"
-                  className="w-full pl-8 pr-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+                  className="w-full pl-8 pr-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
               </div>
             </div>
 
@@ -349,7 +349,7 @@ export default function AdminDashboard() {
                 <select
                   value={formData.category}
                   onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                  className="w-full appearance-none px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm focus:outline-none focus:border-[#c29b7f]/40 transition-all cursor-pointer"
+                  className="w-full appearance-none px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm focus:outline-none focus:border-[#c29b7f]/40 transition-all cursor-pointer"
                 >
                   {CATEGORIES.map((cat) => (
                     <option key={cat.value} value={cat.value} className="bg-[#08080a] text-white">
@@ -374,7 +374,7 @@ export default function AdminDashboard() {
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="A brief description of the project..."
                 rows={3}
-                className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 resize-none transition-all"
+                className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 resize-none transition-all"
               />
             </div>
 
@@ -385,7 +385,7 @@ export default function AdminDashboard() {
                 {formData.features.length > 0 && (
                   <div className="flex flex-wrap gap-2">
                     {formData.features.map((feat, idx) => (
-                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[#c29b7f]/[0.07] text-white/80 border border-white/[0.08] rounded-full">
+                      <span key={idx} className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-[#c29b7f]/[0.07] text-white/80 border border-white/[0.08] ">
                         {feat}
                         <button onClick={() => removeFeature(idx)} className="text-[#c29b7f]/70 hover:text-[#c29b7f] transition-colors">
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -403,13 +403,13 @@ export default function AdminDashboard() {
                     onChange={(e) => setFeatureInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addFeature() } }}
                     placeholder="Add a feature and press Enter"
-                    className="flex-1 px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                    className="flex-1 px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
                   />
                   <button
                     type="button"
                     onClick={addFeature}
                     disabled={!featureInput.trim()}
-                    className="px-4 py-3 bg-[#c29b7f]/10 text-white text-sm font-medium rounded-xl hover:bg-[#c29b7f]/15 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
+                    className="px-4 py-3 bg-[#c29b7f]/10 text-white text-sm font-medium  hover:bg-[#c29b7f]/15 transition-all disabled:opacity-30 disabled:cursor-not-allowed"
                   >
                     Add
                   </button>
@@ -422,11 +422,11 @@ export default function AdminDashboard() {
               <label className="block text-sm font-medium text-[#c29b7f] mb-2">Cover Image / Main Photo <span className="text-[#c29b7f]/50 font-normal">(صورة الغلاف)</span></label>
               <div className="space-y-3">
                 {formData.imageUrl && (
-                  <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#c29b7f]/5">
+                  <div className="relative  overflow-hidden border border-white/10 bg-[#c29b7f]/5">
                     <img src={formData.imageUrl} alt="Cover preview" className="w-full h-48 object-cover" />
                     <button
                       onClick={() => setFormData(prev => ({ ...prev, imageUrl: '' }))}
-                      className="absolute top-2 right-2 p-1.5 bg-[#08080a]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
+                      className="absolute top-2 right-2 p-1.5 bg-[#08080a]/60  text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -435,7 +435,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/[0.03] transition-all group">
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10  cursor-pointer hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/[0.03] transition-all group">
                   <svg className="w-5 h-5 text-[#c29b7f]/70 group-hover:text-[#c29b7f] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -451,7 +451,7 @@ export default function AdminDashboard() {
                     value={formData.imageUrl}
                     onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
                     placeholder="Or paste an image URL"
-                    className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                    className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
                   />
                 )}
               </div>
@@ -467,10 +467,10 @@ export default function AdminDashboard() {
                   value={formData.videoUrl}
                   onChange={(e) => { setFormData(prev => ({ ...prev, videoUrl: e.target.value })); setVideoPreview(e.target.value || null) }}
                   placeholder="Paste video URL (YouTube, Vimeo, MP4 link, etc.)"
-                  className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                  className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
                 />
                 {videoPreview && (
-                  <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#c29b7f]/5">
+                  <div className="relative  overflow-hidden border border-white/10 bg-[#c29b7f]/5">
                     {videoPreview.startsWith('data:video') || videoPreview.includes('.mp4') || videoPreview.includes('.webm') ? (
                       <video src={videoPreview} controls className="w-full h-48 object-cover" />
                     ) : (
@@ -481,7 +481,7 @@ export default function AdminDashboard() {
                     )}
                     <button
                       onClick={() => { setFormData(prev => ({ ...prev, videoUrl: '' })); setVideoPreview(null) }}
-                      className="absolute top-2 right-2 p-1.5 bg-[#08080a]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
+                      className="absolute top-2 right-2 p-1.5 bg-[#08080a]/60  text-[#c29b7f] hover:text-[#c29b7f] transition-colors"
                     >
                       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -490,7 +490,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/[0.03] transition-all group">
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10  cursor-pointer hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/[0.03] transition-all group">
                   <svg className="w-5 h-5 text-[#c29b7f]/70 group-hover:text-[#c29b7f] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
                   </svg>
@@ -511,14 +511,14 @@ export default function AdminDashboard() {
             {/* Binance Pay Settings */}
             <div>
               <label className="block text-sm font-medium text-[#c29b7f] mb-3">Binance Pay Settings</label>
-              <div className="space-y-4 p-4 rounded-xl bg-[#c29b7f]/[0.04] border border-white/[0.06]">
+              <div className="space-y-4 p-4  bg-[#c29b7f]/[0.04] border border-white/[0.06]">
                 <label className="flex items-center gap-3 cursor-pointer">
                   <div className="relative">
                     <input type="checkbox" checked={formData.binancePayEnabled}
                       onChange={(e) => setFormData(prev => ({ ...prev, binancePayEnabled: e.target.checked }))}
                       className="sr-only" />
-                    <div className={`w-10 h-5 rounded-full transition-colors ${formData.binancePayEnabled ? 'bg-yellow-500' : 'bg-[#c29b7f]/10'}`} />
-                    <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${formData.binancePayEnabled ? 'translate-x-5' : ''}`} />
+                    <div className={`w-10 h-5  transition-colors ${formData.binancePayEnabled ? 'bg-yellow-500' : 'bg-[#c29b7f]/10'}`} />
+                    <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white  transition-transform ${formData.binancePayEnabled ? 'translate-x-5' : ''}`} />
                   </div>
                   <span className="text-sm text-white/80">Enable Binance Pay for this product</span>
                 </label>
@@ -542,11 +542,11 @@ export default function AdminDashboard() {
                 {formData.gallery.length > 0 && (
                   <div className="grid grid-cols-3 gap-3">
                     {formData.gallery.map((img, idx) => (
-                      <div key={idx} className="relative group rounded-xl overflow-hidden border border-white/10 aspect-square">
+                      <div key={idx} className="relative group  overflow-hidden border border-white/10 aspect-square">
                         <img src={img} alt="" className="w-full h-full object-cover" />
                         <button
                           onClick={() => removeGalleryImage(idx)}
-                          className="absolute top-2 right-2 p-1 bg-[#08080a]/60 rounded-lg text-[#c29b7f] hover:text-[#c29b7f] transition-colors opacity-0 group-hover:opacity-100"
+                          className="absolute top-2 right-2 p-1 bg-[#08080a]/60  text-[#c29b7f] hover:text-[#c29b7f] transition-colors opacity-0 group-hover:opacity-100"
                         >
                           <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -557,7 +557,7 @@ export default function AdminDashboard() {
                   </div>
                 )}
 
-                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10 rounded-xl cursor-pointer hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/[0.03] transition-all group">
+                <label className="flex items-center justify-center gap-3 px-6 py-4 border-2 border-dashed border-white/10  cursor-pointer hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/[0.03] transition-all group">
                   <svg className="w-5 h-5 text-[#c29b7f]/70 group-hover:text-[#c29b7f] transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                   </svg>
@@ -592,7 +592,7 @@ export default function AdminDashboard() {
             </a>
             <button
               onClick={logout}
-              className="px-4 py-2 text-xs font-medium text-[#c29b7f] border border-white/10 rounded-lg hover:text-white hover:border-[#c29b7f]/20 transition-all"
+              className="px-4 py-2 text-xs font-medium text-[#c29b7f] border border-white/10  hover:text-white hover:border-[#c29b7f]/20 transition-all"
             >
               Logout
             </button>
@@ -602,7 +602,7 @@ export default function AdminDashboard() {
 
       {/* Toast notification */}
       {toast && (
-        <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
+        <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3  text-sm font-medium shadow-xl border animate-fade-in-up ${
           toast.type === 'success'
             ? 'bg-green-500/10 text-green-400 border-green-500/20'
             : 'bg-[#800020]/15 text-[#c29b7f] border-[#800020]/30'
@@ -624,11 +624,11 @@ export default function AdminDashboard() {
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         {/* Profile Picture Section */}
-        <div className="border border-white/[0.08] rounded-2xl p-6 mb-8 bg-[#c29b7f]/[0.03]">
+        <div className="border border-white/[0.08]  p-6 mb-8 bg-[#c29b7f]/[0.03]">
           <div className="flex items-center gap-6">
             {/* Avatar Preview */}
             <div className="relative">
-              <div className="w-20 h-20 rounded-2xl overflow-hidden border border-white/[0.10] bg-[#c29b7f]/[0.06]">
+              <div className="w-20 h-20  overflow-hidden border border-white/[0.10] bg-[#c29b7f]/[0.06]">
                 {(avatarPreview || avatarUrl) ? (
                   <img
                     src={avatarPreview || avatarUrl}
@@ -644,7 +644,7 @@ export default function AdminDashboard() {
                 )}
               </div>
               {avatarUploading && (
-                <div className="absolute inset-0 bg-[#08080a]/60 rounded-2xl flex items-center justify-center">
+                <div className="absolute inset-0 bg-[#08080a]/60  flex items-center justify-center">
                   <Spinner className="w-5 h-5 text-white" />
                 </div>
               )}
@@ -654,7 +654,7 @@ export default function AdminDashboard() {
             <div className="flex-1">
               <h3 className="text-sm font-semibold text-white mb-1">Profile Picture</h3>
               <p className="text-xs text-[#c29b7f]/70 mb-3">Upload a profile image to display in the Navbar and Hero section.</p>
-              <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#c29b7f]/5 border border-white/[0.10] rounded-lg text-sm text-white/80 hover:text-white hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/10 transition-all cursor-pointer">
+              <label className="inline-flex items-center gap-2 px-4 py-2 bg-[#c29b7f]/5 border border-white/[0.10]  text-sm text-white/80 hover:text-white hover:border-[#c29b7f]/20 hover:bg-[#c29b7f]/10 transition-all cursor-pointer">
                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
@@ -678,7 +678,7 @@ export default function AdminDashboard() {
           </div>
           <button
             onClick={handleNew}
-            className="flex items-center gap-2 px-5 py-2.5 bg-[#800020] text-white text-sm font-semibold rounded-lg hover:bg-[#6b0c22] transition-all"
+            className="flex items-center gap-2 px-5 py-2.5 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] transition-all"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v16m8-8H4" />
@@ -693,7 +693,7 @@ export default function AdminDashboard() {
             <button
               key={cat.value}
               onClick={() => setFilterCategory(cat.value)}
-              className={`px-4 py-1.5 text-xs font-medium rounded-full border transition-all duration-300 ${
+              className={`px-4 py-1.5 text-xs font-medium  border transition-all duration-300 ${
                 filterCategory === cat.value
                   ? 'bg-[#800020] text-white border-[#c29b7f]'
                   : 'bg-transparent text-[#c29b7f]/70 border-white/10 hover:text-white hover:border-white/20'
@@ -704,7 +704,7 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        <div className="border border-white/10 rounded-2xl overflow-hidden">
+        <div className="border border-white/10  overflow-hidden">
           <div className="grid grid-cols-12 gap-4 px-6 py-3 bg-[#c29b7f]/[0.04] border-b border-white/[0.06] text-xs font-semibold uppercase tracking-wider text-[#c29b7f]/70">
             <div className="col-span-3">Project</div>
             <div className="col-span-2">Category</div>
@@ -722,7 +722,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="col-span-2">
-                <span className="text-xs font-medium px-2 py-1 rounded-md bg-[#c29b7f]/[0.07] text-[#c29b7f] border border-white/[0.08]">
+                <span className="text-xs font-medium px-2 py-1  bg-[#c29b7f]/[0.07] text-[#c29b7f] border border-white/[0.08]">
                   {getCategoryLabel(project.category)}
                 </span>
               </div>
@@ -734,7 +734,7 @@ export default function AdminDashboard() {
               </div>
 
               <div className="col-span-2">
-                <span className="text-xs font-medium px-2 py-1 rounded-md bg-[#c29b7f]/[0.07] text-[#c29b7f] border border-white/[0.08]">
+                <span className="text-xs font-medium px-2 py-1  bg-[#c29b7f]/[0.07] text-[#c29b7f] border border-white/[0.08]">
                   {project.tag}
                 </span>
               </div>
@@ -776,13 +776,13 @@ export default function AdminDashboard() {
                     <button
                       onClick={() => handleDelete(project.id)}
                       disabled={saving}
-                      className="px-3 py-1.5 text-xs font-medium text-white bg-[#800020]/20 border border-[#800020]/40 rounded-lg hover:bg-[#800020]/30 transition-all disabled:opacity-50"
+                      className="px-3 py-1.5 text-xs font-medium text-white bg-[#800020]/20 border border-[#800020]/40  hover:bg-[#800020]/30 transition-all disabled:opacity-50"
                     >
                       {saving ? '...' : 'Yes'}
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(null)}
-                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f] border border-white/10 rounded-lg hover:text-white transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f] border border-white/10  hover:text-white transition-all"
                     >
                       No
                     </button>
@@ -791,13 +791,13 @@ export default function AdminDashboard() {
                   <>
                     <button
                       onClick={() => handleEdit(project)}
-                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f] border border-white/10 rounded-lg hover:text-white hover:border-[#c29b7f]/20 transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f] border border-white/10  hover:text-white hover:border-[#c29b7f]/20 transition-all"
                     >
                       Edit
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(project.id)}
-                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f]/70 border border-[#800020]/15 rounded-lg hover:text-[#c29b7f] hover:border-[#800020]/30 transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f]/70 border border-[#800020]/15  hover:text-[#c29b7f] hover:border-[#800020]/30 transition-all"
                     >
                       Delete
                     </button>
@@ -827,7 +827,7 @@ function Field({ label, value, onChange, placeholder }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+        className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
       />
     </div>
   )

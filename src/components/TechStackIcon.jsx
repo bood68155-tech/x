@@ -327,7 +327,7 @@ export default function TechStackIcon({ name, index = 0 }) {
     >
       {/* Icon container */}
       <div
-        className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl flex items-center justify-center border transition-all duration-300"
+        className="w-16 h-16 sm:w-20 sm:h-20  flex items-center justify-center border transition-all duration-300"
         style={{
           backgroundColor: hovered
             ? `${brand.color}18`
@@ -356,7 +356,7 @@ export default function TechStackIcon({ name, index = 0 }) {
       {/* Glow ring on hover */}
       {hovered && (
         <div
-          className="absolute inset-0 rounded-2xl pointer-events-none animate-pulse"
+          className="absolute inset-0  pointer-events-none animate-pulse"
           style={{
             boxShadow: brand.glow,
             opacity: 0.3,

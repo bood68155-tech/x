@@ -119,15 +119,15 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
     <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
       <div className="absolute inset-0 bg-[#08080a]/80 backdrop-blur-sm animate-fade-in" onClick={onClose} />
 
-      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-white/10 rounded-2xl shadow-2xl shadow-black/60 animate-fade-in-up">
-        <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 text-[#c29b7f]/70 hover:text-white transition-colors rounded-lg hover:bg-[#c29b7f]/5">
+      <div className="relative w-full max-w-lg max-h-[90vh] overflow-y-auto bg-[#0a0a0a] border border-white/10  shadow-2xl shadow-black/60 animate-fade-in-up">
+        <button onClick={onClose} className="absolute top-4 right-4 z-10 p-2 text-[#c29b7f]/70 hover:text-white transition-colors  hover:bg-[#c29b7f]/5">
           <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         <div className="px-8 pt-8 pb-2 text-center border-b border-white/[0.06]">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-xl border border-white/10 bg-[#c29b7f]/5 mb-4">
+          <div className="inline-flex items-center justify-center w-14 h-14  border border-white/10 bg-[#c29b7f]/5 mb-4">
             <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 6v.75m0 3v.75m0 3v.75m0 3V18m-9-5.25h5.25M7.5 15h3M3.375 5.25c-.621 0-1.125.504-1.125 1.125v3.026a2.999 2.999 0 010 5.198v3.026c0 .621.504 1.125 1.125 1.125h17.25c.621 0 1.125-.504 1.125-1.125v-3.026a2.999 2.999 0 010-5.198V6.375c0-.621-.504-1.125-1.125-1.125H3.375z" />
             </svg>
@@ -139,7 +139,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
         <form onSubmit={handleSubmit} className="px-8 py-6 space-y-5">
           {submitted ? (
             <div className="text-center py-10">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-green-500/10 border border-green-500/20 mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16  bg-green-500/10 border border-green-500/20 mb-4">
                 <svg className="w-8 h-8 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                 </svg>
@@ -153,7 +153,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                   {t('orderName')} *
                 </label>
                 <input type="text" name="name" value={formData.name} onChange={handleChange} placeholder={t('orderNamePh')}
-                  className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.name ? 'border-[#800020]/60' : 'border-white/[0.10]'} rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                  className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.name ? 'border-[#800020]/60' : 'border-white/[0.10]'}  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                 {errors.name && <p className="text-xs text-[#c29b7f] mt-1">{t('orderRequired')}</p>}
               </div>
 
@@ -163,7 +163,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                     {t('orderEmail')} *
                   </label>
                   <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder={t('orderEmailPh')}
-                    className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.email ? 'border-[#800020]/60' : 'border-white/[0.10]'} rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                    className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.email ? 'border-[#800020]/60' : 'border-white/[0.10]'}  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                   {errors.email && <p className="text-xs text-[#c29b7f] mt-1">{t('orderRequired')}</p>}
                 </div>
                 <div>
@@ -171,7 +171,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                     {t('orderPhone')} *
                   </label>
                   <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder={t('orderPhonePh')}
-                    className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.phone ? 'border-[#800020]/60' : 'border-white/[0.10]'} rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                    className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.phone ? 'border-[#800020]/60' : 'border-white/[0.10]'}  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                   {errors.phone && <p className="text-xs text-[#c29b7f] mt-1">{t('orderRequired')}</p>}
                 </div>
               </div>
@@ -181,7 +181,7 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                   {t('orderService')} *
                 </label>
                 <input type="text" name="service" value={formData.service} onChange={handleChange} placeholder={t('orderServicePh')}
-                  className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.service ? 'border-[#800020]/60' : 'border-white/[0.10]'} rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                  className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.service ? 'border-[#800020]/60' : 'border-white/[0.10]'}  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                 {errors.service && <p className="text-xs text-[#c29b7f] mt-1">{t('orderRequired')}</p>}
               </div>
 
@@ -190,12 +190,12 @@ export default function OrderFormModal({ isOpen, onClose, preselectedProduct }) 
                   {t('orderDetails')} *
                 </label>
                 <textarea name="details" value={formData.details} onChange={handleChange} placeholder={t('orderDetailsPh')} rows={4}
-                  className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.details ? 'border-[#800020]/60' : 'border-white/[0.10]'} rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 resize-none transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
+                  className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border ${errors.details ? 'border-[#800020]/60' : 'border-white/[0.10]'}  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 resize-none transition-all ${fontClass} ${ar ? 'text-base' : ''}`} />
                 {errors.details && <p className="text-xs text-[#c29b7f] mt-1">{t('orderRequired')}</p>}
               </div>
 
               <button type="submit" disabled={saving}
-                className={`w-full py-4 bg-[#800020] text-white font-semibold text-sm rounded-full hover:bg-[#6b0c22] transition-all duration-300 uppercase tracking-widest ${fontClass} ${ar ? 'tracking-normal normal-case text-base' : ''} disabled:opacity-50`}>
+                className={`w-full py-4 bg-[#800020] text-white font-semibold text-sm  hover:bg-[#6b0c22] transition-all duration-300 uppercase tracking-widest ${fontClass} ${ar ? 'tracking-normal normal-case text-base' : ''} disabled:opacity-50`}>
                 {saving ? (
                   <span className="flex items-center justify-center gap-2">
                     <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">

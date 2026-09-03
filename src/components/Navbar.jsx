@@ -125,7 +125,7 @@ export default function Navbar() {
     <>
       {/* Floating Centered Navbar */}
       <nav
-        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 rounded-2xl ${
+        className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 transition-all duration-500  ${
           scrolled
             ? 'bg-[#111116]/90 backdrop-blur-2xl border border-white/[0.08] shadow-2xl shadow-black/50 w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
             : 'bg-[#111116]/60 backdrop-blur-xl border border-white/[0.06] w-[calc(100%-2rem)] max-w-4xl py-3 px-6'
@@ -134,7 +134,7 @@ export default function Navbar() {
         <div className="flex items-center justify-between">
           {/* Brand */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-8 h-8 rounded-lg bg-[#c29b7f] overflow-hidden border border-white/10 group-hover:scale-110 transition-transform duration-300">
+            <div className="w-8 h-8  bg-[#c29b7f] overflow-hidden border border-white/10 group-hover:scale-110 transition-transform duration-300">
               {avatarUrl ? (
                 <img src={avatarUrl} alt="Abood" className="w-full h-full object-cover" />
               ) : (
@@ -154,7 +154,7 @@ export default function Navbar() {
                 <Link
                   key={link.href}
                   to={link.href}
-                  className={`px-3 py-1.5 text-[11px] font-medium rounded-lg transition-all duration-300 tracking-wide ${
+                  className={`px-3 py-1.5 text-[11px] font-medium  transition-all duration-300 tracking-wide ${
                     location.pathname === link.href
                       ? 'text-white bg-[#c29b7f]/[0.10]'
                       : 'text-[#c29b7f]/70 hover:text-white hover:bg-[#c29b7f]/[0.06]'
@@ -167,7 +167,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="px-3 py-1.5 text-[11px] font-medium text-[#c29b7f]/70 hover:text-white hover:bg-[#c29b7f]/[0.06] rounded-lg transition-all duration-300 tracking-wide"
+                  className="px-3 py-1.5 text-[11px] font-medium text-[#c29b7f]/70 hover:text-white hover:bg-[#c29b7f]/[0.06]  transition-all duration-300 tracking-wide"
                 >
                   {link.label}
                 </a>
@@ -180,7 +180,7 @@ export default function Navbar() {
             {/* Language Toggle */}
             <button
               onClick={toggleLanguage}
-              className="flex items-center border border-white/[0.10] rounded-full overflow-hidden hover:border-white/[0.18] transition-all duration-300"
+              className="flex items-center border border-white/[0.10]  overflow-hidden hover:border-white/[0.18] transition-all duration-300"
             >
               <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider transition-all duration-300 ${
                 language === 'en' ? 'bg-[#c29b7f] text-[#08080a]' : 'text-[#c29b7f]/70 hover:text-white'
@@ -197,7 +197,7 @@ export default function Navbar() {
                   <div className="relative">
                     <button
                       onClick={() => setAdminMenuOpen(!adminMenuOpen)}
-                      className="flex items-center gap-2 px-3 py-1.5 bg-[#800020] text-white text-[11px] font-bold rounded-full hover:bg-[#6b0c22] transition-all duration-300"
+                      className="flex items-center gap-2 px-3 py-1.5 bg-[#800020] text-white text-[11px] font-bold  hover:bg-[#6b0c22] transition-all duration-300"
                     >
                       <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
@@ -206,7 +206,7 @@ export default function Navbar() {
                     </button>
 
                     {adminMenuOpen && (
-                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#111116]/95 backdrop-blur-xl border border-white/[0.08] rounded-xl shadow-2xl shadow-black/50 animate-fade-in">
+                      <div className="absolute right-0 top-full mt-2 w-56 py-2 bg-[#111116]/95 backdrop-blur-xl border border-white/[0.08]  shadow-2xl shadow-black/50 animate-fade-in">
                         <div className="px-4 py-3 border-b border-white/[0.06]">
                           <p className="text-[10px] text-[#c29b7f]/70">Signed in as</p>
                           <p className="text-xs font-medium text-white truncate">{displayName}</p>
@@ -236,10 +236,10 @@ export default function Navbar() {
                   </div>
                 ) : (
                   <div className="flex items-center gap-2">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-white/20 bg-[#c29b7f]/5">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1  border border-white/20 bg-[#c29b7f]/5">
                       <span className="relative flex h-1.5 w-1.5">
-                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#c29b7f] opacity-75" />
-                        <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#c29b7f]" />
+                        <span className="animate-ping absolute inline-flex h-full w-full  bg-[#c29b7f] opacity-75" />
+                        <span className="relative inline-flex  h-1.5 w-1.5 bg-[#c29b7f]" />
                       </span>
                       <span className="text-[10px] font-medium text-[#c29b7f] max-w-[80px] truncate">{displayName}</span>
                     </div>
@@ -249,7 +249,7 @@ export default function Navbar() {
               ) : (
                 <button
                   onClick={() => setLoginOpen(true)}
-                  className="flex items-center gap-1.5 px-3 py-1.5 border border-white/[0.10] text-white/80 text-[11px] font-medium rounded-full hover:text-white hover:border-white/[0.18] transition-all duration-300"
+                  className="flex items-center gap-1.5 px-3 py-1.5 border border-white/[0.10] text-white/80 text-[11px] font-medium  hover:text-white hover:border-white/[0.18] transition-all duration-300"
                 >
                   <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -286,7 +286,7 @@ export default function Navbar() {
                     key={link.href}
                     to={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                    className={`px-4 py-2 text-sm font-medium  transition-all ${
                       location.pathname === link.href ? 'text-white bg-[#c29b7f]/[0.10]' : 'text-[#c29b7f]/70 hover:text-white hover:bg-[#c29b7f]/[0.06]'
                     }`}
                   >
@@ -297,7 +297,7 @@ export default function Navbar() {
                     key={link.href}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link.href)}
-                    className="px-4 py-2 text-sm font-medium text-[#c29b7f]/70 hover:text-white hover:bg-[#c29b7f]/[0.06] rounded-lg transition-all"
+                    className="px-4 py-2 text-sm font-medium text-[#c29b7f]/70 hover:text-white hover:bg-[#c29b7f]/[0.06]  transition-all"
                   >
                     {link.label}
                   </a>
@@ -313,10 +313,10 @@ export default function Navbar() {
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
           <div className="absolute inset-0 bg-[#08080a]/80 backdrop-blur-sm animate-fade-in" onClick={resetLoginModal} />
 
-          <div className="relative w-full max-w-sm bg-[#111116] border border-white/[0.08] rounded-2xl p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
+          <div className="relative w-full max-w-sm bg-[#111116] border border-white/[0.08]  p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             <button
               onClick={resetLoginModal}
-              className="absolute top-4 right-4 p-1.5 text-[#c29b7f]/70 hover:text-white transition-colors rounded-lg hover:bg-[#c29b7f]/5"
+              className="absolute top-4 right-4 p-1.5 text-[#c29b7f]/70 hover:text-white transition-colors  hover:bg-[#c29b7f]/5"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -324,7 +324,7 @@ export default function Navbar() {
             </button>
 
             <div className="text-center mb-6">
-              <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl border border-white/[0.08] bg-[#c29b7f]/5 mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12  border border-white/[0.08] bg-[#c29b7f]/5 mb-4">
                 <svg className="w-5 h-5 text-[#c29b7f]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 </svg>
@@ -342,7 +342,7 @@ export default function Navbar() {
               <button
                 onClick={handleGoogleAuth}
                 disabled={loginLoading}
-                className="w-full flex items-center justify-center gap-3 py-2.5 bg-[#c29b7f]/5 border border-white/[0.12] rounded-lg text-white text-sm font-medium hover:bg-[#c29b7f]/10 hover:border-[#c29b7f]/20 transition-all disabled:opacity-50 mb-4"
+                className="w-full flex items-center justify-center gap-3 py-2.5 bg-[#c29b7f]/5 border border-white/[0.12]  text-white text-sm font-medium hover:bg-[#c29b7f]/10 hover:border-[#c29b7f]/20 transition-all disabled:opacity-50 mb-4"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -356,7 +356,7 @@ export default function Navbar() {
 
             {/* Fallback notice when Google is unavailable */}
             {googleUnavailable && (
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-[#c29b7f]/5 border border-white/[0.08] mb-4">
+              <div className="flex items-start gap-3 p-3  bg-[#c29b7f]/5 border border-white/[0.08] mb-4">
                 <svg className="w-4 h-4 text-[#c29b7f] shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -373,7 +373,7 @@ export default function Navbar() {
             </div>
 
             {loginError && (
-              <div className={`flex items-center gap-2 p-3 rounded-lg text-xs mb-4 ${
+              <div className={`flex items-center gap-2 p-3  text-xs mb-4 ${
                 loginError.includes('Check your email')
                   ? 'bg-[#c29b7f]/10 border border-[#c29b7f]/20 text-[#c29b7f]'
                   : 'bg-[#800020]/15 border border-[#800020]/20 text-[#c29b7f]'
@@ -401,7 +401,7 @@ export default function Navbar() {
                 placeholder="Email"
                 required
                 autoFocus
-                className="w-full px-4 py-2.5 bg-[#c29b7f]/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-[#c29b7f]/40 focus:outline-none focus:border-[#c29b7f]/25 transition-all"
+                className="w-full px-4 py-2.5 bg-[#c29b7f]/5 border border-white/[0.08]  text-white text-sm placeholder-[#c29b7f]/40 focus:outline-none focus:border-[#c29b7f]/25 transition-all"
               />
               <input
                 type="password"
@@ -410,12 +410,12 @@ export default function Navbar() {
                 placeholder="Password"
                 required
                 minLength={6}
-                className="w-full px-4 py-2.5 bg-[#c29b7f]/5 border border-white/[0.08] rounded-lg text-white text-sm placeholder-[#c29b7f]/40 focus:outline-none focus:border-[#c29b7f]/25 transition-all"
+                className="w-full px-4 py-2.5 bg-[#c29b7f]/5 border border-white/[0.08]  text-white text-sm placeholder-[#c29b7f]/40 focus:outline-none focus:border-[#c29b7f]/25 transition-all"
               />
               <button
                 type="submit"
                 disabled={loginLoading}
-                className="w-full py-2.5 bg-[#800020] text-white text-sm font-semibold rounded-lg hover:bg-[#6b0c22] transition-all disabled:opacity-50"
+                className="w-full py-2.5 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] transition-all disabled:opacity-50"
               >
                 {loginLoading ? (
                   <span className="flex items-center justify-center gap-2">

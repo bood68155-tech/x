@@ -55,7 +55,7 @@ export default function Pricing() {
           {plans.map((plan, i) => (
             <div
               key={i}
-              className={`relative p-8 sm:p-10 rounded-2xl border transition-all duration-500 ${
+              className={`relative p-8 sm:p-10  border transition-all duration-500 ${
                 plan.popular
                   ? 'border-white/20 bg-[#c29b7f]/[0.05] scale-[1.02]'
                   : 'border-white/[0.08] bg-[#c29b7f]/[0.02] hover:border-white/10'
@@ -63,7 +63,7 @@ export default function Pricing() {
             >
               {plan.popular && (
                 <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className={`px-4 py-1.5 bg-[#800020] text-white text-[10px] font-bold uppercase tracking-[0.2em] rounded-full ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
+                  <span className={`px-4 py-1.5 bg-[#800020] text-white text-[10px] font-bold uppercase tracking-[0.2em]  ${ar ? 'tracking-normal normal-case text-xs' : ''}`}>
                     {t('pricePopular')}
                   </span>
                 </div>
@@ -99,7 +99,7 @@ export default function Pricing() {
 
               <a
                 href="#contact"
-                className={`block w-full text-center py-3.5 rounded-full text-sm font-semibold transition-all duration-300 uppercase tracking-wider ${
+                className={`block w-full text-center py-3.5  text-sm font-semibold transition-all duration-300 uppercase tracking-wider ${
                   plan.popular
                     ? 'bg-[#800020] text-white hover:bg-[#6b0c22]'
                     : 'border border-[#c29b7f]/20 text-white hover:bg-[#c29b7f]/5 hover:border-[#c29b7f]/40'

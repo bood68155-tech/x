@@ -44,7 +44,7 @@ export default function AdminLogin() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl border border-white/10 bg-[#c29b7f]/5 mb-6">
+          <div className="inline-flex items-center justify-center w-16 h-16  border border-white/10 bg-[#c29b7f]/5 mb-6">
             <span className="text-2xl font-extrabold text-white tracking-tighter">X</span>
           </div>
           <h1 className="text-2xl font-bold text-white tracking-tight">Admin Panel</h1>
@@ -57,7 +57,7 @@ export default function AdminLogin() {
         <button
           onClick={handleGoogle}
           disabled={loading}
-          className="w-full flex items-center justify-center gap-3 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm font-medium hover:bg-[#c29b7f]/10 hover:border-[#c29b7f]/20 transition-all disabled:opacity-50 mb-6"
+          className="w-full flex items-center justify-center gap-3 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm font-medium hover:bg-[#c29b7f]/10 hover:border-[#c29b7f]/20 transition-all disabled:opacity-50 mb-6"
         >
           <svg className="w-4 h-4" viewBox="0 0 24 24">
             <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" />
@@ -79,7 +79,7 @@ export default function AdminLogin() {
         <form onSubmit={handleSubmit} className="space-y-5">
           {/* Error Message */}
           {error && (
-            <div className={`flex items-center gap-3 p-4 rounded-xl text-sm ${
+            <div className={`flex items-center gap-3 p-4  text-sm ${
               error.includes('Check your email')
                 ? 'bg-[#800020]/10 border border-[#800020]/20 text-[#c29b7f]'
                 : 'bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f]'
@@ -111,7 +111,7 @@ export default function AdminLogin() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@example.com"
               required
-              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
             />
           </div>
 
@@ -128,7 +128,7 @@ export default function AdminLogin() {
               placeholder="••••••••"
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10  text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
             />
           </div>
 
@@ -136,7 +136,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3.5 bg-[#800020] text-white text-sm font-semibold rounded-xl hover:bg-[#6b0c22] focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-3.5 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] focus:outline-none focus:ring-2 focus:ring-white/20 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {loading ? (
               <span className="flex items-center justify-center gap-2">

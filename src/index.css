@@ -66,7 +66,7 @@ button, input, textarea, select {
 div[class*="bento-card"] {
   background-color: #111116 !important;
   border: 1px solid rgba(194, 155, 127, 0.2) !important;
-  border-radius: 1rem;
+  border-radius: 0;
   transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -222,4 +222,11 @@ button.btn-primary:hover, [class*="bg-blue-"]:hover, [class*="bg-cyan-"]:hover {
 /* Force Text Highlights */
 [class*="text-cyan-"], [class*="text-blue-"] {
   color: #c29b7f !important;
+}
+
+/* =====================================================
+   FORCE SHARP 90° EDGES — BRUTALIST LAYOUT
+   ===================================================== */
+*, *::before, *::after {
+  border-radius: 0px !important;
 }

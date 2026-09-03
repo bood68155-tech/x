@@ -69,8 +69,8 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
 
         <div className="max-w-lg mx-auto text-center">
-          <div className="bg-[#c29b7f]/[0.04] border border-white/[0.08] rounded-2xl p-8 sm:p-10">
-            <div className="w-20 h-20 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6">
+          <div className="bg-[#c29b7f]/[0.04] border border-white/[0.08]  p-8 sm:p-10">
+            <div className="w-20 h-20  bg-green-500/10 border border-green-500/20 flex items-center justify-center mx-auto mb-6">
               <svg className="w-10 h-10 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
@@ -88,7 +88,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
               We will notify you at the email associated with your account.
             </p>
 
-            <div className="bg-[#c29b7f]/[0.04] border border-white/[0.06] rounded-xl p-4 mb-6">
+            <div className="bg-[#c29b7f]/[0.04] border border-white/[0.06]  p-4 mb-6">
               <p className="text-[10px] uppercase tracking-widest text-[#c29b7f]/70 mb-1">Transaction ID</p>
               <p className="text-xs text-white/80 font-mono break-all">{txHash.trim()}</p>
             </div>
@@ -103,7 +103,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
             </p>
 
             {onBack && (
-              <button onClick={onBack} className="w-full py-3.5 bg-[#800020] text-white text-sm font-semibold rounded-xl hover:bg-[#6b0c22] transition-all duration-300 uppercase tracking-wider">
+              <button onClick={onBack} className="w-full py-3.5 bg-[#800020] text-white text-sm font-semibold  hover:bg-[#6b0c22] transition-all duration-300 uppercase tracking-wider">
                 Back to Store
               </button>
             )}
@@ -131,9 +131,9 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
           </p>
         </div>
 
-        <div className="bg-[#c29b7f]/[0.04] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
+        <div className="bg-[#c29b7f]/[0.04] border border-white/[0.08]  p-6 sm:p-8">
           {/* Network Info */}
-          <div className="flex items-center gap-3 mb-6 p-4 rounded-xl bg-[#800020]/[0.06] border border-[#c29b7f]/15">
+          <div className="flex items-center gap-3 mb-6 p-4  bg-[#800020]/[0.06] border border-[#c29b7f]/15">
             <svg className="w-5 h-5 text-[#c29b7f] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
@@ -160,12 +160,12 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
               Deposit Address ({CURRENCY} - {NETWORK_LABEL})
             </label>
             <div className="flex items-stretch gap-2">
-              <div className="flex-1 px-4 py-3.5 bg-[#c29b7f]/[0.05] border border-white/10 rounded-xl text-sm text-white/80 font-mono break-all leading-relaxed select-all">
+              <div className="flex-1 px-4 py-3.5 bg-[#c29b7f]/[0.05] border border-white/10  text-sm text-white/80 font-mono break-all leading-relaxed select-all">
                 {USDT_WALLET_ADDRESS}
               </div>
               <button
                 onClick={handleCopy}
-                className={`shrink-0 px-5 rounded-xl text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${
+                className={`shrink-0 px-5  text-sm font-semibold transition-all duration-300 flex items-center gap-2 ${
                   copied
                     ? 'bg-green-500/15 border border-green-500/25 text-green-400'
                     : 'bg-[#c29b7f]/[0.07] border border-white/10 text-white/80 hover:text-white hover:border-[#c29b7f]/25'
@@ -191,23 +191,23 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
           </div>
 
           {/* Instructions */}
-          <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 mb-6">
+          <div className="bg-white/[0.02] border border-white/[0.06]  p-4 mb-6">
             <p className="text-xs font-semibold text-white/80 uppercase tracking-wider mb-2">How to Pay</p>
             <ol className="space-y-2 text-xs text-[#c29b7f] font-light">
               <li className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
+                <span className="w-5 h-5  bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">1</span>
                 Copy the wallet address above from your Tron wallet app.
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
+                <span className="w-5 h-5  bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">2</span>
                 Send exactly <span className="text-white font-medium">{total} {CURRENCY}</span> on the <span className="text-white font-medium">TRC-20</span> network.
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
+                <span className="w-5 h-5  bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">3</span>
                 Copy the Transaction Hash (TxID) from your wallet app after sending.
               </li>
               <li className="flex items-start gap-2.5">
-                <span className="w-5 h-5 rounded-full bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
+                <span className="w-5 h-5  bg-[#c29b7f]/[0.07] text-[#c29b7f]/70 flex items-center justify-center text-[10px] font-bold shrink-0 mt-0.5">4</span>
                 Paste the TxID below and click Confirm Payment to submit your order.
               </li>
             </ol>
@@ -225,12 +225,12 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
                 onChange={(e) => { setTxHash(e.target.value); if (error) setError('') }}
                 placeholder="Paste your TxID here (e.g. 0xabc123...)"
                 required
-                className="w-full px-4 py-3.5 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm font-mono placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                className="w-full px-4 py-3.5 bg-[#c29b7f]/5 border border-white/10  text-white text-sm font-mono placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
               />
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f] text-xs">
+              <div className="flex items-center gap-2 p-3  bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f] text-xs">
                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <circle cx="12" cy="12" r="10" />
                   <line x1="15" y1="9" x2="9" y2="15" />
@@ -243,7 +243,7 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
             <button
               type="submit"
               disabled={loading || !txHash.trim()}
-              className="w-full py-4 bg-[#800020] text-white text-sm font-bold rounded-xl hover:bg-[#6b0c22] transition-all duration-300 uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              className="w-full py-4 bg-[#800020] text-white text-sm font-bold  hover:bg-[#6b0c22] transition-all duration-300 uppercase tracking-wider disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               {loading ? (
                 <>
