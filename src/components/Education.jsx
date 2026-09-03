@@ -6,43 +6,46 @@ const TECH_STACK = {
   frontend: {
     label: 'FRONT END',
     items: [
-      { name: 'HTML5', icon: '🌐' },
-      { name: 'CSS3', icon: '🎨' },
-      { name: 'JavaScript', icon: '⚡' },
-      { name: 'React', icon: '⚛️' },
-      { name: 'Tailwind CSS', icon: '💨' },
+      { name: 'HTML5' },
+      { name: 'CSS3' },
+      { name: 'JavaScript' },
+      { name: 'React' },
+      { name: 'Tailwind CSS' },
     ],
   },
   backend: {
     label: 'BACK END & DB',
     items: [
-      { name: 'Node.js', icon: '🟢' },
-      { name: 'Supabase', icon: '⚡' },
-      { name: 'Firebase', icon: '🔥' },
-      { name: 'MySQL', icon: '🗄️' },
+      { name: 'Node.js' },
+      { name: 'Supabase' },
+      { name: 'Firebase' },
+      { name: 'MySQL' },
     ],
   },
   tools: {
     label: 'TOOLS & AUTOMATION',
     items: [
-      { name: 'n8n', icon: '🔄' },
-      { name: 'Make.com', icon: '🔧' },
-      { name: 'GitHub', icon: '🐙' },
-      { name: 'Vercel', icon: '▲' },
-      { name: 'Golden Asseal', icon: '📊' },
-      { name: 'VS Code', icon: '💻' },
+      { name: 'n8n' },
+      { name: 'Make.com' },
+      { name: 'GitHub' },
+      { name: 'Vercel' },
+      { name: 'Golden Asseal' },
+      { name: 'VS Code' },
     ],
   },
   other: {
     label: 'OTHER SKILLS',
     items: [
-      { name: 'E-Commerce', icon: '🛒' },
-      { name: 'Accounting', icon: '📒' },
-      { name: 'Digital Marketing', icon: '📈' },
-      { name: 'Workflow Integration', icon: '🔗' },
+      { name: 'E-Commerce' },
+      { name: 'Accounting' },
+      { name: 'Digital Marketing' },
+      { name: 'Workflow Integration' },
     ],
   },
 }
+
+// Flatten all items into a single array with index for unique animation seeds
+const ALL_ITEMS = Object.values(TECH_STACK).flatMap((cat) => cat.items)
 
 export default function Education() {
   const { language, t } = useLanguage()
@@ -50,7 +53,7 @@ export default function Education() {
   const fontClass = ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''
 
   return (
-    <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+    <section className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8 overflow-hidden">
       {/* Ambient background blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
         <div className="animate-blob-1 absolute -top-32 -left-32 w-[500px] h-[500px] rounded-full bg-red-500/[0.03] blur-[120px]" />
@@ -72,11 +75,11 @@ export default function Education() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8 items-start">
           {/* Education Card (spanning 1 col) */}
           <SpotlightCard
             id="education"
-            className="bento-card p-8 glow-border-hover lg:row-span-2 flex flex-col"
+            className="bento-card p-8 glow-border-hover lg:sticky lg:top-28 flex flex-col"
             spotlightSize={500}
             spotlightOpacity={0.05}
           >
@@ -91,35 +94,73 @@ export default function Education() {
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
               <span className="text-[11px] font-medium text-gray-400">{t('eduTrack')}</span>
             </div>
-            <p className={`text-sm text-gray-500 leading-relaxed mt-auto ${fontClass}`}>
+            <p className={`text-sm text-gray-500 leading-relaxed mb-8 ${fontClass}`}>
               {t('eduDesc')}
             </p>
+
+            {/* Category legend */}
+            <div className="space-y-3 mt-auto">
+              {Object.entries(TECH_STACK).map(([key, cat]) => (
+                <div key={key}>
+                  <span className={`text-[9px] font-bold text-gray-600 uppercase tracking-[0.2em] ${ar ? 'text-[10px]' : ''}`}>
+                    {cat.label}
+                  </span>
+                  <div className="flex flex-wrap gap-1 mt-1">
+                    {cat.items.map((item) => (
+                      <span key={item.name} className="text-[9px] text-gray-600 bg-white/[0.03] px-1.5 py-0.5 rounded">
+                        {item.name}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </SpotlightCard>
 
-          {/* Tech Stack Cards */}
-          <div id="techstack" className="lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {Object.entries(TECH_STACK).map(([key, category]) => (
-              <SpotlightCard
-                key={key}
-                className="bento-card p-6 glow-border-hover"
-                spotlightSize={450}
-                spotlightOpacity={0.04}
-              >
-                <h4 className={`text-[11px] font-bold text-gray-400 uppercase tracking-[0.2em] mb-4 ${ar ? 'tracking-normal text-xs' : ''}`}>
-                  {category.label}
-                </h4>
-                <div className="flex flex-wrap gap-2">
-                  {category.items.map((item) => (
-                    <TechStackIcon
-                      key={item.name}
-                      name={item.name}
-                      icon={item.icon}
-                      ar={ar}
-                    />
-                  ))}
-                </div>
-              </SpotlightCard>
-            ))}
+          {/* Floating Tech Icons Field */}
+          <div id="techstack" className="lg:col-span-2 relative">
+            {/* Section sub-header */}
+            <div className="mb-6">
+              <h3 className={`text-sm font-bold text-gray-400 uppercase tracking-[0.2em] ${ar ? 'tracking-normal text-base' : ''}`}>
+                {language === 'ar' ? 'التقنيات' : 'Tech Stack'}
+              </h3>
+              <p className={`text-xs text-gray-600 mt-1 ${fontClass}`}>
+                {language === 'ar' ? 'اسحب الأيقونات وتحسسها' : 'Drag & hover to interact'}
+              </p>
+            </div>
+
+            {/* Floating icon container */}
+            <div className="relative min-h-[500px] sm:min-h-[560px] bento-card glow-border-hover p-6 sm:p-8 overflow-visible">
+              {/* Subtle grid pattern */}
+              <div
+                className="absolute inset-0 opacity-[0.02] pointer-events-none"
+                style={{
+                  backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 0.5px, transparent 0.5px)',
+                  backgroundSize: '24px 24px',
+                }}
+              />
+
+              {/* Category labels scattered in background */}
+              <div className="absolute inset-0 pointer-events-none">
+                <span className="absolute top-4 left-6 text-[9px] font-bold text-white/[0.06] uppercase tracking-[0.3em]">Frontend</span>
+                <span className="absolute top-4 right-6 text-[9px] font-bold text-white/[0.06] uppercase tracking-[0.3em]">Backend</span>
+                <span className="absolute bottom-4 left-6 text-[9px] font-bold text-white/[0.06] uppercase tracking-[0.3em]">Tools</span>
+                <span className="absolute bottom-4 right-6 text-[9px] font-bold text-white/[0.06] uppercase tracking-[0.3em]">Skills</span>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] rounded-full border border-white/[0.03]" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200px] h-[200px] rounded-full border border-white/[0.02]" />
+              </div>
+
+              {/* The floating icons */}
+              <div className="relative z-10 flex flex-wrap justify-center items-center gap-4 sm:gap-6 py-4">
+                {ALL_ITEMS.map((item, i) => (
+                  <TechStackIcon
+                    key={item.name}
+                    name={item.name}
+                    index={i}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>
