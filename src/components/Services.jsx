@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
+import SpotlightCard from './SpotlightCard'
 
 export default function Services() {
   const [hoveredIndex, setHoveredIndex] = useState(null)
@@ -52,10 +53,17 @@ export default function Services() {
 
   return (
     <section id="services" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+      {/* Ambient background blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="animate-blob-1 absolute -top-20 left-[20%] w-[500px] h-[500px] rounded-full bg-emerald-500/[0.025] blur-[120px]" />
+        <div className="animate-blob-2 absolute top-[40%] -right-20 w-[400px] h-[400px] rounded-full bg-orange-500/[0.02] blur-[110px]" />
+        <div className="animate-blob-3 absolute bottom-[-10%] left-[10%] w-[450px] h-[450px] rounded-full bg-blue-500/[0.025] blur-[100px]" />
+      </div>
+
       {/* Top divider */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Section Header */}
         <div className="text-center mb-16 sm:mb-20">
           <span className={`inline-block text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4 ${ar ? 'tracking-normal' : ''}`}>
@@ -72,13 +80,15 @@ export default function Services() {
         {/* Service Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
           {services.map((service, i) => (
-            <div
+            <SpotlightCard
               key={i}
               className={`group bento-card p-7 sm:p-8 glow-border-hover cursor-default ${
                 hoveredIndex === i ? 'border-white/[0.15] bg-white/[0.03]' : ''
               }`}
               onMouseEnter={() => setHoveredIndex(i)}
               onMouseLeave={() => setHoveredIndex(null)}
+              spotlightSize={500}
+              spotlightOpacity={0.05}
             >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center border transition-all duration-500 mb-5 ${
                 hoveredIndex === i
@@ -105,13 +115,17 @@ export default function Services() {
                   </span>
                 ))}
               </div>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
 
         {/* Need Custom Design? CTA Section */}
         <div className="mt-16 sm:mt-20">
-          <div className="bento-card p-8 sm:p-12 glow-border text-center relative overflow-hidden">
+          <SpotlightCard
+            className="bento-card p-8 sm:p-12 glow-border text-center relative overflow-hidden"
+            spotlightSize={600}
+            spotlightOpacity={0.04}
+          >
             {/* Background glow */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-white/[0.02] rounded-full blur-[100px]" />
 
@@ -136,10 +150,15 @@ export default function Services() {
                   { icon: '🎨', label: 'UI/UX Templates' },
                   { icon: '⚡', label: 'Workflow Automation' },
                 ].map((item) => (
-                  <div key={item.label} className="px-3 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center">
+                  <SpotlightCard
+                    key={item.label}
+                    className="px-3 py-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-center"
+                    spotlightSize={200}
+                    spotlightOpacity={0.08}
+                  >
                     <span className="text-xl block mb-1">{item.icon}</span>
                     <span className="text-[10px] font-medium text-gray-400 uppercase tracking-wider">{item.label}</span>
-                  </div>
+                  </SpotlightCard>
                 ))}
               </div>
 
@@ -155,7 +174,7 @@ export default function Services() {
                 {t('customCta')}
               </a>
             </div>
-          </div>
+          </SpotlightCard>
         </div>
       </div>
     </section>

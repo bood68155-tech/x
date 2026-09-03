@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
 import { useProjects, CATEGORIES } from '../admin/ProjectsContext'
 import ProjectDetailModal from './ProjectDetailModal'
+import SpotlightCard from './SpotlightCard'
 
 const GRADIENTS = [
   'from-gray-800 to-gray-900',
@@ -88,9 +89,16 @@ export default function Portfolio() {
 
   return (
     <section id="projects" className="relative py-24 sm:py-32 px-4 sm:px-6 lg:px-8">
+      {/* Ambient background blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+        <div className="animate-blob-1 absolute top-[10%] -left-20 w-[500px] h-[500px] rounded-full bg-blue-500/[0.025] blur-[120px]" />
+        <div className="animate-blob-2 absolute top-[50%] -right-32 w-[450px] h-[450px] rounded-full bg-purple-500/[0.025] blur-[110px]" />
+        <div className="animate-blob-3 absolute bottom-[5%] left-[30%] w-[400px] h-[400px] rounded-full bg-red-500/[0.02] blur-[100px]" />
+      </div>
+
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[80%] max-w-3xl h-[1px] bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
 
-      <div className="max-w-7xl mx-auto">
+      <div className="relative z-10 max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12 sm:mb-16">
           <span className={`inline-block text-xs font-semibold uppercase tracking-[0.3em] text-gray-500 mb-4 ${ar ? 'tracking-normal' : ''}`}>
@@ -124,10 +132,12 @@ export default function Portfolio() {
         {/* Project Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
           {filteredProjects.map((project, i) => (
-            <div
+            <SpotlightCard
               key={project.id}
               onClick={() => openDetail(project)}
-              className="group relative bento-card overflow-hidden glow-border-hover cursor-pointer flex flex-col"
+              className="group bento-card overflow-hidden glow-border-hover cursor-pointer flex flex-col"
+              spotlightSize={500}
+              spotlightOpacity={0.05}
             >
               {/* Cover */}
               <div className={`relative h-52 sm:h-56 bg-gradient-to-br ${GRADIENTS[i % GRADIENTS.length]} overflow-hidden`}>
@@ -180,11 +190,11 @@ export default function Portfolio() {
                 </p>
                 {project.price && (
                   <div className="mt-3 pt-3 border-t border-white/[0.06]">
-                    <span className="text-sm font-bold text-white">{project.price}</span>
+                    <span className="text-sm font-bold text-white">${project.price}</span>
                   </div>
                 )}
               </div>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
 
