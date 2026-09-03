@@ -225,12 +225,12 @@ export default function CryptoPaymentCheckout({ items = [], total = 0, onBack })
                 onChange={(e) => { setTxHash(e.target.value); if (error) setError('') }}
                 placeholder="Paste your TxID here (e.g. 0xabc123...)"
                 required
-                className="w-full px-4 py-3.5 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                className="w-full px-4 py-3.5 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm font-mono placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
               />
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 p-3 rounded-lg bg-[#800020]/15 border border-red-500/20 text-[#c29b7f] text-xs">
+              <div className="flex items-center gap-2 p-3 rounded-lg bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f] text-xs">
                 <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                   <circle cx="12" cy="12" r="10" />
                   <line x1="15" y1="9" x2="9" y2="15" />

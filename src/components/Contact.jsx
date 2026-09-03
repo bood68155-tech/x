@@ -65,7 +65,7 @@ export default function Contact() {
               </label>
               <input type="text" name="name" value={formData.name} onChange={handleChange} required
                 placeholder={t('contactNamePh')}
-                className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 ${fontClass} ${ar ? 'text-base' : ''}`}
+                className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 ${fontClass} ${ar ? 'text-base' : ''}`}
               />
             </div>
 
@@ -76,7 +76,7 @@ export default function Contact() {
               </label>
               <input type="email" name="email" value={formData.email} onChange={handleChange} required
                 placeholder={t('contactEmailPh')}
-                className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 ${fontClass} ${ar ? 'text-base' : ''}`}
+                className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 ${fontClass} ${ar ? 'text-base' : ''}`}
               />
             </div>
 
@@ -87,7 +87,7 @@ export default function Contact() {
               </label>
               <input type="tel" name="whatsapp" value={formData.whatsapp} onChange={handleChange} required
                 placeholder={t('contactWhatsAppPh')}
-                className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 ${fontClass} ${ar ? 'text-base' : ''}`}
+                className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 ${fontClass} ${ar ? 'text-base' : ''}`}
               />
             </div>
 
@@ -100,7 +100,7 @@ export default function Contact() {
                 className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 appearance-none ${fontClass} ${ar ? 'text-base' : ''}`}
                 style={{ backgroundImage: chevronSvg, backgroundRepeat: 'no-repeat', backgroundPosition: 'right 12px center', backgroundSize: '16px' }}
               >
-                <option value="" className="bg-black text-[#c29b7f]/70">{t('contactServicePh')}</option>
+                <option value="" className="bg-[#08080a] text-[#c29b7f]/70">{t('contactServicePh')}</option>
                 <option value="Website" className="bg-[#08080a] text-white">{t('contactService1')}</option>
                 <option value="Store" className="bg-[#08080a] text-white">{t('contactService2')}</option>
                 <option value="Theme" className="bg-[#08080a] text-white">{t('contactService3')}</option>
@@ -115,7 +115,7 @@ export default function Contact() {
             </label>
             <textarea name="message" value={formData.message} onChange={handleChange} required rows={5}
               placeholder={t('contactMessagePh')}
-              className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 resize-none ${fontClass} ${ar ? 'text-base' : ''}`}
+              className={`w-full px-4 py-3 bg-[#c29b7f]/[0.04] border border-white/[0.10] rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.06] transition-all duration-300 resize-none ${fontClass} ${ar ? 'text-base' : ''}`}
             />
           </div>
 

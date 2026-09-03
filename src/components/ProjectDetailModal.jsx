@@ -124,7 +124,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
             {/* ========== LEFT COLUMN: Media & Actions ========== */}
             <div className="p-5 sm:p-6 border-b md:border-b-0 md:border-r border-white/[0.06]">
               {/* Main Media Preview */}
-              <div className="relative rounded-xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-gray-800 to-gray-900 aspect-video">
+              <div className="relative rounded-xl overflow-hidden border border-white/[0.08] bg-gradient-to-br from-[#111116] to-[#08080a] aspect-video">
                 {allMedia.length > 0 ? (
                   allMedia[activeImage]?.type === 'video'
                     ? <video src={allMedia[activeImage].src} controls playsInline className="w-full h-full object-cover" poster={project.imageUrl || FALLBACK_IMAGES[0]} />
@@ -157,7 +157,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                     <button key={idx} onClick={() => setActiveImage(idx)}
                       className={`relative flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 transition-all duration-200 ${activeImage === idx ? 'border-[#c29b7f] scale-105' : 'border-white/10 hover:border-white/20 opacity-60 hover:opacity-100'}`}>
                       {media.type === 'video'
-                        ? <div className="w-full h-full bg-gray-800 flex items-center justify-center"><svg className="w-5 h-5 text-white/60" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></div>
+                        ? <div className="w-full h-full bg-[#16161c] flex items-center justify-center"><svg className="w-5 h-5 text-white/60" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg></div>
                         : <img src={media.src} alt="" className="w-full h-full object-cover" />}
                     </button>
                   ))}
@@ -317,7 +317,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                       <button onClick={async () => {
                         try { await navigator.clipboard.writeText(project.binanceWallet || BINANCE_WALLET_DEFAULT) } catch {}
                         setBinanceCopied(true); setTimeout(() => setBinanceCopied(false), 2000)
-                      }} className={`shrink-0 px-3 rounded-lg text-[10px] font-semibold transition-all ${binanceCopied ? 'bg-[#c29b7f]/15 border border-emerald-500/25 text-[#c29b7f]' : 'bg-[#c29b7f]/[0.07] border border-white/10 text-[#c29b7f] hover:text-white'}`}>
+                      }} className={`shrink-0 px-3 rounded-lg text-[10px] font-semibold transition-all ${binanceCopied ? 'bg-[#c29b7f]/15 border border-[#c29b7f]/25 text-[#c29b7f]' : 'bg-[#c29b7f]/[0.07] border border-white/10 text-[#c29b7f] hover:text-white'}`}>
                         {binanceCopied ? '✓' : 'Copy'}
                       </button>
                     </div>
@@ -334,7 +334,7 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                     await new Promise(r => setTimeout(r, 600)); setOrderLoading(false); setOrderSubmitted(true)
                   }} className="space-y-2.5">
                     <input name="txHash" type="text" required placeholder="Paste TxID..."
-                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs font-mono placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs font-mono placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
                     <button type="submit" disabled={orderLoading}
                       className="w-full py-3 bg-[#800020] text-white text-xs font-bold rounded-lg hover:bg-[#6b0c22] transition-all uppercase tracking-wider disabled:opacity-40">
                       {orderLoading ? 'Submitting...' : 'Confirm Payment'}
@@ -389,11 +389,11 @@ export default function ProjectDetailModal({ project, onClose, onBuy }) {
                   </div>
                   <form onSubmit={handleOrderSubmit} className="space-y-3">
                     <input type="text" required value={orderForm.name} onChange={e => setOrderForm({ ...orderForm, name: e.target.value })} placeholder="Full name"
-                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
                     <input type="email" required value={orderForm.email} onChange={e => setOrderForm({ ...orderForm, email: e.target.value })} placeholder="Email address"
-                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
                     <input type="tel" value={orderForm.phone} onChange={e => setOrderForm({ ...orderForm, phone: e.target.value })} placeholder="Phone / WhatsApp (optional)"
-                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+                      className="w-full px-3 py-2.5 bg-[#c29b7f]/5 border border-white/10 rounded-lg text-white text-xs placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
                     {displayPrice && (
                       <div className="flex items-center justify-between py-2 border-t border-white/[0.06]">
                         <span className="text-xs text-[#c29b7f]">Total</span>

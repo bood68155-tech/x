@@ -264,7 +264,7 @@ export default function AdminDashboard() {
   // === EDITOR VIEW ===
   if (editing !== null) {
     return (
-      <div className="min-h-screen bg-black pt-20">
+      <div className="min-h-screen bg-[#08080a] pt-20">
         <header className="border-b border-white/10 bg-[#08080a]/80 backdrop-blur-xl sticky top-0 z-40">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <button
@@ -304,7 +304,7 @@ export default function AdminDashboard() {
           <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
             toast.type === 'success'
               ? 'bg-green-500/10 text-green-400 border-green-500/20'
-              : 'bg-[#800020]/15 text-[#c29b7f] border-red-500/20'
+              : 'bg-[#800020]/15 text-[#c29b7f] border-[#800020]/30'
           }`}>
             <div className="flex items-center gap-2">
               {toast.type === 'success' ? (
@@ -338,7 +338,7 @@ export default function AdminDashboard() {
                 <input type="text" value={formData.price}
                   onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
                   placeholder="999 or 999 USDT"
-                  className="w-full pl-8 pr-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+                  className="w-full pl-8 pr-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
               </div>
             </div>
 
@@ -374,7 +374,7 @@ export default function AdminDashboard() {
                 onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
                 placeholder="A brief description of the project..."
                 rows={3}
-                className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 resize-none transition-all"
+                className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 resize-none transition-all"
               />
             </div>
 
@@ -403,7 +403,7 @@ export default function AdminDashboard() {
                     onChange={(e) => setFeatureInput(e.target.value)}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addFeature() } }}
                     placeholder="Add a feature and press Enter"
-                    className="flex-1 px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                    className="flex-1 px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
                   />
                   <button
                     type="button"
@@ -451,7 +451,7 @@ export default function AdminDashboard() {
                     value={formData.imageUrl}
                     onChange={(e) => setFormData(prev => ({ ...prev, imageUrl: e.target.value }))}
                     placeholder="Or paste an image URL"
-                    className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                    className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
                   />
                 )}
               </div>
@@ -467,7 +467,7 @@ export default function AdminDashboard() {
                   value={formData.videoUrl}
                   onChange={(e) => { setFormData(prev => ({ ...prev, videoUrl: e.target.value })); setVideoPreview(e.target.value || null) }}
                   placeholder="Paste video URL (YouTube, Vimeo, MP4 link, etc.)"
-                  className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+                  className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
                 />
                 {videoPreview && (
                   <div className="relative rounded-xl overflow-hidden border border-white/10 bg-[#c29b7f]/5">
@@ -576,7 +576,7 @@ export default function AdminDashboard() {
 
   // === LIST VIEW ===
   return (
-    <div className="min-h-screen bg-black pt-20">
+    <div className="min-h-screen bg-[#08080a] pt-20">
       <header className="border-b border-white/10 bg-[#08080a]/80 backdrop-blur-xl sticky top-0 z-40">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -605,7 +605,7 @@ export default function AdminDashboard() {
         <div className={`fixed top-24 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-sm font-medium shadow-xl border animate-fade-in-up ${
           toast.type === 'success'
             ? 'bg-green-500/10 text-green-400 border-green-500/20'
-            : 'bg-[#800020]/15 text-[#c29b7f] border-red-500/20'
+            : 'bg-[#800020]/15 text-[#c29b7f] border-[#800020]/30'
         }`}>
           <div className="flex items-center gap-2">
             {toast.type === 'success' ? (
@@ -776,7 +776,7 @@ export default function AdminDashboard() {
                     <button
                       onClick={() => handleDelete(project.id)}
                       disabled={saving}
-                      className="px-3 py-1.5 text-xs font-medium text-white bg-red-500/20 border border-red-500/30 rounded-lg hover:bg-red-500/30 transition-all disabled:opacity-50"
+                      className="px-3 py-1.5 text-xs font-medium text-white bg-[#800020]/20 border border-[#800020]/40 rounded-lg hover:bg-[#800020]/30 transition-all disabled:opacity-50"
                     >
                       {saving ? '...' : 'Yes'}
                     </button>
@@ -797,7 +797,7 @@ export default function AdminDashboard() {
                     </button>
                     <button
                       onClick={() => setShowDeleteConfirm(project.id)}
-                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f]/70 border border-red-500/10 rounded-lg hover:text-[#c29b7f] hover:border-red-500/20 transition-all"
+                      className="px-3 py-1.5 text-xs font-medium text-[#c29b7f]/70 border border-[#800020]/15 rounded-lg hover:text-[#c29b7f] hover:border-[#800020]/30 transition-all"
                     >
                       Delete
                     </button>
@@ -827,7 +827,7 @@ function Field({ label, value, onChange, placeholder }) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all"
+        className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all"
       />
     </div>
   )

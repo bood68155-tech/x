@@ -5,8 +5,8 @@ import { supabase } from '../lib/supabaseClient'
 import ProjectDetailModal from '../components/ProjectDetailModal'
 
 const GRADIENTS = [
-  'from-gray-800 to-gray-900', 'from-gray-900 to-black', 'from-gray-800 to-gray-900',
-  'from-gray-900 to-gray-800', 'from-black to-gray-900', 'from-gray-800 to-gray-900',
+  'from-[#111116] to-[#08080a]', 'from-[#08080a] to-black', 'from-[#111116] to-[#08080a]',
+  'from-[#08080a] to-[#111116]', 'from-black to-[#08080a]', 'from-[#111116] to-[#08080a]',
 ]
 const FALLBACK_IMAGES = [
   'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80&auto=format&fit=crop',
@@ -164,10 +164,10 @@ function BinancePayModal({ project, onClose }) {
           <label className="block text-xs font-semibold text-[#c29b7f] uppercase tracking-wider mb-2">Transaction Hash / TxID</label>
           <input type="text" value={txHash} onChange={e => { setTxHash(e.target.value); setError('') }}
             placeholder="Paste your TxID here..." required
-            className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
+            className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm font-mono placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 transition-all" />
         </div>
         {error && (
-          <div className="flex items-center gap-2 p-3 rounded-lg bg-[#800020]/15 border border-red-500/20 text-[#c29b7f] text-xs">
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f] text-xs">
             <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
             {error}
           </div>
@@ -318,7 +318,7 @@ export default function Store() {
       {/* ===== BINANCE PAY CHECKOUT MODAL ===== */}
       {checkoutProduct && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
-          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm animate-fade-in" onClick={() => setCheckoutProduct(null)} />
+          <div className="absolute inset-0 bg-[#08080a]/85 backdrop-blur-sm animate-fade-in" onClick={() => setCheckoutProduct(null)} />
           <div className="relative w-full max-w-md max-h-[90vh] overflow-y-auto bg-[#111116] border border-white/[0.08] rounded-2xl p-6 sm:p-8 shadow-2xl shadow-black/60 animate-fade-in-up">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">

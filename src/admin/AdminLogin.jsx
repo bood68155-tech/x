@@ -40,7 +40,7 @@ export default function AdminLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center px-4">
+    <div className="min-h-screen bg-[#08080a] flex items-center justify-center px-4">
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-10">
@@ -82,7 +82,7 @@ export default function AdminLogin() {
             <div className={`flex items-center gap-3 p-4 rounded-xl text-sm ${
               error.includes('Check your email')
                 ? 'bg-[#800020]/10 border border-[#800020]/20 text-[#c29b7f]'
-                : 'bg-[#800020]/15 border border-red-500/20 text-[#c29b7f]'
+                : 'bg-[#800020]/15 border border-[#800020]/30 text-[#c29b7f]'
             }`}>
               <svg className="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 {error.includes('Check your email') ? (
@@ -111,7 +111,7 @@ export default function AdminLogin() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="admin@example.com"
               required
-              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
             />
           </div>
 
@@ -128,7 +128,7 @@ export default function AdminLogin() {
               placeholder="••••••••"
               required
               minLength={6}
-              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
+              className="w-full px-4 py-3 bg-[#c29b7f]/5 border border-white/10 rounded-xl text-white text-sm placeholder-[#71717a] focus:outline-none focus:border-[#c29b7f]/40 focus:bg-[#c29b7f]/[0.07] transition-all duration-300"
             />
           </div>
 

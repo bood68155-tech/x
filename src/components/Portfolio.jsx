@@ -5,12 +5,12 @@ import ProjectDetailModal from './ProjectDetailModal'
 import SpotlightCard from './SpotlightCard'
 
 const GRADIENTS = [
-  'from-gray-800 to-gray-900',
-  'from-gray-900 to-black',
-  'from-gray-800 to-gray-900',
-  'from-gray-900 to-gray-800',
-  'from-black to-gray-900',
-  'from-gray-800 to-gray-900',
+  'from-[#111116] to-[#08080a]',
+  'from-[#08080a] to-black',
+  'from-[#111116] to-[#08080a]',
+  'from-[#08080a] to-[#111116]',
+  'from-black to-[#08080a]',
+  'from-[#111116] to-[#08080a]',
 ]
 
 const FALLBACK_IMAGES = [
