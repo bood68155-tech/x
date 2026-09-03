@@ -176,7 +176,7 @@ export default function Navbar() {
           </div>
 
           {/* Right: Social + Language + Auth */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             {/* Social Icons Group */}
             <div className="hidden sm:flex items-center gap-3">
               <a href="https://www.linkedin.com/in/abood-ahmad-697492415" target="_blank" rel="noopener noreferrer"
