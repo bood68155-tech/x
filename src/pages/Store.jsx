@@ -25,6 +25,13 @@ function parsePrice(priceStr) {
   return parseFloat(String(priceStr).replace(/[^0-9.]/g, '')) || 0
 }
 
+function formatPrice(priceStr) {
+  if (!priceStr) return null
+  const clean = priceStr.trim()
+  if (clean.startsWith('$') || clean.startsWith('USDT')) return clean
+  return `$${clean}`
+}
+
 /* ===== BINANCE PAY CHECKOUT MODAL ===== */
 function BinancePayModal({ project, onClose }) {
   const [txHash, setTxHash] = useState('')
@@ -100,7 +107,7 @@ function BinancePayModal({ project, onClose }) {
         <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Order Summary</p>
         <p className="text-sm font-semibold text-white mb-1">{project.title}</p>
         <div className="flex items-baseline gap-2">
-          <span className="text-2xl font-bold text-white">{project.price}</span>
+          <span className="text-2xl font-bold text-white">{formatPrice(project.price) || 'Contact'}</span>
           <span className="text-xs text-gray-500">one-time</span>
         </div>
       </div>
@@ -251,7 +258,7 @@ function ProductDetailModal({ project, onClose, onBuy }) {
           {project.price && (
             <div className="flex items-center justify-between py-4 border-t border-b border-white/[0.06] mb-6">
               <span className="text-sm text-gray-400">Price</span>
-              <span className="text-2xl font-bold text-white">{project.price}</span>
+              <span className="text-2xl font-bold text-white">{formatPrice(project.price)}</span>
             </div>
           )}
 
@@ -273,7 +280,7 @@ function ProductDetailModal({ project, onClose, onBuy }) {
             )}
             <button onClick={() => { onClose(); onBuy(project) }}
               className="flex-1 py-3.5 bg-white text-black font-semibold text-sm rounded-xl hover:bg-gray-200 transition-all text-center uppercase tracking-wider">
-              Buy Now {project.price ? `— ${project.price}` : ''}
+              Buy Now {formatPrice(project.price) ? `— ${formatPrice(project.price)}` : ''}
             </button>
           </div>
         </div>
@@ -336,7 +343,7 @@ export default function Store() {
         </div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 items-start">
           {filteredProjects.map((project, i) => (
             <div key={project.id} onClick={() => setSelectedProduct(project)}
               className="group relative bento-card overflow-hidden glow-border-hover cursor-pointer flex flex-col">
@@ -386,8 +393,8 @@ export default function Store() {
                 {/* Price & CTA */}
                 <div className="flex items-center justify-between pt-4 border-t border-white/[0.06]">
                   <div>
-                    {project.price
-                      ? <span className={`text-xl font-bold text-white ${fontClass}`}>{project.price}</span>
+                    {formatPrice(project.price)
+                      ? <span className={`text-xl font-bold text-white ${fontClass}`}>{formatPrice(project.price)}</span>
                       : <span className="text-sm text-gray-600">Contact for price</span>
                     }
                   </div>
