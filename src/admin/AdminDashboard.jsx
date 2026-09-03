@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuth } from './AuthContext'
+import { useAuth, DEFAULT_PROFILE_IMAGE_URL } from './AuthContext'
 import { useProjects, CATEGORIES } from './ProjectsContext'
 import { supabase } from '../lib/supabaseClient'
 
@@ -67,6 +67,7 @@ function fileToDataURL(file) {
 
 export default function AdminDashboard() {
   const { logout, avatarUrl, updateAvatar } = useAuth()
+  const profileImage = avatarUrl || DEFAULT_PROFILE_IMAGE_URL
   const { projects, addProject, updateProject, deleteProject, refetchProjects } = useProjects()
   const [editing, setEditing] = useState(null)
   const [formData, setFormData] = useState({ ...EMPTY_PROJECT })
@@ -629,9 +630,9 @@ export default function AdminDashboard() {
             {/* Avatar Preview */}
             <div className="relative">
               <div className="w-20 h-20  overflow-hidden border border-[#B38F6F]/[0.10] bg-[#B38F6F]/[0.06]">
-                {(avatarPreview || avatarUrl) ? (
+                {(avatarPreview || profileImage) ? (
                   <img
-                    src={avatarPreview || avatarUrl}
+                    src={avatarPreview || profileImage}
                     alt="Profile"
                     className="w-full h-full object-cover"
                   />

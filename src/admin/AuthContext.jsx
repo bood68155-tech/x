@@ -6,6 +6,10 @@ const AuthContext = createContext(null)
 const ADMIN_EMAIL = 'bood68155@gmail.com'
 const ADMIN_PASSWORD = '123123'
 const AVATAR_STORAGE_BUCKET = 'portfolio-assets'
+
+// Default profile image — primary fallback whenever no custom image has been
+// saved via Supabase/localStorage yet (Hero avatar card, Admin settings, Navbar)
+export const DEFAULT_PROFILE_IMAGE_URL = 'https://i.postimg.cc/25y56YBK/5769588586045968051-121.jpg'
 // Primary localStorage key for the profile image (instant display + offline fallback)
 const AVATAR_LOCALSTORAGE_KEY = 'admin_profile_image'
 // Legacy key kept so previously cached avatars keep working after the rename
@@ -226,8 +230,9 @@ export function AuthProvider({ children }) {
     || user?.email
     || 'User'
 
-  // Use profileAvatar (persisted) as primary, fallback to user_metadata
-  const avatarUrl = profileAvatar || user?.user_metadata?.avatar_url || null
+  // Use profileAvatar (persisted) as primary, then user_metadata, then the
+  // permanent default image so an avatar is always rendered
+  const avatarUrl = profileAvatar || user?.user_metadata?.avatar_url || DEFAULT_PROFILE_IMAGE_URL
 
   return (
     <AuthContext.Provider

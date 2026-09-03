@@ -1,5 +1,5 @@
 import { useLanguage } from '../i18n/LanguageContext'
-import { useAuth } from '../admin/AuthContext'
+import { useAuth, DEFAULT_PROFILE_IMAGE_URL } from '../admin/AuthContext'
 import SpotlightCard from './SpotlightCard'
 
 export default function Hero({ onGetStarted }) {
@@ -110,8 +110,8 @@ export default function Hero({ onGetStarted }) {
             <div className="relative">
               <div className="relative w-64 h-64 sm:w-80 sm:h-80 overflow-hidden glow-border animate-float">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#161616] via-[#161616] to-[#161616]" />
-                {avatarUrl ? (
-                  <img src={avatarUrl} alt="Abdelrahman Osama" className="absolute inset-0 w-full h-full object-cover" />
+                {(avatarUrl || DEFAULT_PROFILE_IMAGE_URL) ? (
+                  <img src={avatarUrl || DEFAULT_PROFILE_IMAGE_URL} alt="Abdelrahman Osama" className="absolute inset-0 w-full h-full object-cover" />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="text-center">
