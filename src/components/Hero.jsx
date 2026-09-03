@@ -9,7 +9,7 @@ export default function Hero({ onGetStarted }) {
   const fontClass = ar ? "font-['Noto_Kufi_Arabic',sans-serif]" : ''
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 pb-16">
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-28 pb-16">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-[#161616]" />
       <div className="absolute inset-0 opacity-[0.015]">
@@ -26,7 +26,7 @@ export default function Hero({ onGetStarted }) {
           {/* Left: Content */}
           <div className="lg:col-span-7 space-y-8">
             {/* HELLO Badge */}
-            <div className="animate-fade-in-up opacity-0">
+            <div className="animate-fade-in-up opacity-0 mt-6 sm:mt-8">
               <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#161616] border border-[#B38F6F]/30 text-[#F2F1ED] text-xs font-semibold uppercase tracking-[0.2em]">
                 {ar ? (
                   <span className="w-1.5 h-1.5 bg-[#B38F6F] animate-pulse" />
