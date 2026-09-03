@@ -14,7 +14,7 @@
   --color-dark-500: #444444;
   --color-dark-400: #888888;
   --color-dark-300: #B38F6F;
-  --font-display: 'Inter', 'Noto Kufi Arabic', system-ui, sans-serif;
+  --font-display: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, sans-serif;
 }
 
 html {
@@ -24,7 +24,13 @@ html {
 body {
   background-color: #161616;
   color: #F2F1ED;
-  font-family: 'Inter', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
+}
+
+/* Apply Plus Jakarta Sans to all headings, buttons, and inputs */
+h1, h2, h3, h4, h5, h6,
+button, input, textarea, select {
+  font-family: 'Plus Jakarta Sans', 'Noto Kufi Arabic', system-ui, -apple-system, sans-serif;
 }
 
 [dir="rtl"] body {
@@ -36,6 +42,11 @@ body {
 [dir="rtl"] textarea,
 [dir="rtl"] select {
   text-align: right;
+}
+
+[dir="rtl"] h1, [dir="rtl"] h2, [dir="rtl"] h3,
+[dir="rtl"] h4, [dir="rtl"] h5, [dir="rtl"] h6 {
+  font-family: 'Noto Kufi Arabic', 'Plus Jakarta Sans', system-ui, sans-serif;
 }
 
 ::selection {
