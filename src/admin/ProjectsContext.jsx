@@ -23,6 +23,10 @@ function rowToProject(row) {
     videoUrl: row.video_url ?? '',
     demoUrl: row.demo_url ?? '',
     features: Array.isArray(row.features) ? row.features : [],
+    sourceCodeUrl: row.source_code_url ?? '',
+    binancePayEnabled: row.binance_pay_enabled ?? false,
+    binanceWallet: row.binance_wallet ?? '',
+    binancePayId: row.binance_pay_id ?? '',
   }
 }
 
@@ -38,6 +42,10 @@ function projectToRow(project) {
     gallery: project.gallery ?? [],
     video_url: project.videoUrl ?? '',
     demo_url: project.demoUrl ?? '',
+    source_code_url: project.sourceCodeUrl ?? '',
+    binance_pay_enabled: project.binancePayEnabled ?? false,
+    binance_wallet: project.binanceWallet ?? '',
+    binance_pay_id: project.binancePayId ?? '',
   }
 }
 

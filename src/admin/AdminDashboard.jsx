@@ -7,7 +7,7 @@ const STORAGE_BUCKET = 'projects'
 
 const EMPTY_PROJECT = {
   title: '',
-  category: 'Website',
+  category: 'Web Applications',
   description: '',
   tag: '',
   price: '',
@@ -16,6 +16,10 @@ const EMPTY_PROJECT = {
   videoUrl: '',
   demoUrl: '',
   features: [],
+  sourceCodeUrl: '',
+  binancePayEnabled: false,
+  binanceWallet: '',
+  binancePayId: '',
 }
 
 /** Tiny animated spinner SVG */
@@ -326,6 +330,18 @@ export default function AdminDashboard() {
             {/* Title */}
             <Field label="Project Title" value={formData.title} onChange={(v) => setFormData(prev => ({ ...prev, title: v }))} placeholder="Luxe Fashion" />
 
+            {/* Price ($ or USDT) */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-2">Price (USD / USDT)</label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 text-sm">$</span>
+                <input type="text" value={formData.price}
+                  onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value }))}
+                  placeholder="999 or 999 USDT"
+                  className="w-full pl-8 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all" />
+              </div>
+            </div>
+
             {/* Category Select */}
             <div>
               <label className="block text-sm font-medium text-gray-400 mb-2">Category</label>
@@ -349,9 +365,6 @@ export default function AdminDashboard() {
 
             {/* Tag */}
             <Field label="Tag" value={formData.tag} onChange={(v) => setFormData(prev => ({ ...prev, tag: v }))} placeholder="Shopify" />
-
-            {/* Price */}
-            <Field label="Price (السعر)" value={formData.price} onChange={(v) => setFormData(prev => ({ ...prev, price: v }))} placeholder="$999" />
 
             {/* Description */}
             <div>
@@ -491,6 +504,36 @@ export default function AdminDashboard() {
 
             {/* Live Demo URL */}
             <Field label="Live Demo URL" value={formData.demoUrl} onChange={(v) => setFormData(prev => ({ ...prev, demoUrl: v }))} placeholder="https://example.com" />
+
+            {/* Source Code / Template URL */}
+            <Field label="Source Code / Template URL" value={formData.sourceCodeUrl} onChange={(v) => setFormData(prev => ({ ...prev, sourceCodeUrl: v }))} placeholder="https://github.com/... or template download link" />
+
+            {/* Binance Pay Settings */}
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-3">Binance Pay Settings</label>
+              <div className="space-y-4 p-4 rounded-xl bg-white/[0.03] border border-white/[0.06]">
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <div className="relative">
+                    <input type="checkbox" checked={formData.binancePayEnabled}
+                      onChange={(e) => setFormData(prev => ({ ...prev, binancePayEnabled: e.target.checked }))}
+                      className="sr-only" />
+                    <div className={`w-10 h-5 rounded-full transition-colors ${formData.binancePayEnabled ? 'bg-yellow-500' : 'bg-white/10'}`} />
+                    <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${formData.binancePayEnabled ? 'translate-x-5' : ''}`} />
+                  </div>
+                  <span className="text-sm text-gray-300">Enable Binance Pay for this product</span>
+                </label>
+                {formData.binancePayEnabled && (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <Field label="USDT Wallet Address (TRC20/BEP20)" value={formData.binanceWallet}
+                      onChange={(v) => setFormData(prev => ({ ...prev, binanceWallet: v }))}
+                      placeholder="TJKY5CWJ684NVVczFpuTWKnEvHgeb8pcvr" />
+                    <Field label="Binance Pay ID (optional)" value={formData.binancePayId}
+                      onChange={(v) => setFormData(prev => ({ ...prev, binancePayId: v }))}
+                      placeholder="Your Binance Pay ID" />
+                  </div>
+                )}
+              </div>
+            </div>
 
             {/* Image Gallery */}
             <div>

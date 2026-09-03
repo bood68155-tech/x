@@ -45,6 +45,8 @@ function parsePrice(priceStr) {
   return isNaN(num) ? 0 : num
 }
 
+const BINANCE_WALLET_DEFAULT = 'TJKY5CWJ684NVVczFpuTWKnEvHgeb8pcvr'
+
 export default function ProjectDetails() {
   const { id } = useParams()
   const { projects } = useProjects()
@@ -345,6 +347,19 @@ export default function ProjectDetails() {
                   </svg>
                   Live Demo / Preview
                 </button>
+                {project.sourceCodeUrl && (
+                  <a
+                    href={project.sourceCodeUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full px-6 py-4 bg-transparent text-white text-sm font-semibold rounded-xl border border-white/20 hover:bg-white/5 hover:border-white/30 transition-all duration-300 uppercase tracking-wider text-center flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                    Source Code / Template
+                  </a>
+                )}
                 {(project.demoUrl || project.demo_url) && (
                   <a
                     href={project.demoUrl || project.demo_url}
@@ -424,6 +439,94 @@ export default function ProjectDetails() {
                   onBack={handleBackToProject}
                 />
               </div>
+            ) : paymentMethod === 'binance' ? (
+              /* ====== BINANCE PAY (inline) ====== */
+              <div className="bg-white/[0.03] border border-yellow-500/10 rounded-2xl p-6 sm:p-8">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 10.894l-1.406 1.406-1.406-1.406-1.406 1.406 1.406 1.406-1.406 1.406 1.406 1.406 1.406-1.406 1.406 1.406 1.406-1.406-1.406-1.406 1.406-1.406-1.406-1.406zM12 19.5c-4.142 0-7.5-3.358-7.5-7.5s3.358-7.5 7.5-7.5 7.5 3.358 7.5 7.5-3.358 7.5-7.5 7.5zm-3.094-5.606l-1.406-1.406 1.406-1.406-1.406-1.406 1.406-1.406L12 11.094l1.406-1.406 1.406 1.406-1.406 1.406 1.406 1.406-1.406 1.406L12 13.894l-1.406-1.406-1.406 1.406 1.406 1.406z"/></svg>
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-bold text-white">Binance Pay</h3>
+                      <p className="text-xs text-gray-500">Pay with USDT via Binance</p>
+                    </div>
+                  </div>
+                  <button onClick={() => setPaymentMethod(null)} className="text-gray-500 hover:text-white transition-colors">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </button>
+                </div>
+
+                {/* Order Summary */}
+                <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] mb-5">
+                  <p className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Order Summary</p>
+                  <p className="text-sm font-semibold text-white mb-1">{project.title}</p>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-2xl font-bold text-white">{numericTotal}</span>
+                    <span className="text-sm text-gray-500">USDT</span>
+                  </div>
+                </div>
+
+                {/* Wallet Address */}
+                <div className="mb-5">
+                  <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Deposit Address (USDT · TRC-20 / BEP-20)</label>
+                  <div className="flex items-stretch gap-2">
+                    <div className="flex-1 px-4 py-3 bg-white/[0.04] border border-white/10 rounded-xl text-sm text-gray-200 font-mono break-all leading-relaxed select-all">
+                      {project.binanceWallet || BINANCE_WALLET_DEFAULT}
+                    </div>
+                    <button onClick={async () => {
+                      try { await navigator.clipboard.writeText(project.binanceWallet || BINANCE_WALLET_DEFAULT) } catch { /* silent */ }
+                    }} className="shrink-0 px-4 rounded-xl text-xs font-semibold bg-white/[0.06] border border-white/10 text-gray-300 hover:text-white hover:border-white/25 transition-all flex items-center gap-1.5">
+                      Copy
+                    </button>
+                  </div>
+                </div>
+
+                {/* Instructions */}
+                <div className="bg-white/[0.02] border border-white/[0.06] rounded-xl p-4 mb-5">
+                  <p className="text-xs font-semibold text-gray-300 uppercase tracking-wider mb-2">How to Pay</p>
+                  <ol className="space-y-1.5 text-xs text-gray-400 font-light">
+                    <li className="flex items-start gap-2"><span className="w-4 h-4 rounded-full bg-white/[0.06] text-gray-500 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">1</span> Open Binance app or wallet.</li>
+                    <li className="flex items-start gap-2"><span className="w-4 h-4 rounded-full bg-white/[0.06] text-gray-500 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">2</span> Send exactly <span className="text-white font-medium">{numericTotal} USDT</span> on TRC-20 or BEP-20.</li>
+                    <li className="flex items-start gap-2"><span className="w-4 h-4 rounded-full bg-white/[0.06] text-gray-500 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">3</span> Copy the TxID from your wallet after sending.</li>
+                    <li className="flex items-start gap-2"><span className="w-4 h-4 rounded-full bg-white/[0.06] text-gray-500 flex items-center justify-center text-[9px] font-bold shrink-0 mt-0.5">4</span> Paste it below and submit for verification.</li>
+                  </ol>
+                </div>
+
+                {/* TxID Form */}
+                <form onSubmit={async (e) => {
+                  e.preventDefault()
+                  const txInput = e.target.elements.txHash
+                  if (!txInput.value.trim()) return
+                  setOrderLoading(true)
+                  try {
+                    await supabase.from('orders').insert({
+                      items: [{ id: project.id, title: project.title, price: project.price }],
+                      total: numericTotal,
+                      payment_method: 'BINANCE_PAY',
+                      transaction_id: txInput.value.trim(),
+                      status: 'pending_verification',
+                      project_id: project.id,
+                      project_title: project.title,
+                      project_price: project.price,
+                    })
+                  } catch (_) { /* silent */ }
+                  await new Promise(r => setTimeout(r, 600))
+                  setOrderLoading(false)
+                  setOrderSubmitted(true)
+                }} className="space-y-3">
+                  <div>
+                    <label className="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Transaction Hash / TxID</label>
+                    <input name="txHash" type="text" required placeholder="Paste your TxID here..."
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white text-sm font-mono placeholder-gray-600 focus:outline-none focus:border-white/30 transition-all" />
+                  </div>
+                  <button type="submit" disabled={orderLoading}
+                    className="w-full py-3.5 bg-white text-black text-sm font-bold rounded-xl hover:bg-gray-200 transition-all uppercase tracking-wider disabled:opacity-40 flex items-center justify-center gap-2">
+                    {orderLoading ? 'Submitting...' : 'Confirm Payment'}
+                  </button>
+                </form>
+                <p className="text-center text-[10px] text-gray-600 mt-3">Verification takes 1-3 confirmations on the network.</p>
+              </div>
             ) : !paymentMethod ? (
               /* ====== PAYMENT METHOD SELECTOR ====== */
               <div className="bg-white/[0.03] border border-white/[0.08] rounded-2xl p-6 sm:p-8">
@@ -482,6 +585,25 @@ export default function ProjectDetails() {
                       <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
+
+                  {/* Binance Pay Option */}
+                  {project.binancePayEnabled && (
+                    <button
+                      onClick={() => setPaymentMethod('binance')}
+                      className="w-full p-4 rounded-xl border border-yellow-500/10 bg-yellow-500/[0.03] hover:bg-yellow-500/[0.08] hover:border-yellow-500/25 transition-all duration-300 flex items-center gap-4 text-left group"
+                    >
+                      <div className="w-12 h-12 rounded-xl bg-yellow-500/[0.08] border border-yellow-500/15 flex items-center justify-center shrink-0">
+                        <svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 10.894l-1.406 1.406-1.406-1.406-1.406 1.406 1.406 1.406-1.406 1.406 1.406 1.406 1.406-1.406 1.406 1.406 1.406-1.406-1.406-1.406 1.406-1.406-1.406-1.406zM12 19.5c-4.142 0-7.5-3.358-7.5-7.5s3.358-7.5 7.5-7.5 7.5 3.358 7.5 7.5-3.358 7.5-7.5 7.5zm-3.094-5.606l-1.406-1.406 1.406-1.406-1.406-1.406 1.406-1.406L12 11.094l1.406-1.406 1.406 1.406-1.406 1.406 1.406 1.406-1.406 1.406L12 13.894l-1.406-1.406-1.406 1.406 1.406 1.406z"/></svg>
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-sm font-semibold text-white">Pay with Binance Pay</p>
+                        <p className="text-xs text-gray-500 mt-0.5">USDT via TRC-20 / BEP-20 network</p>
+                      </div>
+                      <svg className="w-4 h-4 text-gray-600 group-hover:text-gray-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  )}
                 </div>
               </div>
             ) : (

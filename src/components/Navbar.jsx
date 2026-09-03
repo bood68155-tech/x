@@ -107,6 +107,7 @@ export default function Navbar() {
     { label: t('navEducation'), href: '#education', isRoute: false },
     { label: t('navTechStack'), href: '#techstack', isRoute: false },
     { label: t('navProjects'), href: '#projects', isRoute: false },
+    { label: t('navStore'), href: '/store', isRoute: true },
     { label: t('navServices'), href: '#services', isRoute: false },
     { label: t('navAboutMe'), href: '#contact', isRoute: false },
   ]
